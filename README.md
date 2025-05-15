@@ -1,7 +1,5 @@
-# Prog_Ing_Software
+## Descrizione Generale
 
-Il project plan pronto per la consegna è disponibile nella cartella Project Plan
+Questo progetto è stato sviluppato nell'ambito del corso di *Testing e Verifica del Software* del corso di Laurea Magistrale in Ingegneria Informatica dell'Università degli Studi di Bergamo
 
-Documentazione del progetto e Architectural Views disponibili nella cartella Documentazione Progetto,per eseguire il programma avviare la classe mainProva.java
-
-I diagrammi UML relativi alla fase di design sono nella cartella Diagrammi UML
+L'obiettivo principale è la realizzazione di un'applicazione software dotata di un sistema strutturato di testing che ne garantisca l'affidabilità, la correttezza funzionale e la manutenibilità.
