@@ -1,8 +1,7 @@
 
-# 🐾 Pet Oasis
+# 🐾 EasyATM
 
-**Pet Oasis** è un gestionale pensato per una pensione di animali domestici (cani, gatti, criceti, canarini ecc..), che permette di gestire i servizi offerti (pensione e toilettatura), la registrazione dei clienti (standard e VIP) e il supporto alle attività interne (scorte di magazzino e pulizia). 
-I clienti VIP possono accumulare punti fedeltà e ricevere premi.
+**EasyATM** è un progetto volto a modellare e simulare le funzionalità principali di uno sportello bancomat. Il sistema consente operazioni tipiche come il prelievo, il deposito, la consultazione del saldo e la gestione del PIN, includendo anche aspetti legati alla sicurezza come l’autenticazione tramite carta e PIN, e il blocco della carta dopo tentativi errati.
 
 ---
 
