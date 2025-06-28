@@ -204,6 +204,7 @@ public class mainProva {
 		oasi.cancellaProprietario(p2);
 		GestionePensione.stampaElencoPrenotazioni();
 		System.out.println();
+		
 	}
 
 
