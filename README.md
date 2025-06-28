@@ -1,5 +1,5 @@
 
-# 🐾 EasyATM
+# EasyATM
 
 **EasyATM** è un progetto volto a modellare e simulare le funzionalità principali di uno sportello bancomat. Il sistema consente operazioni tipiche come il prelievo, il deposito, la consultazione del saldo e la gestione del PIN, includendo anche aspetti legati alla sicurezza come l’autenticazione tramite carta e PIN, e il blocco della carta dopo tentativi errati.
 
