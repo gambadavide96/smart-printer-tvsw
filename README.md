@@ -1,7 +1,8 @@
 
-# EasyATM
+# SmartPrinter
 
-**EasyATM** è un progetto volto a modellare e simulare le funzionalità principali di uno sportello bancomat. Il sistema consente operazioni tipiche come il prelievo, il deposito, la consultazione del saldo e la gestione del PIN, includendo anche aspetti legati alla sicurezza come l’autenticazione tramite carta e PIN, e il blocco della carta dopo tentativi errati.
+**SmartPrinter** è un progetto volto a modellare e simulare le funzionalità principali di una stampante multifunzione, in grado di svolgere operazioni come stampa, copia e scansione di documenti, prestando sempre attenzione agli aspetti legati alla gestione delle risorse (carta, toner) e degli errori comuni (inceppamenti, guasti, coperchi aperti). 
+L’obiettivo è rappresentare in modo formale il comportamento del dispositivo nei vari stati operativi, garantendo affidabilità e coerenza.
 
 ---
 
