@@ -22,12 +22,13 @@ signature:
 	dynamic controlled userCredit: Badge -> Integer
 	dynamic controlled secondi: Secondi
 	dynamic controlled message: String
+	dynamic controlled selectedService: Servizio
 	
 	dynamic monitored onOff: Accensione
 	dynamic monitored spiaGuasto: StatoMacchina
 	dynamic monitored insertedBadge: Badge 
 	dynamic monitored insertedPin: Integer 
-	dynamic monitored selectedService: Servizio
+	dynamic monitored chooseService: Servizio
 	
 	static pin: Badge -> Integer
 	
@@ -40,7 +41,7 @@ definitions:
 
 	domain QuantitaCarta = {0 : 500}
 	domain LivelloToner = {0 : 100}
-	domain Secondi = {0 : 3}
+	domain Secondi = {0 : 5}
 	
 	function pin($b in Badge) =
 		switch($b)
@@ -111,23 +112,104 @@ definitions:
 				endpar
 		endif
 		
-	
+		
+		rule r_stampa_bn = 
+			if(checkCredit(currentBadge)) then 
+				if(tonerNero >= 5 and fogliCarta >= 10) then
+					par
+						printerState := INUSO
+						selectedService := chooseService
+						tonerNero := tonerNero - 5
+						fogliCarta := fogliCarta - 10
+						userCredit(currentBadge) := userCredit(currentBadge) - 50
+						message := "Stampa BN in corso"
+					endpar
+				else
+					message := "Risorse finite, caricare stampante"
+				endif
+			else
+				message := "Credito insufficiente"
+			endif
+		
+		rule r_stampa_col = 
+			if(checkCredit(currentBadge)) then 
+				if(tonerNero >= 5 and tonerColore >= 5 and fogliCarta >= 10) then
+					par
+						printerState := INUSO
+						selectedService := chooseService
+						tonerNero := tonerNero - 5
+						tonerColore := tonerColore - 5
+						fogliCarta := fogliCarta - 10
+						userCredit(currentBadge) := userCredit(currentBadge) - 50
+						message := "Stampa a colori in corso"
+					endpar
+				else
+					message := "Risorse finite, caricare stampante"
+				endif
+			else
+				message := "Credito insufficiente"
+			endif
+			
+		rule r_scansione = 
+			par
+				printerState := INUSO
+				selectedService := chooseService
+				message := "Scansione in corso"
+			endpar
+			
+		
 	//Regola per gestire l'operativa della stampante una volta che è pronta
 	//Posso spegnerla oppure lanciare un lavoro
-	macro rule r_utilizzoStampante = 
-		switch selectedService
+	macro rule r_sceltaServizio = 
+		switch chooseService
 			case PRINTBN:
-				message := "Prova BN"
+				r_stampa_bn[]
 			case PRINTCOL:
-				message := "Prova COL"
+				r_stampa_col[]
 			case SCANSIONE:
-				message := "Prova Scansione"
+				r_scansione[]
 			case EXIT:
 				par
 					printerState := SPENTA
 					message := "Stampante spenta"
 				endpar
 		endswitch
+		
+	
+	macro rule r_stampanteInUso = 
+		switch selectedService
+			case PRINTBN:
+				if (secondi < 2) then
+					secondi := secondi + 1
+				else
+					par
+						printerState := PRONTA
+						message := "Stampa terminata con successo"
+						secondi := 0
+					endpar
+				endif
+			case PRINTCOL:
+				if (secondi < 3) then
+					secondi := secondi + 1
+				else
+					par
+						printerState := PRONTA
+						message := "Stampa terminata con successo"
+						secondi := 0
+					endpar
+				endif
+			case SCANSIONE:
+				if (secondi < 4) then
+					secondi := secondi + 1
+				else
+					par
+						printerState := PRONTA
+						message := "Scansione terminata con successo"
+						secondi := 0
+					endpar
+				endif
+		endswitch
+	
 			
 		
 	main rule r_main = 
@@ -143,7 +225,9 @@ definitions:
 			case INSERISCIPIN:
 				r_inserimento_pin[]
 			case PRONTA:
-				r_utilizzoStampante[]
+				r_sceltaServizio[]
+			case INUSO:
+				r_stampanteInUso[]
 		endswitch
 		
 	
