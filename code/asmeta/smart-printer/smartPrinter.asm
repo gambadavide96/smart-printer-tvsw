@@ -30,6 +30,10 @@ signature:
 	dynamic monitored insertedPin: Integer 
 	dynamic monitored chooseService: Servizio
 	
+	//Connessione dei dispositivi per la scansione
+	dynamic monitored connectedByWireless: Boolean
+	dynamic monitored connectedByCable: Boolean
+	
 	static pin: Badge -> Integer
 	
 	derived checkCredit: Badge -> Boolean
@@ -66,19 +70,13 @@ definitions:
 		if(spiaGuasto = GUASTA) then
 			par
 				printerState := OUTOFSERVICE
-				secondi := 0 
 				message := "Stampante guasta"
 			endpar
 		else
-			if(secondi < 1) then
-				secondi := secondi + 1
-			else
-				par
-					printerState := MOSTRABADGE
-					secondi := 0
-					message := "Mostrare Badge"
-				endpar
-			endif
+			par
+				printerState := MOSTRABADGE
+				message := "Mostrare Badge"
+			endpar
 		endif
 		
 	//Se il guasto è stato riparato, la macchina si avvia, altrimenti rimane outofservice	
@@ -151,11 +149,15 @@ definitions:
 			endif
 			
 		rule r_scansione = 
-			par
-				printerState := INUSO
-				selectedService := chooseService
-				message := "Scansione in corso"
-			endpar
+			if (connectedByWireless or connectedByCable) then
+				par
+					printerState := INUSO
+					selectedService := chooseService
+					message := "Scansione in corso"
+				endpar
+			else
+				message := "Collegare un dispositivo per effettuare la scansione"
+			endif
 			
 		
 	//Regola per gestire l'operativa della stampante una volta che è pronta
@@ -237,12 +239,12 @@ default init s0:
 	function printerState = SPENTA
 	function secondi = 0
 	
-	function tonerNero = 100
-	function tonerColore = 100
-	function fogliCarta = 200
+	function tonerNero = 40
+	function tonerColore = 10
+	function fogliCarta = 100
 	
 	function userCredit($b in Badge) = switch($b)
-										case davide : 1000
+										case davide : 45
 										case matteo : 1000
 									endswitch
 	
