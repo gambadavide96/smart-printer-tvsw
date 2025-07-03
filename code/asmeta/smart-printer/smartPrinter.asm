@@ -7,7 +7,7 @@ signature:
 	
 	abstract domain Badge
 	enum domain Stato = {SPENTA | AVVIO | MOSTRABADGE | INSERISCIPIN | PRONTA | INUSO | ERRORE | OUTOFSERVICE}
-	enum domain Servizio = {PRINTBN | PRINTCOL | SCANSIONE | NONE}
+	enum domain Servizio = {PRINTBN | PRINTCOL | SCANSIONE | EXIT}
 	enum domain Accensione = {ON | OFF}
 	enum domain StatoMacchina = {GUASTA | NONGUASTA}
 	domain QuantitaCarta subsetof Integer	// Il numero di fogli per la stampa
@@ -114,13 +114,21 @@ definitions:
 	
 	//Regola per gestire l'operativa della stampante una volta che è pronta
 	//Posso spegnerla oppure lanciare un lavoro
-	macro rule r_utilizzoStampante =
-		if (printerState = PRONTA and onOff = OFF) then
+	macro rule r_utilizzoStampante = 
+		switch selectedService
+			case PRINTBN:
+				message := "Prova BN"
+			case PRINTCOL:
+				message := "Prova COL"
+			case SCANSIONE:
+				message := "Prova Scansione"
+			case EXIT:
 				par
 					printerState := SPENTA
-					message := "Premere On per accendere"
+					message := "Stampante spenta"
 				endpar
-		endif
+		endswitch
+			
 		
 	main rule r_main = 
 		switch printerState
