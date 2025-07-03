@@ -29,10 +29,9 @@ signature:
 	dynamic monitored insertedBadge: Badge 
 	dynamic monitored insertedPin: Integer 
 	dynamic monitored chooseService: Servizio
-	
-	//Connessione dei dispositivi per la scansione
 	dynamic monitored connectedByWireless: Boolean
 	dynamic monitored connectedByCable: Boolean
+	dynamic monitored cartaInceppata: Boolean
 	
 	static pin: Badge -> Integer
 	
@@ -184,21 +183,39 @@ definitions:
 				if (secondi < 2) then
 					secondi := secondi + 1
 				else
-					par
-						printerState := PRONTA
-						message := "Stampa terminata con successo"
-						secondi := 0
-					endpar
+					if(not cartaInceppata) then
+						par
+							printerState := PRONTA
+							message := "Stampa terminata con successo"
+							secondi := 0
+						endpar
+					else
+						par
+							printerState := ERRORE
+							message := "Carta inceppata"
+							userCredit(currentBadge) := userCredit(currentBadge) + 50
+							secondi := 0
+						endpar
+					endif
 				endif
 			case PRINTCOL:
 				if (secondi < 3) then
 					secondi := secondi + 1
 				else
-					par
-						printerState := PRONTA
-						message := "Stampa terminata con successo"
-						secondi := 0
-					endpar
+					if(not cartaInceppata) then
+						par
+							printerState := PRONTA
+							message := "Stampa terminata con successo"
+							secondi := 0
+						endpar
+					else
+						par
+							printerState := ERRORE
+							message := "Carta inceppata"
+							userCredit(currentBadge) := userCredit(currentBadge) + 50
+							secondi := 0
+						endpar
+					endif
 				endif
 			case SCANSIONE:
 				if (secondi < 4) then
@@ -212,6 +229,13 @@ definitions:
 				endif
 		endswitch
 	
+	rule r_gestioneErrore = 
+		if(not cartaInceppata) then
+			par
+				printerState := PRONTA
+				message := "Carta sistemata"
+			endpar
+		endif
 			
 		
 	main rule r_main = 
@@ -230,6 +254,8 @@ definitions:
 				r_sceltaServizio[]
 			case INUSO:
 				r_stampanteInUso[]
+			case ERRORE:
+				r_gestioneErrore[]
 		endswitch
 		
 	
@@ -239,12 +265,12 @@ default init s0:
 	function printerState = SPENTA
 	function secondi = 0
 	
-	function tonerNero = 40
-	function tonerColore = 10
-	function fogliCarta = 100
+	function tonerNero = 100
+	function tonerColore = 100
+	function fogliCarta = 500
 	
 	function userCredit($b in Badge) = switch($b)
-										case davide : 45
+										case davide : 1000
 										case matteo : 1000
 									endswitch
 	
