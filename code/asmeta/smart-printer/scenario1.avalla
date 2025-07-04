@@ -265,6 +265,7 @@ check secondi = 0;
 check tonerColore = 95;
 check userCredit(davide) = 950;
 check userCredit(matteo) = 950;
+step
 
 
 

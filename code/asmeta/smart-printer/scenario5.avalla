@@ -1,0 +1,45 @@
+
+scenario scenario5
+load smartPrinter.asm
+
+invariant inv_1: fogliCarta = 500;
+invariant inv_2: tonerNero = 100;
+invariant inv_3: tonerColore = 100;
+
+check printerState = SPENTA;
+set onOff := ON;
+step
+check printerState = AVVIO;
+check message = "Accensione in corso";
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+step
+check printerState = MOSTRABADGE;
+check message = "Mostrare Badge";
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+step
+check printerState = INSERISCIPIN;
+check message = "Inserire Pin";
+check currentBadge = davide;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+step
+check printerState = PRONTA;
+check message = "Selezionare una azione";
+check currentBadge = davide;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := SCANSIONE;
+set connectedByWireless := false;
+set connectedByCable := false;
+step
+check printerState = PRONTA;
+check message = "Collegare un dispositivo per effettuare la scansione";
+check currentBadge = davide;
+step

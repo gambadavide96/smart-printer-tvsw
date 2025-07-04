@@ -1,0 +1,53 @@
+scenario scenario6
+load smartPrinter.asm
+
+//Imposto il toner ad un valore basso
+exec
+	par
+		tonerColore := 10
+		tonerNero := 0
+		fogliCarta := 100
+	endpar;
+
+check printerState = SPENTA;
+set onOff := ON;
+step
+check printerState = AVVIO;
+check message = "Accensione in corso";
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+step
+check printerState = MOSTRABADGE;
+check message = "Mostrare Badge";
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+step
+check printerState = INSERISCIPIN;
+check message = "Inserire Pin";
+check currentBadge = davide;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+step
+check printerState = PRONTA;
+check message = "Selezionare una azione";
+check currentBadge = davide;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := PRINTBN;
+step
+check printerState = PRONTA;
+check message = "Risorse finite, caricare stampante";
+check currentBadge = davide;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := PRINTCOL;
+step
+
+
