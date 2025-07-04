@@ -1,6 +1,7 @@
 
 scenario scenario2
 load smartPrinter.asm
+
 check printerState = SPENTA;
 set onOff := ON;
 step
