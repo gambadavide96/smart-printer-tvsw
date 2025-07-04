@@ -78,12 +78,12 @@ definitions:
 			endpar
 		endif
 		
-	//Se il guasto è stato riparato, la macchina si avvia, altrimenti rimane outofservice	
+	//Se il guasto è stato riparato, la macchina chiede il badge, altrimenti rimane outofservice	
 	rule r_gestioneGuasto($g in StatoMacchina) = 
 		if($g = NONGUASTA) then
 			par
-				printerState := AVVIO
-				message := "Accensione in corso"
+				printerState := MOSTRABADGE
+				message := "Mostrare Badge"
 			endpar
 		endif
 		
