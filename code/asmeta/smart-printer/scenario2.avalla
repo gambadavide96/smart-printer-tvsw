@@ -200,3 +200,4 @@ check message = "Stampante spenta";
 check currentBadge = davide;
 check selectedService = SCANSIONE;
 check secondi = 0;
+step

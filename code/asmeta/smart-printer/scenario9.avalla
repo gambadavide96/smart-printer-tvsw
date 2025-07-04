@@ -1,5 +1,14 @@
-scenario scenario4
+scenario scenario9
 load smartPrinter.asm
+
+//Imposto il credito di un utente a valore basso
+exec
+	par
+		tonerColore := 100
+		tonerNero := 100
+		fogliCarta := 100
+		userCredit(davide) := 25
+	endpar;
 
 check printerState = SPENTA;
 set onOff := ON;
@@ -21,26 +30,25 @@ check currentBadge = davide;
 set onOff := ON;
 set spiaGuasto := NONGUASTA;
 set insertedBadge := davide;
-set insertedPin := 33;
-step
-check printerState = MOSTRABADGE;
-check message = "Pin errato";
-check currentBadge = davide;
-set onOff := ON;
-set spiaGuasto := NONGUASTA;
-set insertedBadge := davide;
-set insertedPin := 33;
-step
-check printerState = INSERISCIPIN;
-check message = "Inserire Pin";
-check currentBadge = davide;
-set onOff := ON;
-set spiaGuasto := NONGUASTA;
-set insertedBadge := davide;
 set insertedPin := 1;
 step
 check printerState = PRONTA;
 check message = "Selezionare una azione";
 check currentBadge = davide;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := PRINTBN;
 step
+check printerState = PRONTA;
+check message = "Credito insufficiente";
+check currentBadge = davide;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := PRINTCOL;
+step
+
 

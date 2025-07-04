@@ -1,5 +1,13 @@
-scenario scenario4
+scenario scenario7
 load smartPrinter.asm
+
+//Imposto il toner colore ad un valore basso
+exec
+	par
+		tonerColore := 0
+		tonerNero := 10
+		fogliCarta := 100
+	endpar;
 
 check printerState = SPENTA;
 set onOff := ON;
@@ -21,26 +29,35 @@ check currentBadge = davide;
 set onOff := ON;
 set spiaGuasto := NONGUASTA;
 set insertedBadge := davide;
-set insertedPin := 33;
-step
-check printerState = MOSTRABADGE;
-check message = "Pin errato";
-check currentBadge = davide;
-set onOff := ON;
-set spiaGuasto := NONGUASTA;
-set insertedBadge := davide;
-set insertedPin := 33;
-step
-check printerState = INSERISCIPIN;
-check message = "Inserire Pin";
-check currentBadge = davide;
-set onOff := ON;
-set spiaGuasto := NONGUASTA;
-set insertedBadge := davide;
 set insertedPin := 1;
 step
 check printerState = PRONTA;
 check message = "Selezionare una azione";
 check currentBadge = davide;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := PRINTCOL;
 step
+check printerState = PRONTA;
+check message = "Risorse finite, caricare stampante";
+check currentBadge = davide;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := PRINTBN;
+step
+check printerState = INUSO;
+check message = "Stampa BN in corso";
+check currentBadge = davide;
+check fogliCarta = 90;
+check tonerNero = 5;
+check tonerColore = 0;
+check selectedService = PRINTBN;
+check secondi = 0;
+check userCredit(davide) = 950;
+
+
 

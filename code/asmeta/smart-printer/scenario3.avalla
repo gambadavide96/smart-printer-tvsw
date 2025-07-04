@@ -323,3 +323,5 @@ check userCredit(davide) = 1000;
 check userCredit(matteo) = 1000;
 check tonerColore = 95;
 check tonerNero = 95;
+step
+

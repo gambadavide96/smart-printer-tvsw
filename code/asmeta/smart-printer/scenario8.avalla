@@ -1,5 +1,13 @@
-scenario scenario4
+scenario scenario8
 load smartPrinter.asm
+
+//Imposto il numero fogli ad un valore basso
+exec
+	par
+		tonerColore := 10
+		tonerNero := 10
+		fogliCarta := 0
+	endpar;
 
 check printerState = SPENTA;
 set onOff := ON;
@@ -21,26 +29,23 @@ check currentBadge = davide;
 set onOff := ON;
 set spiaGuasto := NONGUASTA;
 set insertedBadge := davide;
-set insertedPin := 33;
-step
-check printerState = MOSTRABADGE;
-check message = "Pin errato";
-check currentBadge = davide;
-set onOff := ON;
-set spiaGuasto := NONGUASTA;
-set insertedBadge := davide;
-set insertedPin := 33;
-step
-check printerState = INSERISCIPIN;
-check message = "Inserire Pin";
-check currentBadge = davide;
-set onOff := ON;
-set spiaGuasto := NONGUASTA;
-set insertedBadge := davide;
 set insertedPin := 1;
 step
 check printerState = PRONTA;
 check message = "Selezionare una azione";
 check currentBadge = davide;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := PRINTBN;
 step
-
+check printerState = PRONTA;
+check message = "Risorse finite, caricare stampante";
+check currentBadge = davide;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := PRINTCOL;
+step
