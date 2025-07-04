@@ -1,0 +1,201 @@
+
+scenario scenario2
+load smartPrinter.asm
+check printerState = SPENTA;
+set onOff := ON;
+step
+check printerState = AVVIO;
+check message = "Accensione in corso";
+set onOff := ON;
+set spiaGuasto := GUASTA;
+step
+check printerState = OUTOFSERVICE;
+check message = "Stampante guasta";
+set onOff := ON;
+set spiaGuasto := GUASTA;
+step
+check printerState = OUTOFSERVICE;
+check message = "Stampante guasta";
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+step
+check printerState = MOSTRABADGE;
+check message = "Mostrare Badge";
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+step
+check printerState = INSERISCIPIN;
+check message = "Inserire Pin";
+check currentBadge = davide;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+step
+check printerState = PRONTA;
+check message = "Selezionare una azione";
+check currentBadge = davide;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := SCANSIONE;
+set connectedByWireless := true;
+step
+check printerState = INUSO;
+check message = "Scansione in corso";
+check currentBadge = davide;
+check selectedService = SCANSIONE;
+check secondi = 0;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := SCANSIONE;
+set connectedByWireless := true;
+step
+check printerState = INUSO;
+check message = "Scansione in corso";
+check currentBadge = davide;
+check selectedService = SCANSIONE;
+check secondi = 1;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := SCANSIONE;
+set connectedByWireless := true;
+step
+check printerState = INUSO;
+check message = "Scansione in corso";
+check currentBadge = davide;
+check selectedService = SCANSIONE;
+check secondi = 2;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := SCANSIONE;
+set connectedByWireless := true;
+step
+check printerState = INUSO;
+check message = "Scansione in corso";
+check currentBadge = davide;
+check selectedService = SCANSIONE;
+check secondi = 3;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := SCANSIONE;
+set connectedByWireless := true;
+step
+check printerState = INUSO;
+check message = "Scansione in corso";
+check currentBadge = davide;
+check selectedService = SCANSIONE;
+check secondi = 4;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := SCANSIONE;
+set connectedByWireless := true;
+step
+check printerState = PRONTA;
+check message = "Scansione terminata con successo";
+check currentBadge = davide;
+check selectedService = SCANSIONE;
+check secondi = 0;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := SCANSIONE;
+set connectedByWireless := false;
+set connectedByCable := true;
+step
+check printerState = INUSO;
+check message = "Scansione in corso";
+check currentBadge = davide;
+check selectedService = SCANSIONE;
+check secondi = 0;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := SCANSIONE;
+set connectedByWireless := false;
+set connectedByCable := true;
+step
+check printerState = INUSO;
+check message = "Scansione in corso";
+check currentBadge = davide;
+check selectedService = SCANSIONE;
+check secondi = 1;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := SCANSIONE;
+set connectedByWireless := false;
+set connectedByCable := true;
+step
+check printerState = INUSO;
+check message = "Scansione in corso";
+check currentBadge = davide;
+check selectedService = SCANSIONE;
+check secondi = 2;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := SCANSIONE;
+set connectedByWireless := false;
+set connectedByCable := true;
+step
+check printerState = INUSO;
+check message = "Scansione in corso";
+check currentBadge = davide;
+check selectedService = SCANSIONE;
+check secondi = 3;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := SCANSIONE;
+set connectedByWireless := false;
+set connectedByCable := true;
+step
+check printerState = INUSO;
+check message = "Scansione in corso";
+check currentBadge = davide;
+check selectedService = SCANSIONE;
+check secondi = 4;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := SCANSIONE;
+set connectedByWireless := false;
+set connectedByCable := true;
+step
+check printerState = PRONTA;
+check message = "Scansione terminata con successo";
+check currentBadge = davide;
+check selectedService = SCANSIONE;
+check secondi = 0;
+set onOff := ON;
+set spiaGuasto := NONGUASTA;
+set insertedBadge := davide;
+set insertedPin := 1;
+set chooseService := EXIT;
+set connectedByWireless := false;
+set connectedByCable := true;
+step
+check printerState = SPENTA;
+check message = "Stampante spenta";
+check currentBadge = davide;
+check selectedService = SCANSIONE;
+check secondi = 0;

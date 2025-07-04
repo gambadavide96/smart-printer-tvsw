@@ -164,17 +164,19 @@ definitions:
 	CTLSPEC ef(tonerNero = 0 and tonerColore = 0 and fogliCarta > 0)
 	//P5: Non può esistere uno stato in cui il toner a colori è terminato mentre il toner nero no
 	CTLSPEC (not ef(tonerNero > 0 and tonerColore = 0))
-	//P6: Se il Toner nero è terminato e la stampante è in uso, sto effettuando una scansione
-	CTLSPEC ((tonerNero = 0 and printerState = INUSO) implies (selectedService = SCANSIONE))
-	//P7: Se entrambe le connessioni di device sono false e la stampante è in uso, sto facendo una stampa
-	CTLSPEC ((connectedByWireless = false and connectedByCable = false and printerState = INUSO) implies 
-		(selectedService = PRINTBN or selectedService = PRINTCOL))
 	//P8: In qualsiasi stato si trovi la macchina, esiste un percorso che la porta nello stato futuro di PRONTA
 	CTLSPEC ag(ef(printerState = PRONTA))
 	//P9: Nella stampante ci saranno sempre almeno 300 fogli (200 fogli per finire il toner)
 	CTLSPEC ag(fogliCarta >= 300)
 	//P10: Una volta che il toner è finito, rimane a zero
 	CTLSPEC (tonerNero = 0 implies ag(tonerNero = 0))
+	
+	//Proprietà da sistemare:
+	/*//P6: Se il Toner nero è terminato e la stampante è in uso, sto effettuando una scansione
+	CTLSPEC ag((tonerNero = 0 and printerState = INUSO) implies (chooseService = SCANSIONE))
+	//P7: Se entrambe le connessioni di device sono false e la stampante è in uso, sto facendo una stampa
+	CTLSPEC ag((connectedByWireless = false and connectedByCable = false and printerState = INUSO) implies 
+		(chooseService = PRINTBN or chooseService = PRINTCOL)) */
 			
 		
 	main rule r_main = 
