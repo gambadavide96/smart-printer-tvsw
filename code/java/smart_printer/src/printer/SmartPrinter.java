@@ -24,7 +24,15 @@ public class SmartPrinter {
 
     private HashMap<Integer, Utente> utenti;
     private Utente utenteCorrente;
-
+    
+    private static boolean controlloInputUtenteBool(String s) {
+    	return s.equals("si") || s.equals("no")  ? true : false;
+    }
+    
+    private static String getNomeUtenteLoggato(Utente u) {
+    	return u != null ? u.getNome() : "Nessuno";
+    }
+    
     public SmartPrinter() {
         printerState = Stato.SPENTA;
         tonerNero = 100;
@@ -35,10 +43,6 @@ public class SmartPrinter {
         collegatoWireless = false;
         collegatoCavo = false;
         cartaInceppata = false;
-    }
-    
-    private static boolean controlloInputUtenteBool(String s) {
-    	return s.equals("si") || s.equals("no")  ? true : false;
     }
 
     public void aggiungiUtente(Utente u) {
@@ -116,6 +120,7 @@ public class SmartPrinter {
         System.out.println("\n--- STATO CORRENTE ---");
         System.out.println("Stato: " + printerState);
         System.out.println("Guasto: " + spiaGuasto);
+        System.out.println("Utente loggato: " + getNomeUtenteLoggato(utenteCorrente));
         System.out.println("Toner Nero: " + tonerNero);
         System.out.println("Toner Colore: " + tonerColore);
         System.out.println("Carta: " + fogliCarta);
@@ -201,6 +206,7 @@ public class SmartPrinter {
 	        		
 				case INSERISCIPIN:
 					//inserimentoPin();
+					statoCorrente();
 					System.out.println("Cjeckpoint inserisci pin ");
 	        		String check3 = scanner.nextLine().toLowerCase();
 	        		
