@@ -16,6 +16,9 @@ public class Main {
 		//Stato corrente della stampante
 		stampante.statoCorrente();
 		
+		//Uso la stampante
+		stampante.usoStampante();
+		
 		
 		
 

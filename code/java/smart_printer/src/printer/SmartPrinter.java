@@ -1,6 +1,7 @@
 package printer;
 
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -10,7 +11,7 @@ public class SmartPrinter {
     public enum Servizio { PRINTBN, PRINTCOL, SCANSIONE, EXIT }
     public enum StatoMacchina { GUASTA, NONGUASTA }
 
-    private Stato statoStampante;
+    private Stato printerState;
     private Servizio selectedService;
     private StatoMacchina spiaGuasto;
     private int tonerNero;
@@ -25,7 +26,7 @@ public class SmartPrinter {
     private Utente utenteCorrente;
 
     public SmartPrinter() {
-        statoStampante = Stato.SPENTA;
+        printerState = Stato.SPENTA;
         tonerNero = 100;
         tonerColore = 100;
         fogliCarta = 500;
@@ -35,57 +36,85 @@ public class SmartPrinter {
         collegatoCavo = false;
         cartaInceppata = false;
     }
+    
+    private static boolean controlloInputUtenteBool(String s) {
+    	return s.equals("si") || s.equals("no")  ? true : false;
+    }
 
     public void aggiungiUtente(Utente u) {
         utenti.put(u.getBadgeId(), u);
         System.out.println("Utente aggiunto: " + u.getNome() + " : " + u.getBadgeId());
     }
     
-    public void guastoStampante() {
-    	if(statoStampante == Stato.AVVIO)
+    private void guastoStampante() {
+    	if(printerState == Stato.AVVIO)
     		spiaGuasto = StatoMacchina.GUASTA;
     }
     
-    public void riparazioneStampante() {
-    	if(statoStampante == Stato.OUTOFSERVICE)
+    private void riparazioneStampante() {
+    	if(printerState == Stato.OUTOFSERVICE)
     		spiaGuasto = StatoMacchina.NONGUASTA;
     }
 
-    public void accendiStampante() {
-   
+    private void accendiStampante() {
+    	if(printerState == Stato.SPENTA) {
+    		printerState = Stato.AVVIO;
+    		System.out.println("Accensione in corso");
+    	}
     }
 
-    public void avvioStampante() {
-    	
+    private void avvioStampante() {
+    	if(spiaGuasto == StatoMacchina.GUASTA) {
+			printerState = Stato.OUTOFSERVICE;
+			System.out.println("Stampante guasta");
+    	}
+    	else {
+			printerState = Stato.MOSTRABADGE;
+			System.out.println("Mostrare Badge");
+		}
     }
     
-    public void gestioneGuasto() {
+    private void gestioneGuasto() {
     	
+    	if(spiaGuasto == StatoMacchina.NONGUASTA) {
+			printerState = Stato.MOSTRABADGE;
+			System.out.println("Mostrare Badge");
+    	}
+    	else {
+    		System.out.println("Stampante ancora guasta");
+    	}
     }
     
-    public void identificazioneUtente() {
-    	
+    private void identificazioneUtente(int numBadge) {
+    	if(utenti.containsKey(numBadge)) {
+			utenteCorrente = utenti.get(numBadge);
+			printerState = Stato.INSERISCIPIN;
+			System.out.println("Benvenuto " + utenteCorrente.getNome() + ", Inserisci Pin");
+    	}
+    	else {
+    		System.out.println("Badge non riconosciuto");
+    	}
     }
 
-    public void inserimentoPin() {
+    private void inserimentoPin() {
     	
     }
     
-    public void sceltaServizio() {
+    private void sceltaServizio() {
     	
     }
     
-    public void stampanteInUso() {
+    private void stampanteInUso() {
     	
     }
     
-    public void gestioneErrore() {
+    private void gestioneErrore() {
     	
     }
 
     public void statoCorrente() {
         System.out.println("\n--- STATO CORRENTE ---");
-        System.out.println("Stato: " + statoStampante);
+        System.out.println("Stato: " + printerState);
         System.out.println("Guasto: " + spiaGuasto);
         System.out.println("Toner Nero: " + tonerNero);
         System.out.println("Toner Colore: " + tonerColore);
@@ -100,32 +129,91 @@ public class SmartPrinter {
     public void usoStampante() {
         Scanner scanner = new Scanner(System.in);
         boolean closeProgram = false;
+        boolean validInput = false;
         
         while(!closeProgram) {
         	
-        	switch(statoStampante) {
+        	switch(printerState) {
 	        	case SPENTA:
-	        		System.out.println("Vuoi accendere la stampante? (si/no): ");
-	        		String rispostaAccensione = scanner.nextLine().toLowerCase();
+	        		String rispostaAccensione;
+	        		do {
+		        		System.out.println("Vuoi accendere la stampante? (si/no): ");
+		        		rispostaAccensione = scanner.nextLine().toLowerCase();
+		        		validInput = controlloInputUtenteBool(rispostaAccensione);
+	        		}
+	        		while(!validInput);
+	        			
 	        		if(rispostaAccensione.equals("si"))
 	        			accendiStampante();
 	        		else
 	        			closeProgram = true;
+	        		
 	        		break;
+	        		
 				case AVVIO:
-					avvioStampante();
+	        		String rispostaGuasto;
+	        		do {
+	        			System.out.println("Si è verificato un guasto? (si/no): ");
+	        			rispostaGuasto = scanner.nextLine().toLowerCase();
+		        		validInput = controlloInputUtenteBool(rispostaGuasto);
+	        		}
+	        		while(!validInput);
+	        		
+	        		if(rispostaGuasto.equals("si"))
+	        			guastoStampante();
+	        		
+	        		avvioStampante();
+	        		break;
+	        		
 				case OUTOFSERVICE:
+					String rispostaGuastoRiparato;
+	        		do {
+		        		System.out.println("Il guasto è stato riparato? (si/no): ");
+		        		rispostaGuastoRiparato = scanner.nextLine().toLowerCase();
+		        		validInput = controlloInputUtenteBool(rispostaGuastoRiparato);
+	        		}
+	        		while(!validInput);
+	        		
+	        		if(rispostaGuastoRiparato.equals("si"))
+	        			riparazioneStampante();
+					
 					gestioneGuasto();
+	        		break;
+	        		
 				case MOSTRABADGE:
-					identificazioneUtente();
+					int badgeMostrato = 0;
+					validInput = false;
+					
+					while(!validInput) {
+						System.out.println("Inserire un numero di Badge: ");
+						  try {
+						        badgeMostrato = scanner.nextInt();
+						        validInput = true;
+						    } catch (InputMismatchException e) {
+						        System.out.println("Input non valido. Inserisci un numero di Badge.");
+						        scanner.nextLine(); 
+						    }
+					}
+					
+					scanner.nextLine(); // consuma il newline residuo dopo input corretto
+					identificazioneUtente(badgeMostrato);
+	        		break;
+	        		
 				case INSERISCIPIN:
-					inserimentoPin();
+					//inserimentoPin();
+					System.out.println("Cjeckpoint inserisci pin ");
+	        		String check3 = scanner.nextLine().toLowerCase();
+	        		
+					break;
 				case PRONTA:
 					sceltaServizio();
+					break;
 				case INUSO:
 					stampanteInUso();
+					break;
 				case ERRORE:
 					gestioneErrore();
+					break;
         	}
         	
         }
