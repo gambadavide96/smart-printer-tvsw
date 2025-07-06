@@ -45,59 +45,124 @@ public class SmartPrinter {
         cartaInceppata = false;
     }
 
-    public void aggiungiUtente(Utente u) {
+    public Stato getPrinterState() {
+		return printerState;
+	}
+
+	public Servizio getSelectedService() {
+		return selectedService;
+	}
+
+	public StatoMacchina getSpiaGuasto() {
+		return spiaGuasto;
+	}
+
+	public int getTonerNero() {
+		return tonerNero;
+	}
+
+	public int getTonerColore() {
+		return tonerColore;
+	}
+
+	public int getFogliCarta() {
+		return fogliCarta;
+	}
+
+	public boolean isCollegatoWireless() {
+		return collegatoWireless;
+	}
+
+	public boolean isCollegatoCavo() {
+		return collegatoCavo;
+	}
+
+	public boolean isCartaInceppata() {
+		return cartaInceppata;
+	}
+
+	public HashMap<Integer, Utente> getUtenti() {
+		return utenti;
+	}
+
+	public Utente getUtenteCorrente() {
+		return utenteCorrente;
+	}
+
+	public void aggiungiUtente(Utente u) {
         utenti.put(u.getBadgeId(), u);
         System.out.println("Utente aggiunto: " + u.getNome() + " : " + u.getBadgeId());
     }
     
-    private void guastoStampante() {
+    protected void guastoStampante() {
     	if(printerState == Stato.AVVIO)
     		spiaGuasto = StatoMacchina.GUASTA;
     }
     
-    private void riparazioneStampante() {
+    protected void riparazioneStampante() {
     	if(printerState == Stato.OUTOFSERVICE)
     		spiaGuasto = StatoMacchina.NONGUASTA;
     }
 
-    private void accendiStampante() {
+    public boolean accendiStampante() {
     	if(printerState == Stato.SPENTA) {
     		printerState = Stato.AVVIO;
     		System.out.println("Accensione in corso");
+    		return true;
     	}
+    	System.out.println("La stampante è già accesa");
+    	return false;
+    	
     }
 
-    private void avvioStampante() {
-    	if(spiaGuasto == StatoMacchina.GUASTA) {
-			printerState = Stato.OUTOFSERVICE;
-			System.out.println("Stampante guasta");
+    public boolean avvioStampante() {
+    	if(printerState == Stato.AVVIO) {
+    		if(spiaGuasto == StatoMacchina.GUASTA) {
+    			printerState = Stato.OUTOFSERVICE;
+    			System.out.println("Stampante guasta");
+    			return false;
+        	}
+        	else {
+    			printerState = Stato.MOSTRABADGE;
+    			System.out.println("Mostrare Badge");
+    			return true;
+    		}
     	}
-    	else {
-			printerState = Stato.MOSTRABADGE;
-			System.out.println("Mostrare Badge");
-		}
+    	System.out.println("Azione non consentita");
+    	return false;
     }
     
-    private void gestioneGuasto() {
-    	
-    	if(spiaGuasto == StatoMacchina.NONGUASTA) {
-			printerState = Stato.MOSTRABADGE;
-			System.out.println("Mostrare Badge");
+    public boolean gestioneGuasto() {
+    	if(printerState == Stato.OUTOFSERVICE) {
+    		if(spiaGuasto == StatoMacchina.NONGUASTA) {
+    			printerState = Stato.MOSTRABADGE;
+    			System.out.println("Mostrare Badge");
+    			return true;
+        	}
+        	else {
+        		System.out.println("Stampante ancora guasta");
+        		return false;
+        	}
     	}
-    	else {
-    		System.out.println("Stampante ancora guasta");
-    	}
+    	System.out.println("Azione non consentita");
+    	return false;
     }
     
-    private void identificazioneUtente(int numBadge) {
-    	if(utenti.containsKey(numBadge)) {
-			utenteCorrente = utenti.get(numBadge);
-			printerState = Stato.INSERISCIPIN;
-			System.out.println("Benvenuto " + utenteCorrente.getNome() + ", Inserisci Pin");
+    public boolean identificazioneUtente(int numBadge) {
+    	if(printerState == Stato.MOSTRABADGE) {
+    	 	if(utenti.containsKey(numBadge)) {
+    			utenteCorrente = utenti.get(numBadge);
+    			printerState = Stato.INSERISCIPIN;
+    			System.out.println("Benvenuto " + utenteCorrente.getNome() + ", Inserisci Pin");
+    			return true;
+        	}
+        	else {
+        		System.out.println("Badge non riconosciuto");
+        		return false;
+        	}
     	}
-    	else {
-    		System.out.println("Badge non riconosciuto");
-    	}
+    	System.out.println("Azione non consentita");
+    	return false;
     }
 
     private void inserimentoPin() {

@@ -40,4 +40,16 @@ public class Utente {
     public String getNome() {
         return nome;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+    	if (this == obj) 
+    		return true;
+    	
+        if (obj == null || getClass() != obj.getClass()) 
+        	return false;
+        
+        Utente u = (Utente) obj;
+        return badgeId == u.badgeId;
+    }
 }
