@@ -207,7 +207,7 @@ public class SmartPrinter {
     
     protected boolean stampanteInUso() {
     	//TODO
-    	return false;
+    	return true;
     }
     
     protected boolean gestioneErrore() {
