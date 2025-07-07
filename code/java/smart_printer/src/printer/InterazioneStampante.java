@@ -47,6 +47,8 @@ public class InterazioneStampante {
         	
         	switch(stampante.getPrinterState()) {
 	        	case SPENTA:
+	        		stampante.statoCorrente();
+	        		
 	        		String rispostaAccensione;
 	        		do {
 		        		System.out.println("Vuoi accendere la stampante? (si/no): ");
@@ -63,6 +65,8 @@ public class InterazioneStampante {
 	        		break;
 	        		
 				case AVVIO:
+					stampante.statoCorrente();
+					
 	        		String rispostaGuasto;
 	        		do {
 	        			System.out.println("Si è verificato un guasto? (si/no): ");
@@ -78,6 +82,8 @@ public class InterazioneStampante {
 	        		break;
 	        		
 				case OUTOFSERVICE:
+					stampante.statoCorrente();
+					
 					String rispostaGuastoRiparato;
 	        		do {
 		        		System.out.println("Il guasto è stato riparato? (si/no): ");
@@ -93,6 +99,8 @@ public class InterazioneStampante {
 	        		break;
 	        		
 				case MOSTRABADGE:
+					stampante.statoCorrente();
+					
 					int badgeMostrato = 0;
 					validInput = false;
 					
@@ -112,6 +120,8 @@ public class InterazioneStampante {
 	        		break;
 	        		
 				case INSERISCIPIN:
+					stampante.statoCorrente();
+					
 					int pinInserito = 0;
 					validInput = false;
 					
@@ -131,6 +141,8 @@ public class InterazioneStampante {
 					break;
 					
 				case PRONTA:
+					stampante.statoCorrente();
+					
 					String servizioScelto;
 	        		do {
 	        			System.out.println("Quale operazione vuoi effettuare? (BN/COL/S/E): ");
@@ -156,13 +168,38 @@ public class InterazioneStampante {
 					break;
 					
 				case INUSO:
-					//stampante.stampanteInUso();
-					System.out.println("Checkpoint in uso ");
 					stampante.statoCorrente();
-					scanner.nextLine();
+					
+					if(stampante.getSelectedService() != Servizio.SCANSIONE) {
+						String rispostaCartaInceppata;
+						do {
+			        		System.out.println("La carta si è inceppata? (si/no): ");
+			        		rispostaCartaInceppata = scanner.nextLine().toLowerCase();
+			        		validInput = controlloInputUtenteBool(rispostaCartaInceppata);
+		        		}
+		        		while(!validInput);
+						
+						if(rispostaCartaInceppata.equals("si"))
+							stampante.cartaInceppata();
+					}
+					
+					stampante.stampanteInUso();
 					break;
 					
 				case ERRORE:
+					stampante.statoCorrente();
+					
+					String rispostaCartaAncoraInceppata;
+					do {
+		        		System.out.println("La carta è ancora inceppata? (si/no): ");
+		        		rispostaCartaAncoraInceppata = scanner.nextLine().toLowerCase();
+		        		validInput = controlloInputUtenteBool(rispostaCartaAncoraInceppata);
+	        		}
+	        		while(!validInput);
+					
+					if(rispostaCartaAncoraInceppata.equals("no"))
+						stampante.cartaNonInceppata();
+					
 					stampante.gestioneErrore();
 					break;
         	}

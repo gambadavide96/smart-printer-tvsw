@@ -46,6 +46,10 @@ public class SmartPrinter {
     	return u != null ? u.getNome() : "Nessuno";
     }
     
+    private static int getCreditoUtente(Utente u) {
+    	return u != null ? u.getCredito() : 0;
+    }
+    
     protected boolean ricercaUtente(int numBadgeInserito) {
     	
     	for(int i = 0; i < numUtenti; i++) {
@@ -88,7 +92,6 @@ public class SmartPrinter {
 	}
 	    
     
-
     protected Stato getPrinterState() {
 		return printerState;
 	}
@@ -154,6 +157,16 @@ public class SmartPrinter {
     protected void riparazioneStampante() {
     	if(printerState == Stato.OUTOFSERVICE)
     		spiaGuasto = StatoMacchina.NONGUASTA;
+    }
+    
+    protected void cartaInceppata() {
+    	if(printerState == Stato.INUSO)
+    		cartaInceppata = true;
+    }
+    
+    protected void cartaNonInceppata() {
+    	if(printerState == Stato.ERRORE)
+    		cartaInceppata = false;
     }
 
     protected boolean accendiStampante() {
@@ -228,6 +241,7 @@ public class SmartPrinter {
     		}
 	    	else {
 	    		printerState = Stato.MOSTRABADGE;
+	    		utenteCorrente = null;
 	    		System.out.println("Pin errato");
 	    		return false;
 	    	}
@@ -323,12 +337,36 @@ public class SmartPrinter {
     }
     
     protected boolean stampanteInUso() {
-    	//TODO
-    	return true;
+    	
+    	switch(selectedService) {
+    		case SCANSIONE:
+    			printerState = Stato.PRONTA;
+    			System.out.println("Scansione terminata con successo");
+    			//Si scollegano i device
+    			collegatoWireless = false;
+    			collegatoCavo = false;
+    			return true;
+    		default:
+    			if(!cartaInceppata) {
+    				printerState = Stato.PRONTA;
+    				System.out.println("Stampa terminata con successo");
+    				return true;
+    			}
+    			else {
+    				printerState = Stato.ERRORE;
+    				System.out.println("Carta inceppata");
+					utenteCorrente.rimborsaCredito(50);
+					return false;
+    			}
+    	}
     }
     
     protected boolean gestioneErrore() {
-    	//TODO
+    	if(!cartaInceppata) {
+    		printerState = Stato.PRONTA;
+    		System.out.println("Carta sistemata");
+    		return true;
+    	}
     	return false;
     }
 
@@ -337,6 +375,7 @@ public class SmartPrinter {
         System.out.println("Stato: " + printerState);
         System.out.println("Guasto: " + spiaGuasto);
         System.out.println("Utente loggato: " + getNomeUtenteLoggato(utenteCorrente));
+        System.out.println("Credito utente: " + getCreditoUtente(utenteCorrente));
         System.out.println("Toner Nero: " + tonerNero);
         System.out.println("Toner Colore: " + tonerColore);
         System.out.println("Carta: " + fogliCarta);

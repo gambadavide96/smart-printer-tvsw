@@ -19,9 +19,6 @@ public class Main {
 		interazione.aggiungiUtente(davide);
 		interazione.aggiungiUtente(matteo);
 		
-		//Stato corrente della stampante
-		interazione.statoCorrenteStampante();
-		
 		//Uso la stampante
 		interazione.usoStampante();
 		
