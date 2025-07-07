@@ -201,7 +201,7 @@ public class SmartPrinter {
     
     protected boolean sceltaServizio() {
     	//TODO
-    	return false;
+    	return true;
     	
     }
     
