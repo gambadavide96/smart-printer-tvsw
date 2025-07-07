@@ -1,0 +1,2120 @@
+<?xml version="1.0" encoding="UTF-8"?><TestSessionContainer xmlns="http://www.codecover.org/xml/testsession-container" Date="1751884731439" TestSessionContainerId="96d1090f-8a7c-48a4-8696-a553174969f7" version="1.0">
+    <SrcFileList>
+        <SrcFile Content="package printer;&#13;&#10;&#13;&#10;import java.util.HashMap;&#13;&#10;import java.util.InputMismatchException;&#13;&#10;import java.util.Scanner;&#13;&#10;&#13;&#10;&#13;&#10;public class SmartPrinter {&#13;&#10;&#13;&#10;    public enum Stato { SPENTA, AVVIO, MOSTRABADGE, INSERISCIPIN, PRONTA, INUSO, ERRORE, OUTOFSERVICE }&#13;&#10;    public enum Servizio { PRINTBN, PRINTCOL, SCANSIONE, EXIT }&#13;&#10;    public enum StatoMacchina { GUASTA, NONGUASTA }&#13;&#10;&#13;&#10;    private Stato printerState;&#13;&#10;    private Servizio selectedService;&#13;&#10;    private StatoMacchina spiaGuasto;&#13;&#10;    private int tonerNero;&#13;&#10;    private int tonerColore;&#13;&#10;    private int fogliCarta;&#13;&#10;    &#13;&#10;    private boolean collegatoWireless;&#13;&#10;    private boolean collegatoCavo;&#13;&#10;    private boolean cartaInceppata;&#13;&#10;&#13;&#10;    Utente[] utenti;&#13;&#10;    int numUtenti;&#13;&#10;    private Utente utenteCorrente;&#13;&#10;    &#13;&#10;    public SmartPrinter() {&#13;&#10;        printerState = Stato.SPENTA;&#13;&#10;        tonerNero = 100;&#13;&#10;        tonerColore = 100;&#13;&#10;        fogliCarta = 500;&#13;&#10;        spiaGuasto = StatoMacchina.NONGUASTA;&#13;&#10;        utenti = new Utente[2];&#13;&#10;        numUtenti = 0;&#13;&#10;        collegatoWireless = false;&#13;&#10;        collegatoCavo = false;&#13;&#10;        cartaInceppata = false;&#13;&#10;    }  &#13;&#10;    &#13;&#10;    private static String getNomeUtenteLoggato(Utente u) {&#13;&#10;    &#9;return u != null ? u.getNome() : &quot;Nessuno&quot;;&#13;&#10;    }&#13;&#10;    &#13;&#10;    protected boolean ricercaUtente(int numBadgeInserito) {&#13;&#10;    &#9;&#13;&#10;    &#9;for(int i = 0; i &lt; numUtenti; i++) {&#13;&#10;    &#9;&#9;if(utenti[i].getBadgeId() == numBadgeInserito)&#13;&#10;    &#9;&#9;&#9;return true;&#13;&#10;    &#9;}&#13;&#10;    &#9;&#13;&#10;    &#9;return false;&#13;&#10;    &#9;&#13;&#10;    }&#13;&#10;    &#13;&#10;    private Utente getUtentebyNumBadge(int numBadge) {&#13;&#10;    &#9;&#13;&#10;    &#9;for(Utente u: utenti) {&#13;&#10;    &#9;&#9;if(u.getBadgeId() == numBadge)&#13;&#10;    &#9;&#9;&#9;return u;&#13;&#10;    &#9;}&#13;&#10;    &#9;&#13;&#10;    &#9;return null;&#13;&#10;    }&#13;&#10;    &#13;&#10;    &#13;&#10;&#13;&#10;    protected Stato getPrinterState() {&#13;&#10;&#9;&#9;return printerState;&#13;&#10;&#9;}&#13;&#10;&#13;&#10;&#9;protected Servizio getSelectedService() {&#13;&#10;&#9;&#9;return selectedService;&#13;&#10;&#9;}&#13;&#10;&#13;&#10;&#9;protected StatoMacchina getSpiaGuasto() {&#13;&#10;&#9;&#9;return spiaGuasto;&#13;&#10;&#9;}&#13;&#10;&#13;&#10;&#9;protected int getTonerNero() {&#13;&#10;&#9;&#9;return tonerNero;&#13;&#10;&#9;}&#13;&#10;&#13;&#10;&#9;protected int getTonerColore() {&#13;&#10;&#9;&#9;return tonerColore;&#13;&#10;&#9;}&#13;&#10;&#13;&#10;&#9;protected int getFogliCarta() {&#13;&#10;&#9;&#9;return fogliCarta;&#13;&#10;&#9;}&#13;&#10;&#13;&#10;&#9;protected boolean isCollegatoWireless() {&#13;&#10;&#9;&#9;return collegatoWireless;&#13;&#10;&#9;}&#13;&#10;&#13;&#10;&#9;protected boolean isCollegatoCavo() {&#13;&#10;&#9;&#9;return collegatoCavo;&#13;&#10;&#9;}&#13;&#10;&#13;&#10;&#9;protected boolean isCartaInceppata() {&#13;&#10;&#9;&#9;return cartaInceppata;&#13;&#10;&#9;}&#13;&#10;&#13;&#10;&#9;protected Utente[] getUtenti() {&#13;&#10;&#9;&#9;return utenti;&#13;&#10;&#9;}&#13;&#10;&#13;&#10;&#9;protected Utente getUtenteCorrente() {&#13;&#10;&#9;&#9;return utenteCorrente;&#13;&#10;&#9;}&#13;&#10;&#13;&#10;&#9;protected boolean aggiungiUtente(Utente u) {&#13;&#10;        if(numUtenti &lt; utenti.length) {&#13;&#10;        &#9;utenti[numUtenti] = u;&#13;&#10;        &#9;numUtenti++;&#13;&#10;        &#9;System.out.println(&quot;Utente aggiunto: &quot; + u.getNome() + &quot; : &quot; + u.getBadgeId());&#13;&#10;        &#9;return true;&#13;&#10;        }&#13;&#10;        else&#13;&#10;        &#9;System.out.println(&quot;Non è possibile aggiungere altri utenti&quot;);&#13;&#10;        &#9;return false;&#13;&#10;        &#13;&#10;    }&#13;&#10;    &#13;&#10;    protected void guastoStampante() {&#13;&#10;    &#9;if(printerState == Stato.AVVIO)&#13;&#10;    &#9;&#9;spiaGuasto = StatoMacchina.GUASTA;&#13;&#10;    }&#13;&#10;    &#13;&#10;    protected void riparazioneStampante() {&#13;&#10;    &#9;if(printerState == Stato.OUTOFSERVICE)&#13;&#10;    &#9;&#9;spiaGuasto = StatoMacchina.NONGUASTA;&#13;&#10;    }&#13;&#10;&#13;&#10;    protected boolean accendiStampante() {&#13;&#10;    &#9;if(printerState == Stato.SPENTA) {&#13;&#10;    &#9;&#9;printerState = Stato.AVVIO;&#13;&#10;    &#9;&#9;System.out.println(&quot;Accensione in corso&quot;);&#13;&#10;    &#9;&#9;return true;&#13;&#10;    &#9;}&#13;&#10;    &#9;System.out.println(&quot;La stampante è già accesa&quot;);&#13;&#10;    &#9;return false;&#13;&#10;    &#9;&#13;&#10;    }&#13;&#10;&#13;&#10;    protected boolean avvioStampante() {&#13;&#10;    &#9;if(printerState == Stato.AVVIO) {&#13;&#10;    &#9;&#9;if(spiaGuasto == StatoMacchina.GUASTA) {&#13;&#10;    &#9;&#9;&#9;printerState = Stato.OUTOFSERVICE;&#13;&#10;    &#9;&#9;&#9;System.out.println(&quot;Stampante guasta&quot;);&#13;&#10;    &#9;&#9;&#9;return false;&#13;&#10;        &#9;}&#13;&#10;        &#9;else {&#13;&#10;    &#9;&#9;&#9;printerState = Stato.MOSTRABADGE;&#13;&#10;    &#9;&#9;&#9;System.out.println(&quot;Mostrare Badge&quot;);&#13;&#10;    &#9;&#9;&#9;return true;&#13;&#10;    &#9;&#9;}&#13;&#10;    &#9;}&#13;&#10;    &#9;System.out.println(&quot;Azione non consentita&quot;);&#13;&#10;    &#9;return false;&#13;&#10;    }&#13;&#10;    &#13;&#10;    protected boolean gestioneGuasto() {&#13;&#10;    &#9;if(printerState == Stato.OUTOFSERVICE) {&#13;&#10;    &#9;&#9;if(spiaGuasto == StatoMacchina.NONGUASTA) {&#13;&#10;    &#9;&#9;&#9;printerState = Stato.MOSTRABADGE;&#13;&#10;    &#9;&#9;&#9;System.out.println(&quot;Mostrare Badge&quot;);&#13;&#10;    &#9;&#9;&#9;return true;&#13;&#10;        &#9;}&#13;&#10;        &#9;else {&#13;&#10;        &#9;&#9;System.out.println(&quot;Stampante ancora guasta&quot;);&#13;&#10;        &#9;&#9;return false;&#13;&#10;        &#9;}&#13;&#10;    &#9;}&#13;&#10;    &#9;System.out.println(&quot;Azione non consentita&quot;);&#13;&#10;    &#9;return false;&#13;&#10;    }&#13;&#10;    &#13;&#10;    protected boolean identificazioneUtente(int numBadge) {&#13;&#10;    &#9;if(printerState == Stato.MOSTRABADGE) {&#13;&#10;    &#9; &#9;if(ricercaUtente(numBadge)) {&#13;&#10;    &#9;&#9;&#9;utenteCorrente = getUtentebyNumBadge(numBadge);&#13;&#10;    &#9;&#9;&#9;printerState = Stato.INSERISCIPIN;&#13;&#10;    &#9;&#9;&#9;System.out.println(&quot;Benvenuto &quot; + utenteCorrente.getNome() + &quot;, Inserisci Pin&quot;);&#13;&#10;    &#9;&#9;&#9;return true;&#13;&#10;        &#9;}&#13;&#10;        &#9;else {&#13;&#10;        &#9;&#9;System.out.println(&quot;Badge non riconosciuto&quot;);&#13;&#10;        &#9;&#9;return false;&#13;&#10;        &#9;}&#13;&#10;    &#9;}&#13;&#10;    &#9;System.out.println(&quot;Azione non consentita&quot;);&#13;&#10;    &#9;return false;&#13;&#10;    }&#13;&#10;&#13;&#10;    protected boolean inserimentoPin() {&#13;&#10;    &#9;//TODO&#13;&#10;    &#9;return false;&#13;&#10;    }&#13;&#10;    &#13;&#10;    protected boolean sceltaServizio() {&#13;&#10;    &#9;//TODO&#13;&#10;    &#9;return false;&#13;&#10;    &#9;&#13;&#10;    }&#13;&#10;    &#13;&#10;    protected boolean stampanteInUso() {&#13;&#10;    &#9;//TODO&#13;&#10;    &#9;return false;&#13;&#10;    }&#13;&#10;    &#13;&#10;    protected boolean gestioneErrore() {&#13;&#10;    &#9;//TODO&#13;&#10;    &#9;return false;&#13;&#10;    }&#13;&#10;&#13;&#10;    protected void statoCorrente() {&#13;&#10;        System.out.println(&quot;\n--- STATO CORRENTE ---&quot;);&#13;&#10;        System.out.println(&quot;Stato: &quot; + printerState);&#13;&#10;        System.out.println(&quot;Guasto: &quot; + spiaGuasto);&#13;&#10;        System.out.println(&quot;Utente loggato: &quot; + getNomeUtenteLoggato(utenteCorrente));&#13;&#10;        System.out.println(&quot;Toner Nero: &quot; + tonerNero);&#13;&#10;        System.out.println(&quot;Toner Colore: &quot; + tonerColore);&#13;&#10;        System.out.println(&quot;Carta: &quot; + fogliCarta);&#13;&#10;        System.out.println(&quot;Collegato Wireless: &quot; + collegatoWireless);&#13;&#10;        System.out.println(&quot;Collegato Cavo: &quot; + collegatoCavo);&#13;&#10;        System.out.println(&quot;Carta inceppata: &quot; + cartaInceppata);&#13;&#10;        System.out.println(&quot;------------------------\n&quot;);&#13;&#10;    }&#13;&#10;    &#13;&#10;}&#13;&#10;" Filename="SmartPrinter.java" Intrnl_Id="1"/>
+    </SrcFileList>
+    <CritList>
+        <CritListEntry Name="org.codecover.model.utils.criteria.LoopCoverage" PluginName="org.codecover"/>
+        <CritListEntry Name="org.codecover.model.utils.criteria.QMOCoverage" PluginName="org.codecover"/>
+        <CritListEntry Name="org.codecover.model.utils.criteria.ConditionCoverage" PluginName="org.codecover"/>
+        <CritListEntry Name="org.codecover.model.utils.criteria.BranchCoverage" PluginName="org.codecover"/>
+        <CritListEntry Name="org.codecover.model.utils.criteria.SynchronizedStatementCoverage" PluginName="org.codecover"/>
+        <CritListEntry Name="org.codecover.model.utils.criteria.StatementCoverage" PluginName="org.codecover"/>
+    </CritList>
+    <BoolOpList/>
+    <HierarchyLvlTypeList>
+        <HierarchyLvlType EnglishName="enumeration" IntrnlName="enum" Intrnl_Id="2"/>
+        <HierarchyLvlType EnglishName="package" IntrnlName="package" Intrnl_Id="3"/>
+        <HierarchyLvlType EnglishName="method" IntrnlName="method" Intrnl_Id="4"/>
+        <HierarchyLvlType EnglishName="class" IntrnlName="class" Intrnl_Id="5"/>
+        <HierarchyLvlType EnglishName="default package" IntrnlName="default package" Intrnl_Id="6"/>
+    </HierarchyLvlTypeList>
+    <MASTRoot>
+        <HierarchyLvl HierarchyLvlId="1518" HierarchyLvlTypeId="6" Intrnl_Id="7" Name="default package">
+            <Header/>
+            <LocList/>
+            <HierarchyLvl HierarchyLvlId="1517" HierarchyLvlTypeId="3" Intrnl_Id="8" Name="printer">
+                <Header/>
+                <LocList/>
+                <HierarchyLvl HierarchyLvlId="1516" HierarchyLvlTypeId="5" Intrnl_Id="9" Name="SmartPrinter">
+                    <Header>
+                        <Loc EndOffset="145" SrcFileId="1" StartOffset="120"/>
+                    </Header>
+                    <LocList>
+                        <Loc EndOffset="155" SrcFileId="1" StartOffset="120"/>
+                        <Loc EndOffset="260" SrcFileId="1" StartOffset="254"/>
+                        <Loc EndOffset="325" SrcFileId="1" StartOffset="319"/>
+                        <Loc EndOffset="6052" SrcFileId="1" StartOffset="372"/>
+                    </LocList>
+                    <HierarchyLvl HierarchyLvlId="1486" HierarchyLvlTypeId="2" Intrnl_Id="10" Name="Stato">
+                        <Header>
+                            <Loc EndOffset="172" SrcFileId="1" StartOffset="155"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="254" SrcFileId="1" StartOffset="155"/>
+                        </LocList>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1487" HierarchyLvlTypeId="2" Intrnl_Id="11" Name="Servizio">
+                        <Header>
+                            <Loc EndOffset="280" SrcFileId="1" StartOffset="260"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="319" SrcFileId="1" StartOffset="260"/>
+                        </LocList>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1488" HierarchyLvlTypeId="2" Intrnl_Id="12" Name="StatoMacchina">
+                        <Header>
+                            <Loc EndOffset="350" SrcFileId="1" StartOffset="325"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="372" SrcFileId="1" StartOffset="325"/>
+                        </LocList>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1489" HierarchyLvlTypeId="4" Intrnl_Id="13" Name="SmartPrinter">
+                        <Header>
+                            <Loc EndOffset="804" SrcFileId="1" StartOffset="783"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="1137" SrcFileId="1" StartOffset="783"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="14">
+                            <LocList>
+                                <Loc EndOffset="844" SrcFileId="1" StartOffset="816"/>
+                                <Loc EndOffset="870" SrcFileId="1" StartOffset="854"/>
+                                <Loc EndOffset="898" SrcFileId="1" StartOffset="880"/>
+                                <Loc EndOffset="925" SrcFileId="1" StartOffset="908"/>
+                                <Loc EndOffset="972" SrcFileId="1" StartOffset="935"/>
+                                <Loc EndOffset="1005" SrcFileId="1" StartOffset="982"/>
+                                <Loc EndOffset="1029" SrcFileId="1" StartOffset="1015"/>
+                                <Loc EndOffset="1065" SrcFileId="1" StartOffset="1039"/>
+                                <Loc EndOffset="1097" SrcFileId="1" StartOffset="1075"/>
+                                <Loc EndOffset="1130" SrcFileId="1" StartOffset="1107"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S1" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="15">
+                                <LocList>
+                                    <Loc EndOffset="844" SrcFileId="1" StartOffset="816"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S2" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="16">
+                                <LocList>
+                                    <Loc EndOffset="870" SrcFileId="1" StartOffset="854"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S3" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="17">
+                                <LocList>
+                                    <Loc EndOffset="898" SrcFileId="1" StartOffset="880"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S4" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="18">
+                                <LocList>
+                                    <Loc EndOffset="925" SrcFileId="1" StartOffset="908"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S5" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="19">
+                                <LocList>
+                                    <Loc EndOffset="972" SrcFileId="1" StartOffset="935"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S6" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="20">
+                                <LocList>
+                                    <Loc EndOffset="1005" SrcFileId="1" StartOffset="982"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S7" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="21">
+                                <LocList>
+                                    <Loc EndOffset="1029" SrcFileId="1" StartOffset="1015"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S8" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="22">
+                                <LocList>
+                                    <Loc EndOffset="1065" SrcFileId="1" StartOffset="1039"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S9" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="23">
+                                <LocList>
+                                    <Loc EndOffset="1097" SrcFileId="1" StartOffset="1075"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S10" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="24">
+                                <LocList>
+                                    <Loc EndOffset="1130" SrcFileId="1" StartOffset="1107"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1490" HierarchyLvlTypeId="4" Intrnl_Id="25" Name="getNomeUtenteLoggato">
+                        <Header>
+                            <Loc EndOffset="1203" SrcFileId="1" StartOffset="1151"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="1262" SrcFileId="1" StartOffset="1151"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="26">
+                            <LocList>
+                                <Loc EndOffset="1255" SrcFileId="1" StartOffset="1212"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S11" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="27">
+                                <LocList>
+                                    <Loc EndOffset="1255" SrcFileId="1" StartOffset="1212"/>
+                                </LocList>
+                                <QMO CovItemId="Q0" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="28">
+                                    <LocList>
+                                        <Loc EndOffset="1228" SrcFileId="1" StartOffset="1219"/>
+                                    </LocList>
+                                    <QMO_E CovItemId="Q0-0" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="29">
+                                        <LocList>
+                                            <Loc EndOffset="1242" SrcFileId="1" StartOffset="1231"/>
+                                        </LocList>
+                                    </QMO_E>
+                                    <QMO_E CovItemId="Q0-1" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="30">
+                                        <LocList>
+                                            <Loc EndOffset="1254" SrcFileId="1" StartOffset="1245"/>
+                                        </LocList>
+                                    </QMO_E>
+                                </QMO>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1491" HierarchyLvlTypeId="4" Intrnl_Id="31" Name="ricercaUtente">
+                        <Header>
+                            <Loc EndOffset="1327" SrcFileId="1" StartOffset="1274"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="1503" SrcFileId="1" StartOffset="1274"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="32">
+                            <LocList>
+                                <Loc EndOffset="1462" SrcFileId="1" StartOffset="1343"/>
+                                <Loc EndOffset="1489" SrcFileId="1" StartOffset="1476"/>
+                            </LocList>
+                            <LoopStmnt CovItemId="S12" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="33" MltplExecId="L1-2" MltplExecPrefix="printer.SmartPrinter.java" NvrExecId="L1-0" NvrExecPrefix="printer.SmartPrinter.java" OnceExecutedId="L1-1" OnceExecutedPrefix="printer.SmartPrinter.java" OptBodyExec="true">
+                                <StmntSeq Intrnl_Id="34">
+                                    <LocList>
+                                        <Loc EndOffset="1454" SrcFileId="1" StartOffset="1387"/>
+                                    </LocList>
+                                    <CondStmnt CovItemId="S13" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="35">
+                                        <Branch CovItemId="B1" CovItemPrefix="printer.SmartPrinter.java" Implct="false" Intrnl_Id="36">
+                                            <Cond/>
+                                            <LocList>
+                                                <Loc EndOffset="1454" SrcFileId="1" StartOffset="1442"/>
+                                            </LocList>
+                                            <StmntSeq Intrnl_Id="37">
+                                                <LocList>
+                                                    <Loc EndOffset="1454" SrcFileId="1" StartOffset="1442"/>
+                                                </LocList>
+                                                <BasicStmnt CovItemId="S14" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="38">
+                                                    <LocList>
+                                                        <Loc EndOffset="1454" SrcFileId="1" StartOffset="1442"/>
+                                                    </LocList>
+                                                </BasicStmnt>
+                                            </StmntSeq>
+                                        </Branch>
+                                        <Branch CovItemId="B2" CovItemPrefix="printer.SmartPrinter.java" Implct="true" Intrnl_Id="39">
+                                            <Cond/>
+                                            <LocList/>
+                                            <StmntSeq Intrnl_Id="40">
+                                                <LocList/>
+                                            </StmntSeq>
+                                        </Branch>
+                                        <Keyword EndOffset="1389" SrcFileId="1" StartOffset="1387"/>
+                                        <LocList>
+                                            <Loc EndOffset="1454" SrcFileId="1" StartOffset="1387"/>
+                                        </LocList>
+                                        <RootTerm CovItemId="C2" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="41">
+                                            <BasicBoolTerm Intrnl_Id="42">
+                                                <LocList>
+                                                    <Loc EndOffset="1432" SrcFileId="1" StartOffset="1390"/>
+                                                </LocList>
+                                            </BasicBoolTerm>
+                                        </RootTerm>
+                                    </CondStmnt>
+                                </StmntSeq>
+                                <Keyword EndOffset="1346" SrcFileId="1" StartOffset="1343"/>
+                                <LocList>
+                                    <Loc EndOffset="1462" SrcFileId="1" StartOffset="1343"/>
+                                </LocList>
+                                <RootTerm CovItemId="C1" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="43">
+                                    <BasicBoolTerm Intrnl_Id="44">
+                                        <LocList>
+                                            <Loc EndOffset="1371" SrcFileId="1" StartOffset="1358"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </LoopStmnt>
+                            <BasicStmnt CovItemId="S15" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="45">
+                                <LocList>
+                                    <Loc EndOffset="1489" SrcFileId="1" StartOffset="1476"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1492" HierarchyLvlTypeId="4" Intrnl_Id="46" Name="getUtentebyNumBadge">
+                        <Header>
+                            <Loc EndOffset="1563" SrcFileId="1" StartOffset="1515"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="1699" SrcFileId="1" StartOffset="1515"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="47">
+                            <LocList>
+                                <Loc EndOffset="1666" SrcFileId="1" StartOffset="1579"/>
+                                <Loc EndOffset="1692" SrcFileId="1" StartOffset="1680"/>
+                            </LocList>
+                            <LoopStmnt CovItemId="S16" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="48" MltplExecId="L2-2" MltplExecPrefix="printer.SmartPrinter.java" NvrExecId="L2-0" NvrExecPrefix="printer.SmartPrinter.java" OnceExecutedId="L2-1" OnceExecutedPrefix="printer.SmartPrinter.java" OptBodyExec="true">
+                                <StmntSeq Intrnl_Id="49">
+                                    <LocList>
+                                        <Loc EndOffset="1658" SrcFileId="1" StartOffset="1610"/>
+                                    </LocList>
+                                    <CondStmnt CovItemId="S17" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="50">
+                                        <Branch CovItemId="B3" CovItemPrefix="printer.SmartPrinter.java" Implct="false" Intrnl_Id="51">
+                                            <Cond/>
+                                            <LocList>
+                                                <Loc EndOffset="1658" SrcFileId="1" StartOffset="1649"/>
+                                            </LocList>
+                                            <StmntSeq Intrnl_Id="52">
+                                                <LocList>
+                                                    <Loc EndOffset="1658" SrcFileId="1" StartOffset="1649"/>
+                                                </LocList>
+                                                <BasicStmnt CovItemId="S18" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="53">
+                                                    <LocList>
+                                                        <Loc EndOffset="1658" SrcFileId="1" StartOffset="1649"/>
+                                                    </LocList>
+                                                </BasicStmnt>
+                                            </StmntSeq>
+                                        </Branch>
+                                        <Branch CovItemId="B4" CovItemPrefix="printer.SmartPrinter.java" Implct="true" Intrnl_Id="54">
+                                            <Cond/>
+                                            <LocList/>
+                                            <StmntSeq Intrnl_Id="55">
+                                                <LocList/>
+                                            </StmntSeq>
+                                        </Branch>
+                                        <Keyword EndOffset="1612" SrcFileId="1" StartOffset="1610"/>
+                                        <LocList>
+                                            <Loc EndOffset="1658" SrcFileId="1" StartOffset="1610"/>
+                                        </LocList>
+                                        <RootTerm CovItemId="C3" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="56">
+                                            <BasicBoolTerm Intrnl_Id="57">
+                                                <LocList>
+                                                    <Loc EndOffset="1639" SrcFileId="1" StartOffset="1613"/>
+                                                </LocList>
+                                            </BasicBoolTerm>
+                                        </RootTerm>
+                                    </CondStmnt>
+                                </StmntSeq>
+                                <Keyword EndOffset="1582" SrcFileId="1" StartOffset="1579"/>
+                                <LocList>
+                                    <Loc EndOffset="1666" SrcFileId="1" StartOffset="1579"/>
+                                </LocList>
+                            </LoopStmnt>
+                            <BasicStmnt CovItemId="S19" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="58">
+                                <LocList>
+                                    <Loc EndOffset="1692" SrcFileId="1" StartOffset="1680"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1493" HierarchyLvlTypeId="4" Intrnl_Id="59" Name="getPrinterState">
+                        <Header>
+                            <Loc EndOffset="1752" SrcFileId="1" StartOffset="1719"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="1782" SrcFileId="1" StartOffset="1719"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="60">
+                            <LocList>
+                                <Loc EndOffset="1778" SrcFileId="1" StartOffset="1758"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S20" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="61">
+                                <LocList>
+                                    <Loc EndOffset="1778" SrcFileId="1" StartOffset="1758"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1494" HierarchyLvlTypeId="4" Intrnl_Id="62" Name="getSelectedService">
+                        <Header>
+                            <Loc EndOffset="1826" SrcFileId="1" StartOffset="1787"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="1859" SrcFileId="1" StartOffset="1787"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="63">
+                            <LocList>
+                                <Loc EndOffset="1855" SrcFileId="1" StartOffset="1832"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S21" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="64">
+                                <LocList>
+                                    <Loc EndOffset="1855" SrcFileId="1" StartOffset="1832"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1495" HierarchyLvlTypeId="4" Intrnl_Id="65" Name="getSpiaGuasto">
+                        <Header>
+                            <Loc EndOffset="1903" SrcFileId="1" StartOffset="1864"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="1931" SrcFileId="1" StartOffset="1864"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="66">
+                            <LocList>
+                                <Loc EndOffset="1927" SrcFileId="1" StartOffset="1909"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S22" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="67">
+                                <LocList>
+                                    <Loc EndOffset="1927" SrcFileId="1" StartOffset="1909"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1496" HierarchyLvlTypeId="4" Intrnl_Id="68" Name="getTonerNero">
+                        <Header>
+                            <Loc EndOffset="1964" SrcFileId="1" StartOffset="1936"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="1991" SrcFileId="1" StartOffset="1936"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="69">
+                            <LocList>
+                                <Loc EndOffset="1987" SrcFileId="1" StartOffset="1970"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S23" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="70">
+                                <LocList>
+                                    <Loc EndOffset="1987" SrcFileId="1" StartOffset="1970"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1497" HierarchyLvlTypeId="4" Intrnl_Id="71" Name="getTonerColore">
+                        <Header>
+                            <Loc EndOffset="2026" SrcFileId="1" StartOffset="1996"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="2055" SrcFileId="1" StartOffset="1996"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="72">
+                            <LocList>
+                                <Loc EndOffset="2051" SrcFileId="1" StartOffset="2032"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S24" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="73">
+                                <LocList>
+                                    <Loc EndOffset="2051" SrcFileId="1" StartOffset="2032"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1498" HierarchyLvlTypeId="4" Intrnl_Id="74" Name="getFogliCarta">
+                        <Header>
+                            <Loc EndOffset="2089" SrcFileId="1" StartOffset="2060"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="2117" SrcFileId="1" StartOffset="2060"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="75">
+                            <LocList>
+                                <Loc EndOffset="2113" SrcFileId="1" StartOffset="2095"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S25" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="76">
+                                <LocList>
+                                    <Loc EndOffset="2113" SrcFileId="1" StartOffset="2095"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1499" HierarchyLvlTypeId="4" Intrnl_Id="77" Name="isCollegatoWireless">
+                        <Header>
+                            <Loc EndOffset="2161" SrcFileId="1" StartOffset="2122"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="2196" SrcFileId="1" StartOffset="2122"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="78">
+                            <LocList>
+                                <Loc EndOffset="2192" SrcFileId="1" StartOffset="2167"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S26" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="79">
+                                <LocList>
+                                    <Loc EndOffset="2192" SrcFileId="1" StartOffset="2167"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1500" HierarchyLvlTypeId="4" Intrnl_Id="80" Name="isCollegatoCavo">
+                        <Header>
+                            <Loc EndOffset="2236" SrcFileId="1" StartOffset="2201"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="2267" SrcFileId="1" StartOffset="2201"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="81">
+                            <LocList>
+                                <Loc EndOffset="2263" SrcFileId="1" StartOffset="2242"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S27" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="82">
+                                <LocList>
+                                    <Loc EndOffset="2263" SrcFileId="1" StartOffset="2242"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1501" HierarchyLvlTypeId="4" Intrnl_Id="83" Name="isCartaInceppata">
+                        <Header>
+                            <Loc EndOffset="2308" SrcFileId="1" StartOffset="2272"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="2340" SrcFileId="1" StartOffset="2272"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="84">
+                            <LocList>
+                                <Loc EndOffset="2336" SrcFileId="1" StartOffset="2314"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S28" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="85">
+                                <LocList>
+                                    <Loc EndOffset="2336" SrcFileId="1" StartOffset="2314"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1502" HierarchyLvlTypeId="4" Intrnl_Id="86" Name="getUtenti">
+                        <Header>
+                            <Loc EndOffset="2375" SrcFileId="1" StartOffset="2345"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="2399" SrcFileId="1" StartOffset="2345"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="87">
+                            <LocList>
+                                <Loc EndOffset="2395" SrcFileId="1" StartOffset="2381"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S29" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="88">
+                                <LocList>
+                                    <Loc EndOffset="2395" SrcFileId="1" StartOffset="2381"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1503" HierarchyLvlTypeId="4" Intrnl_Id="89" Name="getUtenteCorrente">
+                        <Header>
+                            <Loc EndOffset="2440" SrcFileId="1" StartOffset="2404"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="2472" SrcFileId="1" StartOffset="2404"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="90">
+                            <LocList>
+                                <Loc EndOffset="2468" SrcFileId="1" StartOffset="2446"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S30" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="91">
+                                <LocList>
+                                    <Loc EndOffset="2468" SrcFileId="1" StartOffset="2446"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1504" HierarchyLvlTypeId="4" Intrnl_Id="92" Name="aggiungiUtente">
+                        <Header>
+                            <Loc EndOffset="2519" SrcFileId="1" StartOffset="2477"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="2870" SrcFileId="1" StartOffset="2477"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="93">
+                            <LocList>
+                                <Loc EndOffset="2829" SrcFileId="1" StartOffset="2531"/>
+                                <Loc EndOffset="2853" SrcFileId="1" StartOffset="2840"/>
+                            </LocList>
+                            <CondStmnt CovItemId="S31" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="94">
+                                <Branch CovItemId="B5" CovItemPrefix="printer.SmartPrinter.java" Implct="false" Intrnl_Id="95">
+                                    <Cond/>
+                                    <LocList>
+                                        <Loc EndOffset="2742" SrcFileId="1" StartOffset="2561"/>
+                                    </LocList>
+                                    <StmntSeq Intrnl_Id="96">
+                                        <LocList>
+                                            <Loc EndOffset="2595" SrcFileId="1" StartOffset="2573"/>
+                                            <Loc EndOffset="2618" SrcFileId="1" StartOffset="2606"/>
+                                            <Loc EndOffset="2708" SrcFileId="1" StartOffset="2629"/>
+                                            <Loc EndOffset="2731" SrcFileId="1" StartOffset="2719"/>
+                                        </LocList>
+                                        <BasicStmnt CovItemId="S32" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="97">
+                                            <LocList>
+                                                <Loc EndOffset="2595" SrcFileId="1" StartOffset="2573"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                        <BasicStmnt CovItemId="S33" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="98">
+                                            <LocList>
+                                                <Loc EndOffset="2618" SrcFileId="1" StartOffset="2606"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                        <BasicStmnt CovItemId="S34" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="99">
+                                            <LocList>
+                                                <Loc EndOffset="2708" SrcFileId="1" StartOffset="2629"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                        <BasicStmnt CovItemId="S35" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="100">
+                                            <LocList>
+                                                <Loc EndOffset="2731" SrcFileId="1" StartOffset="2719"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                    </StmntSeq>
+                                </Branch>
+                                <Branch CovItemId="B6" CovItemPrefix="printer.SmartPrinter.java" Implct="false" Intrnl_Id="101">
+                                    <Cond>
+                                        <Loc EndOffset="2756" SrcFileId="1" StartOffset="2752"/>
+                                    </Cond>
+                                    <LocList>
+                                        <Loc EndOffset="2829" SrcFileId="1" StartOffset="2767"/>
+                                    </LocList>
+                                    <StmntSeq Intrnl_Id="102">
+                                        <LocList>
+                                            <Loc EndOffset="2829" SrcFileId="1" StartOffset="2767"/>
+                                        </LocList>
+                                        <BasicStmnt CovItemId="S36" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="103">
+                                            <LocList>
+                                                <Loc EndOffset="2829" SrcFileId="1" StartOffset="2767"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                    </StmntSeq>
+                                </Branch>
+                                <Keyword EndOffset="2533" SrcFileId="1" StartOffset="2531"/>
+                                <LocList>
+                                    <Loc EndOffset="2829" SrcFileId="1" StartOffset="2531"/>
+                                </LocList>
+                                <RootTerm CovItemId="C4" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="104">
+                                    <BasicBoolTerm Intrnl_Id="105">
+                                        <LocList>
+                                            <Loc EndOffset="2559" SrcFileId="1" StartOffset="2534"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </CondStmnt>
+                            <BasicStmnt CovItemId="S37" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="106">
+                                <LocList>
+                                    <Loc EndOffset="2853" SrcFileId="1" StartOffset="2840"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1505" HierarchyLvlTypeId="4" Intrnl_Id="107" Name="guastoStampante">
+                        <Header>
+                            <Loc EndOffset="2914" SrcFileId="1" StartOffset="2882"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="3003" SrcFileId="1" StartOffset="2882"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="108">
+                            <LocList>
+                                <Loc EndOffset="2996" SrcFileId="1" StartOffset="2923"/>
+                            </LocList>
+                            <CondStmnt CovItemId="S38" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="109">
+                                <Branch CovItemId="B7" CovItemPrefix="printer.SmartPrinter.java" Implct="false" Intrnl_Id="110">
+                                    <Cond/>
+                                    <LocList>
+                                        <Loc EndOffset="2996" SrcFileId="1" StartOffset="2962"/>
+                                    </LocList>
+                                    <StmntSeq Intrnl_Id="111">
+                                        <LocList>
+                                            <Loc EndOffset="2996" SrcFileId="1" StartOffset="2962"/>
+                                        </LocList>
+                                        <BasicStmnt CovItemId="S39" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="112">
+                                            <LocList>
+                                                <Loc EndOffset="2996" SrcFileId="1" StartOffset="2962"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                    </StmntSeq>
+                                </Branch>
+                                <Branch CovItemId="B8" CovItemPrefix="printer.SmartPrinter.java" Implct="true" Intrnl_Id="113">
+                                    <Cond/>
+                                    <LocList/>
+                                    <StmntSeq Intrnl_Id="114">
+                                        <LocList/>
+                                    </StmntSeq>
+                                </Branch>
+                                <Keyword EndOffset="2925" SrcFileId="1" StartOffset="2923"/>
+                                <LocList>
+                                    <Loc EndOffset="2996" SrcFileId="1" StartOffset="2923"/>
+                                </LocList>
+                                <RootTerm CovItemId="C5" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="115">
+                                    <BasicBoolTerm Intrnl_Id="116">
+                                        <LocList>
+                                            <Loc EndOffset="2953" SrcFileId="1" StartOffset="2926"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </CondStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1506" HierarchyLvlTypeId="4" Intrnl_Id="117" Name="riparazioneStampante">
+                        <Header>
+                            <Loc EndOffset="3052" SrcFileId="1" StartOffset="3015"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="3151" SrcFileId="1" StartOffset="3015"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="118">
+                            <LocList>
+                                <Loc EndOffset="3144" SrcFileId="1" StartOffset="3061"/>
+                            </LocList>
+                            <CondStmnt CovItemId="S40" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="119">
+                                <Branch CovItemId="B9" CovItemPrefix="printer.SmartPrinter.java" Implct="false" Intrnl_Id="120">
+                                    <Cond/>
+                                    <LocList>
+                                        <Loc EndOffset="3144" SrcFileId="1" StartOffset="3107"/>
+                                    </LocList>
+                                    <StmntSeq Intrnl_Id="121">
+                                        <LocList>
+                                            <Loc EndOffset="3144" SrcFileId="1" StartOffset="3107"/>
+                                        </LocList>
+                                        <BasicStmnt CovItemId="S41" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="122">
+                                            <LocList>
+                                                <Loc EndOffset="3144" SrcFileId="1" StartOffset="3107"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                    </StmntSeq>
+                                </Branch>
+                                <Branch CovItemId="B10" CovItemPrefix="printer.SmartPrinter.java" Implct="true" Intrnl_Id="123">
+                                    <Cond/>
+                                    <LocList/>
+                                    <StmntSeq Intrnl_Id="124">
+                                        <LocList/>
+                                    </StmntSeq>
+                                </Branch>
+                                <Keyword EndOffset="3063" SrcFileId="1" StartOffset="3061"/>
+                                <LocList>
+                                    <Loc EndOffset="3144" SrcFileId="1" StartOffset="3061"/>
+                                </LocList>
+                                <RootTerm CovItemId="C6" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="125">
+                                    <BasicBoolTerm Intrnl_Id="126">
+                                        <LocList>
+                                            <Loc EndOffset="3098" SrcFileId="1" StartOffset="3064"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </CondStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1507" HierarchyLvlTypeId="4" Intrnl_Id="127" Name="accendiStampante">
+                        <Header>
+                            <Loc EndOffset="3195" SrcFileId="1" StartOffset="3159"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="3440" SrcFileId="1" StartOffset="3159"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="128">
+                            <LocList>
+                                <Loc EndOffset="3351" SrcFileId="1" StartOffset="3204"/>
+                                <Loc EndOffset="3406" SrcFileId="1" StartOffset="3358"/>
+                                <Loc EndOffset="3426" SrcFileId="1" StartOffset="3413"/>
+                            </LocList>
+                            <CondStmnt CovItemId="S42" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="129">
+                                <Branch CovItemId="B11" CovItemPrefix="printer.SmartPrinter.java" Implct="false" Intrnl_Id="130">
+                                    <Cond/>
+                                    <LocList>
+                                        <Loc EndOffset="3351" SrcFileId="1" StartOffset="3237"/>
+                                    </LocList>
+                                    <StmntSeq Intrnl_Id="131">
+                                        <LocList>
+                                            <Loc EndOffset="3273" SrcFileId="1" StartOffset="3246"/>
+                                            <Loc EndOffset="3323" SrcFileId="1" StartOffset="3281"/>
+                                            <Loc EndOffset="3343" SrcFileId="1" StartOffset="3331"/>
+                                        </LocList>
+                                        <BasicStmnt CovItemId="S43" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="132">
+                                            <LocList>
+                                                <Loc EndOffset="3273" SrcFileId="1" StartOffset="3246"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                        <BasicStmnt CovItemId="S44" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="133">
+                                            <LocList>
+                                                <Loc EndOffset="3323" SrcFileId="1" StartOffset="3281"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                        <BasicStmnt CovItemId="S45" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="134">
+                                            <LocList>
+                                                <Loc EndOffset="3343" SrcFileId="1" StartOffset="3331"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                    </StmntSeq>
+                                </Branch>
+                                <Branch CovItemId="B12" CovItemPrefix="printer.SmartPrinter.java" Implct="true" Intrnl_Id="135">
+                                    <Cond/>
+                                    <LocList/>
+                                    <StmntSeq Intrnl_Id="136">
+                                        <LocList/>
+                                    </StmntSeq>
+                                </Branch>
+                                <Keyword EndOffset="3206" SrcFileId="1" StartOffset="3204"/>
+                                <LocList>
+                                    <Loc EndOffset="3351" SrcFileId="1" StartOffset="3204"/>
+                                </LocList>
+                                <RootTerm CovItemId="C7" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="137">
+                                    <BasicBoolTerm Intrnl_Id="138">
+                                        <LocList>
+                                            <Loc EndOffset="3235" SrcFileId="1" StartOffset="3207"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </CondStmnt>
+                            <BasicStmnt CovItemId="S46" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="139">
+                                <LocList>
+                                    <Loc EndOffset="3406" SrcFileId="1" StartOffset="3358"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S47" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="140">
+                                <LocList>
+                                    <Loc EndOffset="3426" SrcFileId="1" StartOffset="3413"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1508" HierarchyLvlTypeId="4" Intrnl_Id="141" Name="avvioStampante">
+                        <Header>
+                            <Loc EndOffset="3482" SrcFileId="1" StartOffset="3448"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="3918" SrcFileId="1" StartOffset="3448"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="142">
+                            <LocList>
+                                <Loc EndOffset="3840" SrcFileId="1" StartOffset="3491"/>
+                                <Loc EndOffset="3891" SrcFileId="1" StartOffset="3847"/>
+                                <Loc EndOffset="3911" SrcFileId="1" StartOffset="3898"/>
+                            </LocList>
+                            <CondStmnt CovItemId="S48" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="143">
+                                <Branch CovItemId="B13" CovItemPrefix="printer.SmartPrinter.java" Implct="false" Intrnl_Id="144">
+                                    <Cond/>
+                                    <LocList>
+                                        <Loc EndOffset="3840" SrcFileId="1" StartOffset="3523"/>
+                                    </LocList>
+                                    <StmntSeq Intrnl_Id="145">
+                                        <LocList>
+                                            <Loc EndOffset="3832" SrcFileId="1" StartOffset="3532"/>
+                                        </LocList>
+                                        <CondStmnt CovItemId="S49" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="146">
+                                            <Branch CovItemId="B15" CovItemPrefix="printer.SmartPrinter.java" Implct="false" Intrnl_Id="147">
+                                                <Cond/>
+                                                <LocList>
+                                                    <Loc EndOffset="3697" SrcFileId="1" StartOffset="3571"/>
+                                                </LocList>
+                                                <StmntSeq Intrnl_Id="148">
+                                                    <LocList>
+                                                        <Loc EndOffset="3615" SrcFileId="1" StartOffset="3581"/>
+                                                        <Loc EndOffset="3663" SrcFileId="1" StartOffset="3624"/>
+                                                        <Loc EndOffset="3685" SrcFileId="1" StartOffset="3672"/>
+                                                    </LocList>
+                                                    <BasicStmnt CovItemId="S50" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="149">
+                                                        <LocList>
+                                                            <Loc EndOffset="3615" SrcFileId="1" StartOffset="3581"/>
+                                                        </LocList>
+                                                    </BasicStmnt>
+                                                    <BasicStmnt CovItemId="S51" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="150">
+                                                        <LocList>
+                                                            <Loc EndOffset="3663" SrcFileId="1" StartOffset="3624"/>
+                                                        </LocList>
+                                                    </BasicStmnt>
+                                                    <BasicStmnt CovItemId="S52" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="151">
+                                                        <LocList>
+                                                            <Loc EndOffset="3685" SrcFileId="1" StartOffset="3672"/>
+                                                        </LocList>
+                                                    </BasicStmnt>
+                                                </StmntSeq>
+                                            </Branch>
+                                            <Branch CovItemId="B16" CovItemPrefix="printer.SmartPrinter.java" Implct="false" Intrnl_Id="152">
+                                                <Cond>
+                                                    <Loc EndOffset="3712" SrcFileId="1" StartOffset="3708"/>
+                                                </Cond>
+                                                <LocList>
+                                                    <Loc EndOffset="3832" SrcFileId="1" StartOffset="3713"/>
+                                                </LocList>
+                                                <StmntSeq Intrnl_Id="153">
+                                                    <LocList>
+                                                        <Loc EndOffset="3756" SrcFileId="1" StartOffset="3723"/>
+                                                        <Loc EndOffset="3802" SrcFileId="1" StartOffset="3765"/>
+                                                        <Loc EndOffset="3823" SrcFileId="1" StartOffset="3811"/>
+                                                    </LocList>
+                                                    <BasicStmnt CovItemId="S53" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="154">
+                                                        <LocList>
+                                                            <Loc EndOffset="3756" SrcFileId="1" StartOffset="3723"/>
+                                                        </LocList>
+                                                    </BasicStmnt>
+                                                    <BasicStmnt CovItemId="S54" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="155">
+                                                        <LocList>
+                                                            <Loc EndOffset="3802" SrcFileId="1" StartOffset="3765"/>
+                                                        </LocList>
+                                                    </BasicStmnt>
+                                                    <BasicStmnt CovItemId="S55" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="156">
+                                                        <LocList>
+                                                            <Loc EndOffset="3823" SrcFileId="1" StartOffset="3811"/>
+                                                        </LocList>
+                                                    </BasicStmnt>
+                                                </StmntSeq>
+                                            </Branch>
+                                            <Keyword EndOffset="3534" SrcFileId="1" StartOffset="3532"/>
+                                            <LocList>
+                                                <Loc EndOffset="3832" SrcFileId="1" StartOffset="3532"/>
+                                            </LocList>
+                                            <RootTerm CovItemId="C9" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="157">
+                                                <BasicBoolTerm Intrnl_Id="158">
+                                                    <LocList>
+                                                        <Loc EndOffset="3569" SrcFileId="1" StartOffset="3535"/>
+                                                    </LocList>
+                                                </BasicBoolTerm>
+                                            </RootTerm>
+                                        </CondStmnt>
+                                    </StmntSeq>
+                                </Branch>
+                                <Branch CovItemId="B14" CovItemPrefix="printer.SmartPrinter.java" Implct="true" Intrnl_Id="159">
+                                    <Cond/>
+                                    <LocList/>
+                                    <StmntSeq Intrnl_Id="160">
+                                        <LocList/>
+                                    </StmntSeq>
+                                </Branch>
+                                <Keyword EndOffset="3493" SrcFileId="1" StartOffset="3491"/>
+                                <LocList>
+                                    <Loc EndOffset="3840" SrcFileId="1" StartOffset="3491"/>
+                                </LocList>
+                                <RootTerm CovItemId="C8" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="161">
+                                    <BasicBoolTerm Intrnl_Id="162">
+                                        <LocList>
+                                            <Loc EndOffset="3521" SrcFileId="1" StartOffset="3494"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </CondStmnt>
+                            <BasicStmnt CovItemId="S56" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="163">
+                                <LocList>
+                                    <Loc EndOffset="3891" SrcFileId="1" StartOffset="3847"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S57" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="164">
+                                <LocList>
+                                    <Loc EndOffset="3911" SrcFileId="1" StartOffset="3898"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1509" HierarchyLvlTypeId="4" Intrnl_Id="165" Name="gestioneGuasto">
+                        <Header>
+                            <Loc EndOffset="3964" SrcFileId="1" StartOffset="3930"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="4383" SrcFileId="1" StartOffset="3930"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="166">
+                            <LocList>
+                                <Loc EndOffset="4305" SrcFileId="1" StartOffset="3973"/>
+                                <Loc EndOffset="4356" SrcFileId="1" StartOffset="4312"/>
+                                <Loc EndOffset="4376" SrcFileId="1" StartOffset="4363"/>
+                            </LocList>
+                            <CondStmnt CovItemId="S58" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="167">
+                                <Branch CovItemId="B17" CovItemPrefix="printer.SmartPrinter.java" Implct="false" Intrnl_Id="168">
+                                    <Cond/>
+                                    <LocList>
+                                        <Loc EndOffset="4305" SrcFileId="1" StartOffset="4012"/>
+                                    </LocList>
+                                    <StmntSeq Intrnl_Id="169">
+                                        <LocList>
+                                            <Loc EndOffset="4297" SrcFileId="1" StartOffset="4021"/>
+                                        </LocList>
+                                        <CondStmnt CovItemId="S59" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="170">
+                                            <Branch CovItemId="B19" CovItemPrefix="printer.SmartPrinter.java" Implct="false" Intrnl_Id="171">
+                                                <Cond/>
+                                                <LocList>
+                                                    <Loc EndOffset="4185" SrcFileId="1" StartOffset="4063"/>
+                                                </LocList>
+                                                <StmntSeq Intrnl_Id="172">
+                                                    <LocList>
+                                                        <Loc EndOffset="4106" SrcFileId="1" StartOffset="4073"/>
+                                                        <Loc EndOffset="4152" SrcFileId="1" StartOffset="4115"/>
+                                                        <Loc EndOffset="4173" SrcFileId="1" StartOffset="4161"/>
+                                                    </LocList>
+                                                    <BasicStmnt CovItemId="S60" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="173">
+                                                        <LocList>
+                                                            <Loc EndOffset="4106" SrcFileId="1" StartOffset="4073"/>
+                                                        </LocList>
+                                                    </BasicStmnt>
+                                                    <BasicStmnt CovItemId="S61" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="174">
+                                                        <LocList>
+                                                            <Loc EndOffset="4152" SrcFileId="1" StartOffset="4115"/>
+                                                        </LocList>
+                                                    </BasicStmnt>
+                                                    <BasicStmnt CovItemId="S62" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="175">
+                                                        <LocList>
+                                                            <Loc EndOffset="4173" SrcFileId="1" StartOffset="4161"/>
+                                                        </LocList>
+                                                    </BasicStmnt>
+                                                </StmntSeq>
+                                            </Branch>
+                                            <Branch CovItemId="B20" CovItemPrefix="printer.SmartPrinter.java" Implct="false" Intrnl_Id="176">
+                                                <Cond>
+                                                    <Loc EndOffset="4200" SrcFileId="1" StartOffset="4196"/>
+                                                </Cond>
+                                                <LocList>
+                                                    <Loc EndOffset="4297" SrcFileId="1" StartOffset="4201"/>
+                                                </LocList>
+                                                <StmntSeq Intrnl_Id="177">
+                                                    <LocList>
+                                                        <Loc EndOffset="4260" SrcFileId="1" StartOffset="4214"/>
+                                                        <Loc EndOffset="4285" SrcFileId="1" StartOffset="4272"/>
+                                                    </LocList>
+                                                    <BasicStmnt CovItemId="S63" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="178">
+                                                        <LocList>
+                                                            <Loc EndOffset="4260" SrcFileId="1" StartOffset="4214"/>
+                                                        </LocList>
+                                                    </BasicStmnt>
+                                                    <BasicStmnt CovItemId="S64" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="179">
+                                                        <LocList>
+                                                            <Loc EndOffset="4285" SrcFileId="1" StartOffset="4272"/>
+                                                        </LocList>
+                                                    </BasicStmnt>
+                                                </StmntSeq>
+                                            </Branch>
+                                            <Keyword EndOffset="4023" SrcFileId="1" StartOffset="4021"/>
+                                            <LocList>
+                                                <Loc EndOffset="4297" SrcFileId="1" StartOffset="4021"/>
+                                            </LocList>
+                                            <RootTerm CovItemId="C11" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="180">
+                                                <BasicBoolTerm Intrnl_Id="181">
+                                                    <LocList>
+                                                        <Loc EndOffset="4061" SrcFileId="1" StartOffset="4024"/>
+                                                    </LocList>
+                                                </BasicBoolTerm>
+                                            </RootTerm>
+                                        </CondStmnt>
+                                    </StmntSeq>
+                                </Branch>
+                                <Branch CovItemId="B18" CovItemPrefix="printer.SmartPrinter.java" Implct="true" Intrnl_Id="182">
+                                    <Cond/>
+                                    <LocList/>
+                                    <StmntSeq Intrnl_Id="183">
+                                        <LocList/>
+                                    </StmntSeq>
+                                </Branch>
+                                <Keyword EndOffset="3975" SrcFileId="1" StartOffset="3973"/>
+                                <LocList>
+                                    <Loc EndOffset="4305" SrcFileId="1" StartOffset="3973"/>
+                                </LocList>
+                                <RootTerm CovItemId="C10" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="184">
+                                    <BasicBoolTerm Intrnl_Id="185">
+                                        <LocList>
+                                            <Loc EndOffset="4010" SrcFileId="1" StartOffset="3976"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </CondStmnt>
+                            <BasicStmnt CovItemId="S65" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="186">
+                                <LocList>
+                                    <Loc EndOffset="4356" SrcFileId="1" StartOffset="4312"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S66" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="187">
+                                <LocList>
+                                    <Loc EndOffset="4376" SrcFileId="1" StartOffset="4363"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1510" HierarchyLvlTypeId="4" Intrnl_Id="188" Name="identificazioneUtente">
+                        <Header>
+                            <Loc EndOffset="4448" SrcFileId="1" StartOffset="4395"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="4952" SrcFileId="1" StartOffset="4395"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="189">
+                            <LocList>
+                                <Loc EndOffset="4874" SrcFileId="1" StartOffset="4457"/>
+                                <Loc EndOffset="4925" SrcFileId="1" StartOffset="4881"/>
+                                <Loc EndOffset="4945" SrcFileId="1" StartOffset="4932"/>
+                            </LocList>
+                            <CondStmnt CovItemId="S67" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="190">
+                                <Branch CovItemId="B21" CovItemPrefix="printer.SmartPrinter.java" Implct="false" Intrnl_Id="191">
+                                    <Cond/>
+                                    <LocList>
+                                        <Loc EndOffset="4874" SrcFileId="1" StartOffset="4495"/>
+                                    </LocList>
+                                    <StmntSeq Intrnl_Id="192">
+                                        <LocList>
+                                            <Loc EndOffset="4866" SrcFileId="1" StartOffset="4505"/>
+                                        </LocList>
+                                        <CondStmnt CovItemId="S68" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="193">
+                                            <Branch CovItemId="B23" CovItemPrefix="printer.SmartPrinter.java" Implct="false" Intrnl_Id="194">
+                                                <Cond/>
+                                                <LocList>
+                                                    <Loc EndOffset="4755" SrcFileId="1" StartOffset="4533"/>
+                                                </LocList>
+                                                <StmntSeq Intrnl_Id="195">
+                                                    <LocList>
+                                                        <Loc EndOffset="4590" SrcFileId="1" StartOffset="4543"/>
+                                                        <Loc EndOffset="4633" SrcFileId="1" StartOffset="4599"/>
+                                                        <Loc EndOffset="4722" SrcFileId="1" StartOffset="4642"/>
+                                                        <Loc EndOffset="4743" SrcFileId="1" StartOffset="4731"/>
+                                                    </LocList>
+                                                    <BasicStmnt CovItemId="S69" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="196">
+                                                        <LocList>
+                                                            <Loc EndOffset="4590" SrcFileId="1" StartOffset="4543"/>
+                                                        </LocList>
+                                                    </BasicStmnt>
+                                                    <BasicStmnt CovItemId="S70" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="197">
+                                                        <LocList>
+                                                            <Loc EndOffset="4633" SrcFileId="1" StartOffset="4599"/>
+                                                        </LocList>
+                                                    </BasicStmnt>
+                                                    <BasicStmnt CovItemId="S71" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="198">
+                                                        <LocList>
+                                                            <Loc EndOffset="4722" SrcFileId="1" StartOffset="4642"/>
+                                                        </LocList>
+                                                    </BasicStmnt>
+                                                    <BasicStmnt CovItemId="S72" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="199">
+                                                        <LocList>
+                                                            <Loc EndOffset="4743" SrcFileId="1" StartOffset="4731"/>
+                                                        </LocList>
+                                                    </BasicStmnt>
+                                                </StmntSeq>
+                                            </Branch>
+                                            <Branch CovItemId="B24" CovItemPrefix="printer.SmartPrinter.java" Implct="false" Intrnl_Id="200">
+                                                <Cond>
+                                                    <Loc EndOffset="4770" SrcFileId="1" StartOffset="4766"/>
+                                                </Cond>
+                                                <LocList>
+                                                    <Loc EndOffset="4866" SrcFileId="1" StartOffset="4771"/>
+                                                </LocList>
+                                                <StmntSeq Intrnl_Id="201">
+                                                    <LocList>
+                                                        <Loc EndOffset="4829" SrcFileId="1" StartOffset="4784"/>
+                                                        <Loc EndOffset="4854" SrcFileId="1" StartOffset="4841"/>
+                                                    </LocList>
+                                                    <BasicStmnt CovItemId="S73" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="202">
+                                                        <LocList>
+                                                            <Loc EndOffset="4829" SrcFileId="1" StartOffset="4784"/>
+                                                        </LocList>
+                                                    </BasicStmnt>
+                                                    <BasicStmnt CovItemId="S74" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="203">
+                                                        <LocList>
+                                                            <Loc EndOffset="4854" SrcFileId="1" StartOffset="4841"/>
+                                                        </LocList>
+                                                    </BasicStmnt>
+                                                </StmntSeq>
+                                            </Branch>
+                                            <Keyword EndOffset="4507" SrcFileId="1" StartOffset="4505"/>
+                                            <LocList>
+                                                <Loc EndOffset="4866" SrcFileId="1" StartOffset="4505"/>
+                                            </LocList>
+                                            <RootTerm CovItemId="C13" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="204">
+                                                <BasicBoolTerm Intrnl_Id="205">
+                                                    <LocList>
+                                                        <Loc EndOffset="4531" SrcFileId="1" StartOffset="4508"/>
+                                                    </LocList>
+                                                </BasicBoolTerm>
+                                            </RootTerm>
+                                        </CondStmnt>
+                                    </StmntSeq>
+                                </Branch>
+                                <Branch CovItemId="B22" CovItemPrefix="printer.SmartPrinter.java" Implct="true" Intrnl_Id="206">
+                                    <Cond/>
+                                    <LocList/>
+                                    <StmntSeq Intrnl_Id="207">
+                                        <LocList/>
+                                    </StmntSeq>
+                                </Branch>
+                                <Keyword EndOffset="4459" SrcFileId="1" StartOffset="4457"/>
+                                <LocList>
+                                    <Loc EndOffset="4874" SrcFileId="1" StartOffset="4457"/>
+                                </LocList>
+                                <RootTerm CovItemId="C12" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="208">
+                                    <BasicBoolTerm Intrnl_Id="209">
+                                        <LocList>
+                                            <Loc EndOffset="4493" SrcFileId="1" StartOffset="4460"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </CondStmnt>
+                            <BasicStmnt CovItemId="S75" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="210">
+                                <LocList>
+                                    <Loc EndOffset="4925" SrcFileId="1" StartOffset="4881"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S76" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="211">
+                                <LocList>
+                                    <Loc EndOffset="4945" SrcFileId="1" StartOffset="4932"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1511" HierarchyLvlTypeId="4" Intrnl_Id="212" Name="inserimentoPin">
+                        <Header>
+                            <Loc EndOffset="4994" SrcFileId="1" StartOffset="4960"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="5036" SrcFileId="1" StartOffset="4960"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="213">
+                            <LocList>
+                                <Loc EndOffset="5029" SrcFileId="1" StartOffset="5016"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S77" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="214">
+                                <LocList>
+                                    <Loc EndOffset="5029" SrcFileId="1" StartOffset="5016"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1512" HierarchyLvlTypeId="4" Intrnl_Id="215" Name="sceltaServizio">
+                        <Header>
+                            <Loc EndOffset="5082" SrcFileId="1" StartOffset="5048"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="5131" SrcFileId="1" StartOffset="5048"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="216">
+                            <LocList>
+                                <Loc EndOffset="5117" SrcFileId="1" StartOffset="5104"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S78" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="217">
+                                <LocList>
+                                    <Loc EndOffset="5117" SrcFileId="1" StartOffset="5104"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1513" HierarchyLvlTypeId="4" Intrnl_Id="218" Name="stampanteInUso">
+                        <Header>
+                            <Loc EndOffset="5177" SrcFileId="1" StartOffset="5143"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="5219" SrcFileId="1" StartOffset="5143"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="219">
+                            <LocList>
+                                <Loc EndOffset="5212" SrcFileId="1" StartOffset="5199"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S79" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="220">
+                                <LocList>
+                                    <Loc EndOffset="5212" SrcFileId="1" StartOffset="5199"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1514" HierarchyLvlTypeId="4" Intrnl_Id="221" Name="gestioneErrore">
+                        <Header>
+                            <Loc EndOffset="5265" SrcFileId="1" StartOffset="5231"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="5307" SrcFileId="1" StartOffset="5231"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="222">
+                            <LocList>
+                                <Loc EndOffset="5300" SrcFileId="1" StartOffset="5287"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S80" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="223">
+                                <LocList>
+                                    <Loc EndOffset="5300" SrcFileId="1" StartOffset="5287"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="1515" HierarchyLvlTypeId="4" Intrnl_Id="224" Name="statoCorrente">
+                        <Header>
+                            <Loc EndOffset="5345" SrcFileId="1" StartOffset="5315"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="6043" SrcFileId="1" StartOffset="5315"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="225">
+                            <LocList>
+                                <Loc EndOffset="5404" SrcFileId="1" StartOffset="5357"/>
+                                <Loc EndOffset="5459" SrcFileId="1" StartOffset="5414"/>
+                                <Loc EndOffset="5513" SrcFileId="1" StartOffset="5469"/>
+                                <Loc EndOffset="5601" SrcFileId="1" StartOffset="5523"/>
+                                <Loc EndOffset="5658" SrcFileId="1" StartOffset="5611"/>
+                                <Loc EndOffset="5719" SrcFileId="1" StartOffset="5668"/>
+                                <Loc EndOffset="5772" SrcFileId="1" StartOffset="5729"/>
+                                <Loc EndOffset="5845" SrcFileId="1" StartOffset="5782"/>
+                                <Loc EndOffset="5910" SrcFileId="1" StartOffset="5855"/>
+                                <Loc EndOffset="5977" SrcFileId="1" StartOffset="5920"/>
+                                <Loc EndOffset="6036" SrcFileId="1" StartOffset="5987"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S81" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="226">
+                                <LocList>
+                                    <Loc EndOffset="5404" SrcFileId="1" StartOffset="5357"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S82" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="227">
+                                <LocList>
+                                    <Loc EndOffset="5459" SrcFileId="1" StartOffset="5414"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S83" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="228">
+                                <LocList>
+                                    <Loc EndOffset="5513" SrcFileId="1" StartOffset="5469"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S84" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="229">
+                                <LocList>
+                                    <Loc EndOffset="5601" SrcFileId="1" StartOffset="5523"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S85" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="230">
+                                <LocList>
+                                    <Loc EndOffset="5658" SrcFileId="1" StartOffset="5611"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S86" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="231">
+                                <LocList>
+                                    <Loc EndOffset="5719" SrcFileId="1" StartOffset="5668"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S87" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="232">
+                                <LocList>
+                                    <Loc EndOffset="5772" SrcFileId="1" StartOffset="5729"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S88" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="233">
+                                <LocList>
+                                    <Loc EndOffset="5845" SrcFileId="1" StartOffset="5782"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S89" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="234">
+                                <LocList>
+                                    <Loc EndOffset="5910" SrcFileId="1" StartOffset="5855"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S90" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="235">
+                                <LocList>
+                                    <Loc EndOffset="5977" SrcFileId="1" StartOffset="5920"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S91" CovItemPrefix="printer.SmartPrinter.java" Intrnl_Id="236">
+                                <LocList>
+                                    <Loc EndOffset="6036" SrcFileId="1" StartOffset="5987"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                </HierarchyLvl>
+            </HierarchyLvl>
+        </HierarchyLvl>
+    </MASTRoot>
+    <TestSession Comment="" Date="1751884770817" Name="7 lug 2025, 12:39:30">
+        <TestCase Comment="" Date="1751884770696" Name="printer.SmartPrinterTest:gestioneGuastoTest">
+            <CovList>
+                <CovPrefix CovItemPrefix="printer.SmartPrinter.java">
+                    <Cov CovItemId="B11" Value="1"/>
+                    <Cov CovItemId="B13" Value="1"/>
+                    <Cov CovItemId="B15" Value="1"/>
+                    <Cov CovItemId="B17" Value="2"/>
+                    <Cov CovItemId="B18" Value="1"/>
+                    <Cov CovItemId="B19" Value="1"/>
+                    <Cov CovItemId="B20" Value="1"/>
+                    <Cov CovItemId="B5" Value="2"/>
+                    <Cov CovItemId="B7" Value="1"/>
+                    <Cov CovItemId="B9" Value="1"/>
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S10" Value="1"/>
+                    <Cov CovItemId="S2" Value="1"/>
+                    <Cov CovItemId="S20" Value="2"/>
+                    <Cov CovItemId="S22" Value="1"/>
+                    <Cov CovItemId="S3" Value="1"/>
+                    <Cov CovItemId="S31" Value="2"/>
+                    <Cov CovItemId="S32" Value="2"/>
+                    <Cov CovItemId="S33" Value="2"/>
+                    <Cov CovItemId="S34" Value="2"/>
+                    <Cov CovItemId="S35" Value="2"/>
+                    <Cov CovItemId="S38" Value="1"/>
+                    <Cov CovItemId="S39" Value="1"/>
+                    <Cov CovItemId="S4" Value="1"/>
+                    <Cov CovItemId="S40" Value="1"/>
+                    <Cov CovItemId="S41" Value="1"/>
+                    <Cov CovItemId="S42" Value="1"/>
+                    <Cov CovItemId="S43" Value="1"/>
+                    <Cov CovItemId="S44" Value="1"/>
+                    <Cov CovItemId="S45" Value="1"/>
+                    <Cov CovItemId="S48" Value="1"/>
+                    <Cov CovItemId="S49" Value="1"/>
+                    <Cov CovItemId="S5" Value="1"/>
+                    <Cov CovItemId="S50" Value="1"/>
+                    <Cov CovItemId="S51" Value="1"/>
+                    <Cov CovItemId="S52" Value="1"/>
+                    <Cov CovItemId="S58" Value="3"/>
+                    <Cov CovItemId="S59" Value="2"/>
+                    <Cov CovItemId="S6" Value="1"/>
+                    <Cov CovItemId="S60" Value="1"/>
+                    <Cov CovItemId="S61" Value="1"/>
+                    <Cov CovItemId="S62" Value="1"/>
+                    <Cov CovItemId="S63" Value="1"/>
+                    <Cov CovItemId="S64" Value="1"/>
+                    <Cov CovItemId="S65" Value="1"/>
+                    <Cov CovItemId="S66" Value="1"/>
+                    <Cov CovItemId="S7" Value="1"/>
+                    <Cov CovItemId="S8" Value="1"/>
+                    <Cov CovItemId="S9" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="printer.SmartPrinter.java">
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C10">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="2"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C11">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="1" Value="2"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C5">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C6">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C7">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C8">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C9">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1751884770714" Name="printer.SmartPrinterTest:accendiStampanteTest">
+            <CovList>
+                <CovPrefix CovItemPrefix="printer.SmartPrinter.java">
+                    <Cov CovItemId="B11" Value="1"/>
+                    <Cov CovItemId="B12" Value="1"/>
+                    <Cov CovItemId="B5" Value="2"/>
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S10" Value="1"/>
+                    <Cov CovItemId="S2" Value="1"/>
+                    <Cov CovItemId="S20" Value="2"/>
+                    <Cov CovItemId="S3" Value="1"/>
+                    <Cov CovItemId="S31" Value="2"/>
+                    <Cov CovItemId="S32" Value="2"/>
+                    <Cov CovItemId="S33" Value="2"/>
+                    <Cov CovItemId="S34" Value="2"/>
+                    <Cov CovItemId="S35" Value="2"/>
+                    <Cov CovItemId="S4" Value="1"/>
+                    <Cov CovItemId="S42" Value="2"/>
+                    <Cov CovItemId="S43" Value="1"/>
+                    <Cov CovItemId="S44" Value="1"/>
+                    <Cov CovItemId="S45" Value="1"/>
+                    <Cov CovItemId="S46" Value="1"/>
+                    <Cov CovItemId="S47" Value="1"/>
+                    <Cov CovItemId="S5" Value="1"/>
+                    <Cov CovItemId="S6" Value="1"/>
+                    <Cov CovItemId="S7" Value="1"/>
+                    <Cov CovItemId="S8" Value="1"/>
+                    <Cov CovItemId="S9" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="printer.SmartPrinter.java">
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="1" Value="2"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C7">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1751884770717" Name="printer.SmartPrinterTest:avvioStampanteTestGuasta">
+            <CovList>
+                <CovPrefix CovItemPrefix="printer.SmartPrinter.java">
+                    <Cov CovItemId="B11" Value="1"/>
+                    <Cov CovItemId="B13" Value="1"/>
+                    <Cov CovItemId="B15" Value="1"/>
+                    <Cov CovItemId="B5" Value="2"/>
+                    <Cov CovItemId="B7" Value="1"/>
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S10" Value="1"/>
+                    <Cov CovItemId="S2" Value="1"/>
+                    <Cov CovItemId="S20" Value="1"/>
+                    <Cov CovItemId="S22" Value="1"/>
+                    <Cov CovItemId="S3" Value="1"/>
+                    <Cov CovItemId="S31" Value="2"/>
+                    <Cov CovItemId="S32" Value="2"/>
+                    <Cov CovItemId="S33" Value="2"/>
+                    <Cov CovItemId="S34" Value="2"/>
+                    <Cov CovItemId="S35" Value="2"/>
+                    <Cov CovItemId="S38" Value="1"/>
+                    <Cov CovItemId="S39" Value="1"/>
+                    <Cov CovItemId="S4" Value="1"/>
+                    <Cov CovItemId="S42" Value="1"/>
+                    <Cov CovItemId="S43" Value="1"/>
+                    <Cov CovItemId="S44" Value="1"/>
+                    <Cov CovItemId="S45" Value="1"/>
+                    <Cov CovItemId="S48" Value="1"/>
+                    <Cov CovItemId="S49" Value="1"/>
+                    <Cov CovItemId="S5" Value="1"/>
+                    <Cov CovItemId="S50" Value="1"/>
+                    <Cov CovItemId="S51" Value="1"/>
+                    <Cov CovItemId="S52" Value="1"/>
+                    <Cov CovItemId="S6" Value="1"/>
+                    <Cov CovItemId="S7" Value="1"/>
+                    <Cov CovItemId="S8" Value="1"/>
+                    <Cov CovItemId="S9" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="printer.SmartPrinter.java">
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="1" Value="2"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C5">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C7">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C8">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C9">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1751884770719" Name="printer.SmartPrinterTest:aggiungiUtenteTest">
+            <CovList>
+                <CovPrefix CovItemPrefix="printer.SmartPrinter.java">
+                    <Cov CovItemId="B1" Value="2"/>
+                    <Cov CovItemId="B2" Value="3"/>
+                    <Cov CovItemId="B5" Value="2"/>
+                    <Cov CovItemId="B6" Value="1"/>
+                    <Cov CovItemId="L1-1" Value="1"/>
+                    <Cov CovItemId="L1-2" Value="2"/>
+                    <Cov CovItemId="Q0-1" Value="1"/>
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S10" Value="1"/>
+                    <Cov CovItemId="S11" Value="1"/>
+                    <Cov CovItemId="S12" Value="3"/>
+                    <Cov CovItemId="S13" Value="5"/>
+                    <Cov CovItemId="S14" Value="2"/>
+                    <Cov CovItemId="S15" Value="1"/>
+                    <Cov CovItemId="S2" Value="1"/>
+                    <Cov CovItemId="S3" Value="1"/>
+                    <Cov CovItemId="S31" Value="3"/>
+                    <Cov CovItemId="S32" Value="2"/>
+                    <Cov CovItemId="S33" Value="2"/>
+                    <Cov CovItemId="S34" Value="2"/>
+                    <Cov CovItemId="S35" Value="2"/>
+                    <Cov CovItemId="S36" Value="1"/>
+                    <Cov CovItemId="S37" Value="1"/>
+                    <Cov CovItemId="S4" Value="1"/>
+                    <Cov CovItemId="S5" Value="1"/>
+                    <Cov CovItemId="S6" Value="1"/>
+                    <Cov CovItemId="S7" Value="1"/>
+                    <Cov CovItemId="S8" Value="1"/>
+                    <Cov CovItemId="S81" Value="1"/>
+                    <Cov CovItemId="S82" Value="1"/>
+                    <Cov CovItemId="S83" Value="1"/>
+                    <Cov CovItemId="S84" Value="1"/>
+                    <Cov CovItemId="S85" Value="1"/>
+                    <Cov CovItemId="S86" Value="1"/>
+                    <Cov CovItemId="S87" Value="1"/>
+                    <Cov CovItemId="S88" Value="1"/>
+                    <Cov CovItemId="S89" Value="1"/>
+                    <Cov CovItemId="S9" Value="1"/>
+                    <Cov CovItemId="S90" Value="1"/>
+                    <Cov CovItemId="S91" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="printer.SmartPrinter.java">
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C1">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="5"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C2">
+                        <MapEntry BoolAssgnmnt="0" Value="3"/>
+                        <MapEntry BoolAssgnmnt="1" Value="2"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="2"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1751884770722" Name="printer.SmartPrinterTest:identificazioneUtenteTest">
+            <CovList>
+                <CovPrefix CovItemPrefix="printer.SmartPrinter.java">
+                    <Cov CovItemId="B1" Value="1"/>
+                    <Cov CovItemId="B11" Value="1"/>
+                    <Cov CovItemId="B13" Value="1"/>
+                    <Cov CovItemId="B16" Value="1"/>
+                    <Cov CovItemId="B2" Value="3"/>
+                    <Cov CovItemId="B21" Value="2"/>
+                    <Cov CovItemId="B22" Value="1"/>
+                    <Cov CovItemId="B23" Value="1"/>
+                    <Cov CovItemId="B24" Value="1"/>
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="B4" Value="1"/>
+                    <Cov CovItemId="B5" Value="2"/>
+                    <Cov CovItemId="L1-2" Value="2"/>
+                    <Cov CovItemId="L2-2" Value="1"/>
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S10" Value="1"/>
+                    <Cov CovItemId="S12" Value="2"/>
+                    <Cov CovItemId="S13" Value="4"/>
+                    <Cov CovItemId="S14" Value="1"/>
+                    <Cov CovItemId="S15" Value="1"/>
+                    <Cov CovItemId="S16" Value="1"/>
+                    <Cov CovItemId="S17" Value="2"/>
+                    <Cov CovItemId="S18" Value="1"/>
+                    <Cov CovItemId="S2" Value="1"/>
+                    <Cov CovItemId="S20" Value="2"/>
+                    <Cov CovItemId="S3" Value="1"/>
+                    <Cov CovItemId="S30" Value="1"/>
+                    <Cov CovItemId="S31" Value="2"/>
+                    <Cov CovItemId="S32" Value="2"/>
+                    <Cov CovItemId="S33" Value="2"/>
+                    <Cov CovItemId="S34" Value="2"/>
+                    <Cov CovItemId="S35" Value="2"/>
+                    <Cov CovItemId="S4" Value="1"/>
+                    <Cov CovItemId="S42" Value="1"/>
+                    <Cov CovItemId="S43" Value="1"/>
+                    <Cov CovItemId="S44" Value="1"/>
+                    <Cov CovItemId="S45" Value="1"/>
+                    <Cov CovItemId="S48" Value="1"/>
+                    <Cov CovItemId="S49" Value="1"/>
+                    <Cov CovItemId="S5" Value="1"/>
+                    <Cov CovItemId="S53" Value="1"/>
+                    <Cov CovItemId="S54" Value="1"/>
+                    <Cov CovItemId="S55" Value="1"/>
+                    <Cov CovItemId="S6" Value="1"/>
+                    <Cov CovItemId="S67" Value="3"/>
+                    <Cov CovItemId="S68" Value="2"/>
+                    <Cov CovItemId="S69" Value="1"/>
+                    <Cov CovItemId="S7" Value="1"/>
+                    <Cov CovItemId="S70" Value="1"/>
+                    <Cov CovItemId="S71" Value="1"/>
+                    <Cov CovItemId="S72" Value="1"/>
+                    <Cov CovItemId="S73" Value="1"/>
+                    <Cov CovItemId="S74" Value="1"/>
+                    <Cov CovItemId="S75" Value="1"/>
+                    <Cov CovItemId="S76" Value="1"/>
+                    <Cov CovItemId="S8" Value="1"/>
+                    <Cov CovItemId="S9" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="printer.SmartPrinter.java">
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C1">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="4"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C12">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="2"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C13">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C2">
+                        <MapEntry BoolAssgnmnt="0" Value="3"/>
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C3">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="1" Value="2"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C7">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C8">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C9">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1751884770724" Name="printer.SmartPrinterTest:avvioStampanteTest">
+            <CovList>
+                <CovPrefix CovItemPrefix="printer.SmartPrinter.java">
+                    <Cov CovItemId="B11" Value="1"/>
+                    <Cov CovItemId="B13" Value="1"/>
+                    <Cov CovItemId="B14" Value="1"/>
+                    <Cov CovItemId="B16" Value="1"/>
+                    <Cov CovItemId="B5" Value="2"/>
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S10" Value="1"/>
+                    <Cov CovItemId="S2" Value="1"/>
+                    <Cov CovItemId="S20" Value="1"/>
+                    <Cov CovItemId="S3" Value="1"/>
+                    <Cov CovItemId="S31" Value="2"/>
+                    <Cov CovItemId="S32" Value="2"/>
+                    <Cov CovItemId="S33" Value="2"/>
+                    <Cov CovItemId="S34" Value="2"/>
+                    <Cov CovItemId="S35" Value="2"/>
+                    <Cov CovItemId="S4" Value="1"/>
+                    <Cov CovItemId="S42" Value="1"/>
+                    <Cov CovItemId="S43" Value="1"/>
+                    <Cov CovItemId="S44" Value="1"/>
+                    <Cov CovItemId="S45" Value="1"/>
+                    <Cov CovItemId="S48" Value="2"/>
+                    <Cov CovItemId="S49" Value="1"/>
+                    <Cov CovItemId="S5" Value="1"/>
+                    <Cov CovItemId="S53" Value="1"/>
+                    <Cov CovItemId="S54" Value="1"/>
+                    <Cov CovItemId="S55" Value="1"/>
+                    <Cov CovItemId="S56" Value="1"/>
+                    <Cov CovItemId="S57" Value="1"/>
+                    <Cov CovItemId="S6" Value="1"/>
+                    <Cov CovItemId="S7" Value="1"/>
+                    <Cov CovItemId="S8" Value="1"/>
+                    <Cov CovItemId="S9" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="printer.SmartPrinter.java">
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="1" Value="2"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C7">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C8">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C9">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <MetaDataList/>
+    </TestSession>
+    <TestSession Comment="" Date="1751884855797" Name="7 lug 2025, 12:40:55">
+        <TestCase Comment="" Date="1751884855730" Name="printer.SmartPrinterTest:gestioneGuastoTest">
+            <CovList>
+                <CovPrefix CovItemPrefix="printer.SmartPrinter.java">
+                    <Cov CovItemId="B11" Value="1"/>
+                    <Cov CovItemId="B13" Value="1"/>
+                    <Cov CovItemId="B15" Value="1"/>
+                    <Cov CovItemId="B17" Value="2"/>
+                    <Cov CovItemId="B18" Value="1"/>
+                    <Cov CovItemId="B19" Value="1"/>
+                    <Cov CovItemId="B20" Value="1"/>
+                    <Cov CovItemId="B5" Value="2"/>
+                    <Cov CovItemId="B7" Value="1"/>
+                    <Cov CovItemId="B9" Value="1"/>
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S10" Value="1"/>
+                    <Cov CovItemId="S2" Value="1"/>
+                    <Cov CovItemId="S20" Value="2"/>
+                    <Cov CovItemId="S22" Value="1"/>
+                    <Cov CovItemId="S3" Value="1"/>
+                    <Cov CovItemId="S31" Value="2"/>
+                    <Cov CovItemId="S32" Value="2"/>
+                    <Cov CovItemId="S33" Value="2"/>
+                    <Cov CovItemId="S34" Value="2"/>
+                    <Cov CovItemId="S35" Value="2"/>
+                    <Cov CovItemId="S38" Value="1"/>
+                    <Cov CovItemId="S39" Value="1"/>
+                    <Cov CovItemId="S4" Value="1"/>
+                    <Cov CovItemId="S40" Value="1"/>
+                    <Cov CovItemId="S41" Value="1"/>
+                    <Cov CovItemId="S42" Value="1"/>
+                    <Cov CovItemId="S43" Value="1"/>
+                    <Cov CovItemId="S44" Value="1"/>
+                    <Cov CovItemId="S45" Value="1"/>
+                    <Cov CovItemId="S48" Value="1"/>
+                    <Cov CovItemId="S49" Value="1"/>
+                    <Cov CovItemId="S5" Value="1"/>
+                    <Cov CovItemId="S50" Value="1"/>
+                    <Cov CovItemId="S51" Value="1"/>
+                    <Cov CovItemId="S52" Value="1"/>
+                    <Cov CovItemId="S58" Value="3"/>
+                    <Cov CovItemId="S59" Value="2"/>
+                    <Cov CovItemId="S6" Value="1"/>
+                    <Cov CovItemId="S60" Value="1"/>
+                    <Cov CovItemId="S61" Value="1"/>
+                    <Cov CovItemId="S62" Value="1"/>
+                    <Cov CovItemId="S63" Value="1"/>
+                    <Cov CovItemId="S64" Value="1"/>
+                    <Cov CovItemId="S65" Value="1"/>
+                    <Cov CovItemId="S66" Value="1"/>
+                    <Cov CovItemId="S7" Value="1"/>
+                    <Cov CovItemId="S8" Value="1"/>
+                    <Cov CovItemId="S9" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="printer.SmartPrinter.java">
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C10">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="2"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C11">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="1" Value="2"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C5">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C6">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C7">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C8">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C9">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1751884855747" Name="printer.SmartPrinterTest:accendiStampanteTest">
+            <CovList>
+                <CovPrefix CovItemPrefix="printer.SmartPrinter.java">
+                    <Cov CovItemId="B11" Value="1"/>
+                    <Cov CovItemId="B12" Value="1"/>
+                    <Cov CovItemId="B5" Value="2"/>
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S10" Value="1"/>
+                    <Cov CovItemId="S2" Value="1"/>
+                    <Cov CovItemId="S20" Value="2"/>
+                    <Cov CovItemId="S3" Value="1"/>
+                    <Cov CovItemId="S31" Value="2"/>
+                    <Cov CovItemId="S32" Value="2"/>
+                    <Cov CovItemId="S33" Value="2"/>
+                    <Cov CovItemId="S34" Value="2"/>
+                    <Cov CovItemId="S35" Value="2"/>
+                    <Cov CovItemId="S4" Value="1"/>
+                    <Cov CovItemId="S42" Value="2"/>
+                    <Cov CovItemId="S43" Value="1"/>
+                    <Cov CovItemId="S44" Value="1"/>
+                    <Cov CovItemId="S45" Value="1"/>
+                    <Cov CovItemId="S46" Value="1"/>
+                    <Cov CovItemId="S47" Value="1"/>
+                    <Cov CovItemId="S5" Value="1"/>
+                    <Cov CovItemId="S6" Value="1"/>
+                    <Cov CovItemId="S7" Value="1"/>
+                    <Cov CovItemId="S8" Value="1"/>
+                    <Cov CovItemId="S9" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="printer.SmartPrinter.java">
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="1" Value="2"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C7">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1751884855750" Name="printer.SmartPrinterTest:avvioStampanteTestGuasta">
+            <CovList>
+                <CovPrefix CovItemPrefix="printer.SmartPrinter.java">
+                    <Cov CovItemId="B11" Value="1"/>
+                    <Cov CovItemId="B13" Value="1"/>
+                    <Cov CovItemId="B15" Value="1"/>
+                    <Cov CovItemId="B5" Value="2"/>
+                    <Cov CovItemId="B7" Value="1"/>
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S10" Value="1"/>
+                    <Cov CovItemId="S2" Value="1"/>
+                    <Cov CovItemId="S20" Value="1"/>
+                    <Cov CovItemId="S22" Value="1"/>
+                    <Cov CovItemId="S3" Value="1"/>
+                    <Cov CovItemId="S31" Value="2"/>
+                    <Cov CovItemId="S32" Value="2"/>
+                    <Cov CovItemId="S33" Value="2"/>
+                    <Cov CovItemId="S34" Value="2"/>
+                    <Cov CovItemId="S35" Value="2"/>
+                    <Cov CovItemId="S38" Value="1"/>
+                    <Cov CovItemId="S39" Value="1"/>
+                    <Cov CovItemId="S4" Value="1"/>
+                    <Cov CovItemId="S42" Value="1"/>
+                    <Cov CovItemId="S43" Value="1"/>
+                    <Cov CovItemId="S44" Value="1"/>
+                    <Cov CovItemId="S45" Value="1"/>
+                    <Cov CovItemId="S48" Value="1"/>
+                    <Cov CovItemId="S49" Value="1"/>
+                    <Cov CovItemId="S5" Value="1"/>
+                    <Cov CovItemId="S50" Value="1"/>
+                    <Cov CovItemId="S51" Value="1"/>
+                    <Cov CovItemId="S52" Value="1"/>
+                    <Cov CovItemId="S6" Value="1"/>
+                    <Cov CovItemId="S7" Value="1"/>
+                    <Cov CovItemId="S8" Value="1"/>
+                    <Cov CovItemId="S9" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="printer.SmartPrinter.java">
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="1" Value="2"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C5">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C7">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C8">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C9">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1751884855753" Name="printer.SmartPrinterTest:aggiungiUtenteTest">
+            <CovList>
+                <CovPrefix CovItemPrefix="printer.SmartPrinter.java">
+                    <Cov CovItemId="B1" Value="2"/>
+                    <Cov CovItemId="B2" Value="3"/>
+                    <Cov CovItemId="B5" Value="2"/>
+                    <Cov CovItemId="B6" Value="1"/>
+                    <Cov CovItemId="L1-1" Value="1"/>
+                    <Cov CovItemId="L1-2" Value="2"/>
+                    <Cov CovItemId="Q0-1" Value="1"/>
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S10" Value="1"/>
+                    <Cov CovItemId="S11" Value="1"/>
+                    <Cov CovItemId="S12" Value="3"/>
+                    <Cov CovItemId="S13" Value="5"/>
+                    <Cov CovItemId="S14" Value="2"/>
+                    <Cov CovItemId="S15" Value="1"/>
+                    <Cov CovItemId="S2" Value="1"/>
+                    <Cov CovItemId="S3" Value="1"/>
+                    <Cov CovItemId="S31" Value="3"/>
+                    <Cov CovItemId="S32" Value="2"/>
+                    <Cov CovItemId="S33" Value="2"/>
+                    <Cov CovItemId="S34" Value="2"/>
+                    <Cov CovItemId="S35" Value="2"/>
+                    <Cov CovItemId="S36" Value="1"/>
+                    <Cov CovItemId="S37" Value="1"/>
+                    <Cov CovItemId="S4" Value="1"/>
+                    <Cov CovItemId="S5" Value="1"/>
+                    <Cov CovItemId="S6" Value="1"/>
+                    <Cov CovItemId="S7" Value="1"/>
+                    <Cov CovItemId="S8" Value="1"/>
+                    <Cov CovItemId="S81" Value="1"/>
+                    <Cov CovItemId="S82" Value="1"/>
+                    <Cov CovItemId="S83" Value="1"/>
+                    <Cov CovItemId="S84" Value="1"/>
+                    <Cov CovItemId="S85" Value="1"/>
+                    <Cov CovItemId="S86" Value="1"/>
+                    <Cov CovItemId="S87" Value="1"/>
+                    <Cov CovItemId="S88" Value="1"/>
+                    <Cov CovItemId="S89" Value="1"/>
+                    <Cov CovItemId="S9" Value="1"/>
+                    <Cov CovItemId="S90" Value="1"/>
+                    <Cov CovItemId="S91" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="printer.SmartPrinter.java">
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C1">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="5"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C2">
+                        <MapEntry BoolAssgnmnt="0" Value="3"/>
+                        <MapEntry BoolAssgnmnt="1" Value="2"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="2"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1751884855757" Name="printer.SmartPrinterTest:identificazioneUtenteTest">
+            <CovList>
+                <CovPrefix CovItemPrefix="printer.SmartPrinter.java">
+                    <Cov CovItemId="B1" Value="1"/>
+                    <Cov CovItemId="B11" Value="1"/>
+                    <Cov CovItemId="B13" Value="1"/>
+                    <Cov CovItemId="B16" Value="1"/>
+                    <Cov CovItemId="B2" Value="3"/>
+                    <Cov CovItemId="B21" Value="2"/>
+                    <Cov CovItemId="B22" Value="1"/>
+                    <Cov CovItemId="B23" Value="1"/>
+                    <Cov CovItemId="B24" Value="1"/>
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="B4" Value="1"/>
+                    <Cov CovItemId="B5" Value="2"/>
+                    <Cov CovItemId="L1-2" Value="2"/>
+                    <Cov CovItemId="L2-2" Value="1"/>
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S10" Value="1"/>
+                    <Cov CovItemId="S12" Value="2"/>
+                    <Cov CovItemId="S13" Value="4"/>
+                    <Cov CovItemId="S14" Value="1"/>
+                    <Cov CovItemId="S15" Value="1"/>
+                    <Cov CovItemId="S16" Value="1"/>
+                    <Cov CovItemId="S17" Value="2"/>
+                    <Cov CovItemId="S18" Value="1"/>
+                    <Cov CovItemId="S2" Value="1"/>
+                    <Cov CovItemId="S20" Value="2"/>
+                    <Cov CovItemId="S3" Value="1"/>
+                    <Cov CovItemId="S30" Value="1"/>
+                    <Cov CovItemId="S31" Value="2"/>
+                    <Cov CovItemId="S32" Value="2"/>
+                    <Cov CovItemId="S33" Value="2"/>
+                    <Cov CovItemId="S34" Value="2"/>
+                    <Cov CovItemId="S35" Value="2"/>
+                    <Cov CovItemId="S4" Value="1"/>
+                    <Cov CovItemId="S42" Value="1"/>
+                    <Cov CovItemId="S43" Value="1"/>
+                    <Cov CovItemId="S44" Value="1"/>
+                    <Cov CovItemId="S45" Value="1"/>
+                    <Cov CovItemId="S48" Value="1"/>
+                    <Cov CovItemId="S49" Value="1"/>
+                    <Cov CovItemId="S5" Value="1"/>
+                    <Cov CovItemId="S53" Value="1"/>
+                    <Cov CovItemId="S54" Value="1"/>
+                    <Cov CovItemId="S55" Value="1"/>
+                    <Cov CovItemId="S6" Value="1"/>
+                    <Cov CovItemId="S67" Value="3"/>
+                    <Cov CovItemId="S68" Value="2"/>
+                    <Cov CovItemId="S69" Value="1"/>
+                    <Cov CovItemId="S7" Value="1"/>
+                    <Cov CovItemId="S70" Value="1"/>
+                    <Cov CovItemId="S71" Value="1"/>
+                    <Cov CovItemId="S72" Value="1"/>
+                    <Cov CovItemId="S73" Value="1"/>
+                    <Cov CovItemId="S74" Value="1"/>
+                    <Cov CovItemId="S75" Value="1"/>
+                    <Cov CovItemId="S76" Value="1"/>
+                    <Cov CovItemId="S8" Value="1"/>
+                    <Cov CovItemId="S9" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="printer.SmartPrinter.java">
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C1">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="4"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C12">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="2"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C13">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C2">
+                        <MapEntry BoolAssgnmnt="0" Value="3"/>
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C3">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="1" Value="2"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C7">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C8">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C9">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1751884855761" Name="printer.SmartPrinterTest:avvioStampanteTest">
+            <CovList>
+                <CovPrefix CovItemPrefix="printer.SmartPrinter.java">
+                    <Cov CovItemId="B11" Value="1"/>
+                    <Cov CovItemId="B13" Value="1"/>
+                    <Cov CovItemId="B14" Value="1"/>
+                    <Cov CovItemId="B16" Value="1"/>
+                    <Cov CovItemId="B5" Value="2"/>
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S10" Value="1"/>
+                    <Cov CovItemId="S2" Value="1"/>
+                    <Cov CovItemId="S20" Value="1"/>
+                    <Cov CovItemId="S3" Value="1"/>
+                    <Cov CovItemId="S31" Value="2"/>
+                    <Cov CovItemId="S32" Value="2"/>
+                    <Cov CovItemId="S33" Value="2"/>
+                    <Cov CovItemId="S34" Value="2"/>
+                    <Cov CovItemId="S35" Value="2"/>
+                    <Cov CovItemId="S4" Value="1"/>
+                    <Cov CovItemId="S42" Value="1"/>
+                    <Cov CovItemId="S43" Value="1"/>
+                    <Cov CovItemId="S44" Value="1"/>
+                    <Cov CovItemId="S45" Value="1"/>
+                    <Cov CovItemId="S48" Value="2"/>
+                    <Cov CovItemId="S49" Value="1"/>
+                    <Cov CovItemId="S5" Value="1"/>
+                    <Cov CovItemId="S53" Value="1"/>
+                    <Cov CovItemId="S54" Value="1"/>
+                    <Cov CovItemId="S55" Value="1"/>
+                    <Cov CovItemId="S56" Value="1"/>
+                    <Cov CovItemId="S57" Value="1"/>
+                    <Cov CovItemId="S6" Value="1"/>
+                    <Cov CovItemId="S7" Value="1"/>
+                    <Cov CovItemId="S8" Value="1"/>
+                    <Cov CovItemId="S9" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="printer.SmartPrinter.java">
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="1" Value="2"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C7">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C8">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C9">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <MetaDataList/>
+    </TestSession>
+</TestSessionContainer>

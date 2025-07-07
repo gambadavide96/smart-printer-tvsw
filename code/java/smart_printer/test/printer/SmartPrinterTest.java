@@ -13,21 +13,31 @@ public class SmartPrinterTest {
 	private SmartPrinter stampante;
 	private Utente matteo;
 	private Utente davide;
+	private Utente giovanni;
 	
 	@Before
 	public void setup() {
 	    stampante = new SmartPrinter();
 	    matteo = new Utente("Matteo", 4723, 2, 1000);
 	    davide = new Utente("Davide", 2096, 1, 1000);
-	    stampante.aggiungiUtente(matteo);
-	    stampante.aggiungiUtente(davide);
+	    giovanni = new Utente("Giovanni",3123,3,1000);
+	    
+	    assertTrue(stampante.aggiungiUtente(davide));
+	    assertTrue(stampante.aggiungiUtente(matteo));
 	}
 	
 	
 	@Test
 	public void aggiungiUtenteTest() {
-		assertTrue(stampante.getUtenti().containsKey(davide.getBadgeId()));
-		assertTrue(stampante.getUtenti().containsKey(matteo.getBadgeId()));
+		
+		stampante.statoCorrente();
+	    
+		assertTrue(stampante.ricercaUtente(davide.getBadgeId()));
+		assertTrue(stampante.ricercaUtente(matteo.getBadgeId()));
+		
+		assertFalse(stampante.aggiungiUtente(giovanni)); //Non è possibile aggiungere altri utenti
+		
+		assertFalse(stampante.ricercaUtente(1111)); //ricerca con NumBadge casuale
 	}
 
 	//All'inizio la stampante è spenta e poi si accende
@@ -99,6 +109,7 @@ public class SmartPrinterTest {
 		assertTrue(stampante.identificazioneUtente(4723)); //Inserisco un Numbadge valido
 		assertEquals(Stato.INSERISCIPIN,stampante.getPrinterState());
 		assertEquals(matteo,stampante.getUtenteCorrente());
+		
 		
 	}
 	
