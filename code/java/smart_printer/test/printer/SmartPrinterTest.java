@@ -132,4 +132,102 @@ public class SmartPrinterTest {
 		
 	}
 	
+	@Test
+	public void sceltaServizioTestBN() {
+		
+		stampante.accendiStampante();
+		stampante.avvioStampante();
+		stampante.identificazioneUtente(2096);
+		stampante.inserimentoPin(1);
+		
+		//Chiamo un valore non valido
+		assertFalse(stampante.sceltaServizio("x"));
+		//Chiamo stampe e scansioni
+		assertTrue(stampante.sceltaServizio("BN"));
+		assertEquals(Stato.INUSO,stampante.getPrinterState());
+	}
+	
+	@Test
+	public void sceltaServizioTestCOL() {
+		
+		stampante.accendiStampante();
+		stampante.avvioStampante();
+		stampante.identificazioneUtente(2096);
+		stampante.inserimentoPin(1);
+		
+		//Chiamo un valore non valido
+		assertFalse(stampante.sceltaServizio("x"));
+		//Chiamo stampe e scansioni
+		assertTrue(stampante.sceltaServizio("COL"));
+		assertEquals(Stato.INUSO,stampante.getPrinterState());
+		
+	}
+	
+	@Test
+	public void sceltaServizioTestS() {
+		
+		stampante.accendiStampante();
+		stampante.avvioStampante();
+		stampante.identificazioneUtente(2096);
+		stampante.inserimentoPin(1);
+		
+		//Chiamo un valore non valido
+		assertFalse(stampante.sceltaServizio("x"));
+		//Chiamo stampe e scansioni
+		assertTrue(stampante.sceltaServizio("S"));
+		//Con entrambi i device a false la scansione non viene effettuata e la
+		//stampante va nello stato di PRONTA
+		assertEquals(Stato.PRONTA,stampante.getPrinterState());
+		
+	}
+	
+	@Test
+	public void sceltaServizioTestE() {
+		
+		stampante.accendiStampante();
+		stampante.avvioStampante();
+		stampante.identificazioneUtente(2096);
+		stampante.inserimentoPin(1);
+		
+		//Chiamo un valore non valido
+		assertFalse(stampante.sceltaServizio("x"));
+		//Chiamo stampe e scansioni
+		assertTrue(stampante.sceltaServizio("E"));
+		assertEquals(Stato.SPENTA,stampante.getPrinterState());
+		
+	}
+	
+	@Test
+	public void stampaBNTest() {
+		//TODO
+		fail("Da implementare");
+	}
+	
+	@Test
+	public void stampaCOLTest() {
+		//TODO
+		fail("Da implementare");
+	}
+	
+	@Test
+	public void scansioneTest() {
+		//TODO
+		fail("Da implementare");
+	}
+	
+	@Test
+	public void stampanteInUsoTest() {
+		//TODO
+		fail("Da implementare");
+	}
+	
+	@Test
+	public void gestioneErroreTest() {
+		//TODO
+		fail("Da implementare");
+	}
+	
+
+	
+	
 }
