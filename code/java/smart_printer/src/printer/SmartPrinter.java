@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import printer.SmartPrinter.Servizio;
+import printer.SmartPrinter.Stato;
+
 
 public class SmartPrinter {
 
@@ -64,6 +67,26 @@ public class SmartPrinter {
     	return null;
     }
     
+	protected void collegoDevice(String device) {
+			
+		switch (device) {
+			case "W":
+				collegatoWireless = true;
+				break;
+			case "C":
+				collegatoCavo = true;
+				break;
+			case "D":
+				collegatoWireless = true;
+				collegatoCavo = true;
+				break;
+			case "N":
+				System.out.println("Non hai collegato nessun device");
+				break;
+			}
+			
+	}
+	    
     
 
     protected Stato getPrinterState() {
@@ -194,14 +217,108 @@ public class SmartPrinter {
     	return false;
     }
 
-    protected boolean inserimentoPin() {
-    	//TODO
+   
+ protected boolean inserimentoPin(int insertedPin) {
+    	
+    	if(printerState == Stato.INSERISCIPIN) {
+    		if(utenteCorrente.verificaPin(insertedPin)) {
+	    		printerState = Stato.PRONTA;
+	    		System.out.println("Selezionare una azione");
+	    		return true;
+    		}
+	    	else {
+	    		printerState = Stato.MOSTRABADGE;
+	    		System.out.println("Pin errato");
+	    		return false;
+	    	}
+    	}
+    	
+    	System.out.println("Azione non consentita");
     	return false;
     }
+ 
+ 
+ 	protected boolean stampaBN() {
+ 		if(utenteCorrente.haCreditoSufficiente()) {
+ 			if(tonerNero >= 5 && fogliCarta >= 10) {
+				printerState = Stato.INUSO;
+				selectedService = Servizio.PRINTBN;
+				tonerNero = tonerNero - 5;
+				fogliCarta = fogliCarta - 10;
+				utenteCorrente.scalaCredito(50);
+				System.out.println("Stampa BN in corso");
+				return true;
+ 			}
+			else {
+				System.out.println("Risorse finite, caricare stampante");
+				return false;
+			}
+ 		}
+ 		else {
+ 			System.out.println("Credito insufficiente");
+ 			return false;
+ 		}
+ 	}
+ 	
+ 	protected boolean stampaCOL() {
+ 		if(utenteCorrente.haCreditoSufficiente()) {
+ 			if(tonerNero >= 5 && tonerColore >=5 && fogliCarta >= 10) {
+				printerState = Stato.INUSO;
+				selectedService = Servizio.PRINTBN;
+				tonerNero = tonerNero - 5;
+				tonerColore = tonerColore - 5;
+				fogliCarta = fogliCarta - 10;
+				utenteCorrente.scalaCredito(50);
+				System.out.println("Stampa a Colori in corso");
+				return true;
+ 			}
+			else {
+				System.out.println("Risorse finite, caricare stampante");
+				return false;
+			}
+ 		}
+ 		else {
+ 			System.out.println("Credito insufficiente");
+ 			return false;
+ 		}
+ 	}
+ 	
+ 	protected boolean scansione() {
+ 		if (collegatoWireless || collegatoCavo) {
+			printerState = Stato.INUSO;
+			selectedService = Servizio.SCANSIONE;
+			System.out.println("Scansione in corso");
+			return true;
+		}
+ 		else {
+ 			System.out.println("Collega un dispositivo per effettuare la scansione");
+ 			return false;
+ 		}
+ 	}
     
-    protected boolean sceltaServizio() {
-    	//TODO
-    	return true;
+    protected boolean sceltaServizio(String sceltaServizio) {
+    	
+    	if(printerState == Stato.PRONTA) {
+    		
+    		switch (sceltaServizio) {
+			case "BN":
+				stampaBN();
+				return true;
+			case "COL":
+				stampaCOL();
+				return true;
+			case "S":
+				scansione();
+				return true;
+			case "E":
+				printerState = Stato.SPENTA;
+				System.out.println("Stampante spenta");
+				return true;
+    		}
+    		
+    	}
+    	System.out.println("Azione non consentita");
+    	return false;
     	
     }
     

@@ -25,8 +25,6 @@ public class Main {
 		//Uso la stampante
 		interazione.usoStampante();
 		
-		
-		
 
 	}
 

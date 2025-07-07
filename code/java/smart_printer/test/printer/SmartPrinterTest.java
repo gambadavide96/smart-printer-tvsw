@@ -113,4 +113,23 @@ public class SmartPrinterTest {
 		
 	}
 	
+	@Test
+	public void inserimentoPinTest() {
+		
+		assertFalse(stampante.inserimentoPin(0)); //azione non consentita
+		
+		stampante.accendiStampante();
+		stampante.avvioStampante(); //La stampante si è avviata correttamente
+		stampante.identificazioneUtente(2096); //Inserisco un Numbadge valido
+		
+		assertFalse(stampante.inserimentoPin(0)); //inserisco pin sbagliato
+		assertEquals(Stato.MOSTRABADGE,stampante.getPrinterState());
+		
+		stampante.identificazioneUtente(2096); 		//reinserisco il badge
+		assertTrue(stampante.inserimentoPin(1));	//Inserisco Pin corretto
+		assertEquals(Stato.PRONTA,stampante.getPrinterState());
+		
+		
+	}
+	
 }

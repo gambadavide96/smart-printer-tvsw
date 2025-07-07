@@ -3,6 +3,9 @@ package printer;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import printer.SmartPrinter.Servizio;
+import printer.SmartPrinter.Stato;
+
 public class InterazioneStampante {
 	
 	private SmartPrinter stampante;
@@ -13,6 +16,16 @@ public class InterazioneStampante {
 	
 	private static boolean controlloInputUtenteBool(String s) {
 	    return s.equals("si") || s.equals("no")  ? true : false;
+	}
+	
+	private static boolean controlloInputUtenteSceltaServizio(String s) {
+		return s.equals("BN") || s.equals("COL") || s.equals("S") ||
+				s.equals("E")? true : false;
+	}
+	
+	private boolean controlloInputUtenteSceltaDevice(String s) {
+		return s.equals("W") || s.equals("C") || s.equals("D") ||
+				s.equals("N")? true : false;
 	}
 	
 	public boolean aggiungiUtente(Utente u) {
@@ -99,18 +112,56 @@ public class InterazioneStampante {
 	        		break;
 	        		
 				case INSERISCIPIN:
-					//inserimentoPin();
-					stampante.statoCorrente();
-					System.out.println("Cjeckpoint inserisci pin ");
-	        		String check3 = scanner.nextLine().toLowerCase();
-	        		
+					int pinInserito = 0;
+					validInput = false;
+					
+					while(!validInput) {
+						System.out.println("Inserisci il tuo Pin: ");
+						  try {
+						        pinInserito = scanner.nextInt();
+						        validInput = true;
+						    } catch (InputMismatchException e) {
+						        System.out.println("Input non valido. Inserisci un un numero .");
+						        scanner.nextLine(); 
+						    }
+					}
+					
+					scanner.nextLine(); // consuma il newline residuo dopo input corretto
+					stampante.inserimentoPin(pinInserito);
 					break;
+					
 				case PRONTA:
-					stampante.sceltaServizio();
+					String servizioScelto;
+	        		do {
+	        			System.out.println("Quale operazione vuoi effettuare? (BN/COL/S/E): ");
+	        			servizioScelto = scanner.nextLine().toUpperCase();
+		        		validInput = controlloInputUtenteSceltaServizio(servizioScelto);
+	        		}
+	        		while(!validInput);
+	        		
+	        		
+	        		String deviceDaCollegare;
+	        		if(servizioScelto.equals("S")) {
+	        			do {
+		        			System.out.println("Collega i device dove ricevere la scansione: (W/C/D/N): ");
+		        			deviceDaCollegare = scanner.nextLine().toUpperCase();
+			        		validInput = controlloInputUtenteSceltaDevice(deviceDaCollegare);
+		        		}
+		        		while(!validInput);
+	        			
+	        			stampante.collegoDevice(deviceDaCollegare);
+	        		}
+	        		
+	        		stampante.sceltaServizio(servizioScelto);
 					break;
+					
 				case INUSO:
-					stampante.stampanteInUso();
+					//stampante.stampanteInUso();
+					System.out.println("Checkpoint in uso ");
+					stampante.statoCorrente();
+					scanner.nextLine();
 					break;
+					
 				case ERRORE:
 					stampante.gestioneErrore();
 					break;
@@ -121,5 +172,7 @@ public class InterazioneStampante {
         scanner.close();
         
     }
+
+	
 
 }
