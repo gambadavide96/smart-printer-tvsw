@@ -128,6 +128,26 @@ public class SmartPrinter {
 		return cartaInceppata;
 	}
 
+	protected void setTonerNero(int tonerNero) {
+		this.tonerNero = tonerNero;
+	}
+
+	protected void setTonerColore(int tonerColore) {
+		this.tonerColore = tonerColore;
+	}
+
+	protected void setFogliCarta(int fogliCarta) {
+		this.fogliCarta = fogliCarta;
+	}
+
+	protected void setCollegatoWireless(boolean collegatoWireless) {
+		this.collegatoWireless = collegatoWireless;
+	}
+
+	protected void setCollegatoCavo(boolean collegatoCavo) {
+		this.collegatoCavo = collegatoCavo;
+	}
+
 	protected Utente[] getUtenti() {
 		return utenti;
 	}

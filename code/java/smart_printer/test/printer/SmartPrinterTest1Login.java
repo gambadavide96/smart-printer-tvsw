@@ -8,7 +8,10 @@ import org.junit.Test;
 import printer.SmartPrinter.Stato;
 import printer.SmartPrinter.StatoMacchina;
 
-public class SmartPrinterTest {
+
+//Test Suite che copre fino allo stato di Login(Stampante PRONTA)
+
+public class SmartPrinterTest1Login {
 	
 	private SmartPrinter stampante;
 	private Utente matteo;
@@ -196,38 +199,6 @@ public class SmartPrinterTest {
 		assertEquals(Stato.SPENTA,stampante.getPrinterState());
 		
 	}
-	
-	@Test
-	public void stampaBNTest() {
-		//TODO
-		fail("Da implementare");
-	}
-	
-	@Test
-	public void stampaCOLTest() {
-		//TODO
-		fail("Da implementare");
-	}
-	
-	@Test
-	public void scansioneTest() {
-		//TODO
-		fail("Da implementare");
-	}
-	
-	@Test
-	public void stampanteInUsoTest() {
-		//TODO
-		fail("Da implementare");
-	}
-	
-	@Test
-	public void gestioneErroreTest() {
-		//TODO
-		fail("Da implementare");
-	}
-	
-
 	
 	
 }
