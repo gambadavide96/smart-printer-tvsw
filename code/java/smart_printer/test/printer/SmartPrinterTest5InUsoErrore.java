@@ -20,6 +20,9 @@ public class SmartPrinterTest5InUsoErrore {
 	    davide = new Utente("Davide", 2096, 1, 1000);
 	    stampante.aggiungiUtente(davide);
 	    
+	    assertFalse(stampante.stampanteInUso()); //Azione non consentita
+	    assertFalse(stampante.gestioneErrore()); //Azione non consentita
+	    
 	    stampante.accendiStampante();
 		stampante.avvioStampante();
 		stampante.identificazioneUtente(2096);

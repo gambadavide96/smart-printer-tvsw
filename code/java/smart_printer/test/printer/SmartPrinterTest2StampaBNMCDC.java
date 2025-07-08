@@ -40,7 +40,7 @@ public class SmartPrinterTest2StampaBNMCDC {
     @Parameters
     public static Collection<Object[]> stampaBNParametri() {
         return Arrays.asList(new Object[][] {
-        	//Credito,tonerNero,carta,expected
+        	//Credito, tonerNero, carta, expected
             {45, 100, 500, false,Stato.PRONTA},		// credito insufficiente
             {1000, 5, 10, true,Stato.INUSO},		// Caso ok
             {1000, 4, 10, false,Stato.PRONTA},		// decide toner

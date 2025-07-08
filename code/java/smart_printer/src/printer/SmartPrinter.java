@@ -25,8 +25,8 @@ public class SmartPrinter {
     private boolean collegatoCavo;
     private boolean cartaInceppata;
 
-    Utente[] utenti;
-    int numUtenti;
+    private Utente[] utenti;
+    private int numUtenti;
     private Utente utenteCorrente;
     
     public SmartPrinter() {
@@ -40,9 +40,77 @@ public class SmartPrinter {
         collegatoWireless = false;
         collegatoCavo = false;
         cartaInceppata = false;
-    }  
+    }
     
-    private static String getNomeUtenteLoggato(Utente u) {
+    /*********************** GETTER AND SETTERS ****************************/
+    
+    protected Stato getPrinterState() {
+		return printerState;
+	}
+
+	protected Servizio getSelectedService() {
+		return selectedService;
+	}
+
+	protected StatoMacchina getSpiaGuasto() {
+		return spiaGuasto;
+	}
+	
+	protected Utente[] getUtenti() {
+		return utenti;
+	}
+
+	protected Utente getUtenteCorrente() {
+		return utenteCorrente;
+	}
+
+	protected int getTonerNero() {
+		return tonerNero;
+	}
+
+	protected int getTonerColore() {
+		return tonerColore;
+	}
+
+	protected int getFogliCarta() {
+		return fogliCarta;
+	}
+
+	protected boolean isCollegatoWireless() {
+		return collegatoWireless;
+	}
+
+	protected boolean isCollegatoCavo() {
+		return collegatoCavo;
+	}
+
+	protected boolean isCartaInceppata() {
+		return cartaInceppata;
+	}
+
+	protected void setTonerNero(int tonerNero) {
+		this.tonerNero = tonerNero;
+	}
+
+	protected void setTonerColore(int tonerColore) {
+		this.tonerColore = tonerColore;
+	}
+
+	protected void setFogliCarta(int fogliCarta) {
+		this.fogliCarta = fogliCarta;
+	}
+
+	protected void setCollegatoWireless(boolean collegatoWireless) {
+		this.collegatoWireless = collegatoWireless;
+	}
+
+	protected void setCollegatoCavo(boolean collegatoCavo) {
+		this.collegatoCavo = collegatoCavo;
+	}
+	
+	/*********************** UTILITY METHODS ****************************/
+	
+	private static String getNomeUtenteLoggato(Utente u) {
     	return u != null ? u.getNome() : "Nessuno";
     }
     
@@ -90,84 +158,6 @@ public class SmartPrinter {
 			}
 			
 	}
-	    
-    
-    protected Stato getPrinterState() {
-		return printerState;
-	}
-
-	protected Servizio getSelectedService() {
-		return selectedService;
-	}
-
-	protected StatoMacchina getSpiaGuasto() {
-		return spiaGuasto;
-	}
-
-	protected int getTonerNero() {
-		return tonerNero;
-	}
-
-	protected int getTonerColore() {
-		return tonerColore;
-	}
-
-	protected int getFogliCarta() {
-		return fogliCarta;
-	}
-
-	protected boolean isCollegatoWireless() {
-		return collegatoWireless;
-	}
-
-	protected boolean isCollegatoCavo() {
-		return collegatoCavo;
-	}
-
-	protected boolean isCartaInceppata() {
-		return cartaInceppata;
-	}
-
-	protected void setTonerNero(int tonerNero) {
-		this.tonerNero = tonerNero;
-	}
-
-	protected void setTonerColore(int tonerColore) {
-		this.tonerColore = tonerColore;
-	}
-
-	protected void setFogliCarta(int fogliCarta) {
-		this.fogliCarta = fogliCarta;
-	}
-
-	protected void setCollegatoWireless(boolean collegatoWireless) {
-		this.collegatoWireless = collegatoWireless;
-	}
-
-	protected void setCollegatoCavo(boolean collegatoCavo) {
-		this.collegatoCavo = collegatoCavo;
-	}
-
-	protected Utente[] getUtenti() {
-		return utenti;
-	}
-
-	protected Utente getUtenteCorrente() {
-		return utenteCorrente;
-	}
-
-	protected boolean aggiungiUtente(Utente u) {
-        if(numUtenti < utenti.length) {
-        	utenti[numUtenti] = u;
-        	numUtenti++;
-        	System.out.println("Utente aggiunto: " + u.getNome() + " : " + u.getBadgeId());
-        	return true;
-        }
-        else
-        	System.out.println("Non è possibile aggiungere altri utenti");
-        	return false;
-        
-    }
     
     protected void guastoStampante() {
     	if(printerState == Stato.AVVIO)
@@ -188,6 +178,21 @@ public class SmartPrinter {
     	if(printerState == Stato.ERRORE)
     		cartaInceppata = false;
     }
+    
+    protected boolean aggiungiUtente(Utente u) {
+        if(numUtenti < utenti.length) {
+        	utenti[numUtenti] = u;
+        	numUtenti++;
+        	System.out.println("Utente aggiunto: " + u.getNome() + " : " + u.getBadgeId());
+        	return true;
+        }
+        else
+        	System.out.println("Non è possibile aggiungere altri utenti");
+        	return false;
+        
+    }
+    
+    /******************** REGOLE STAMPANTE *********************************/
 
     protected boolean accendiStampante() {
     	if(printerState == Stato.SPENTA) {
@@ -358,6 +363,7 @@ public class SmartPrinter {
 				return true;
 			case "E":
 				printerState = Stato.SPENTA;
+				utenteCorrente = null;
 				System.out.println("Stampante spenta");
 				return true;
     		}

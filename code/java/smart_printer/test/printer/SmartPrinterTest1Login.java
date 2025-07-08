@@ -9,7 +9,7 @@ import printer.SmartPrinter.Stato;
 import printer.SmartPrinter.StatoMacchina;
 
 
-//Test Suite che copre fino allo stato di Login(Stampante PRONTA)
+//Test Suite che copre fino allo stato di Login (Stampante PRONTA)
 
 public class SmartPrinterTest1Login {
 	
@@ -138,6 +138,8 @@ public class SmartPrinterTest1Login {
 	@Test
 	public void sceltaServizioTestBN() {
 		
+		assertFalse(stampante.sceltaServizio("x")); //Azione non consentita
+		
 		stampante.accendiStampante();
 		stampante.avvioStampante();
 		stampante.identificazioneUtente(2096);
@@ -196,6 +198,7 @@ public class SmartPrinterTest1Login {
 		assertFalse(stampante.sceltaServizio("x"));
 		//Chiamo stampe e scansioni
 		assertTrue(stampante.sceltaServizio("E"));
+		assertEquals(null,stampante.getUtenteCorrente()); //l'utente deve essere scollegato
 		assertEquals(Stato.SPENTA,stampante.getPrinterState());
 		
 	}
