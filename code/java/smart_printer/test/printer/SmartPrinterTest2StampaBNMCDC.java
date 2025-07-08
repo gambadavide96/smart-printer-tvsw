@@ -14,10 +14,10 @@ import org.junit.runners.Parameterized.Parameters;
 import printer.SmartPrinter.Stato;
 
 
-//Test Suite MCDC per la stampa BN
+//Test Suite parametrica MCDC per la stampa BN
 
 @RunWith(Parameterized.class)
-public class SmartPrinterTest2StampaBN {
+public class SmartPrinterTest2StampaBNMCDC {
 	
 	private SmartPrinter stampante;
 	private Utente davide;
@@ -25,23 +25,26 @@ public class SmartPrinterTest2StampaBN {
 	private int tonerNero;
     private int carta;
     private int credito;
-    private boolean expected;
+    private boolean expectedResult;
+    private Stato expectedState;
     
-    public SmartPrinterTest2StampaBN(int creditoCorrente, int tonerNero, int carta, boolean expectedResult) {
+    public SmartPrinterTest2StampaBNMCDC(int creditoCorrente, int tonerNero, int carta, 
+    		boolean expectedResult,Stato expectedState) {
         this.tonerNero = tonerNero;
         this.carta = carta;
         this.credito = creditoCorrente;
-        this.expected = expectedResult;
+        this.expectedResult = expectedResult;
+        this.expectedState = expectedState;
     }
     
     @Parameters
     public static Collection<Object[]> stampaBNParametri() {
         return Arrays.asList(new Object[][] {
-        	//Credito, carta,tonerNero,expected
-            {45, 100, 500, false},		// credito insufficiente
-            {1000, 5, 10, true},		// Caso ok
-            {1000, 4, 10, false},		// decide toner
-            {1000, 5, 9, false},		// decide carta
+        	//Credito,tonerNero,carta,expected
+            {45, 100, 500, false,Stato.PRONTA},		// credito insufficiente
+            {1000, 5, 10, true,Stato.INUSO},		// Caso ok
+            {1000, 4, 10, false,Stato.PRONTA},		// decide toner
+            {1000, 5, 9, false,Stato.PRONTA}		// decide carta
         });
     }
 	
@@ -68,7 +71,8 @@ public class SmartPrinterTest2StampaBN {
 	@Test
 	public void stampaBNTest() {
 		boolean result = stampante.stampaBN();
-        assertEquals(expected, result);
+        assertEquals(expectedResult, result);
+        assertEquals(expectedState,stampante.getPrinterState());
 	}
 	
 
