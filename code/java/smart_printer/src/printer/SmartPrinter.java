@@ -17,6 +17,7 @@ public class SmartPrinter {
     private Stato printerState;
     private Servizio selectedService;
     private StatoMacchina spiaGuasto;
+    
     private int tonerNero;
     private int tonerColore;
     private int fogliCarta;
