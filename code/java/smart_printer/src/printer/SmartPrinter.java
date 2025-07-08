@@ -303,7 +303,7 @@ public class SmartPrinter {
  			if(utenteCorrente.haCreditoSufficiente()) {
  	 			if(tonerNero >= 5 && tonerColore >=5 && fogliCarta >= 10) {
  					printerState = Stato.INUSO;
- 					selectedService = Servizio.PRINTBN;
+ 					selectedService = Servizio.PRINTCOL;
  					tonerNero = tonerNero - 5;
  					tonerColore = tonerColore - 5;
  					fogliCarta = fogliCarta - 10;
@@ -370,37 +370,48 @@ public class SmartPrinter {
     }
     
     protected boolean stampanteInUso() {
-    	
-    	switch(selectedService) {
-    		case SCANSIONE:
-    			printerState = Stato.PRONTA;
-    			System.out.println("Scansione terminata con successo");
-    			//Si scollegano i device
-    			collegatoWireless = false;
-    			collegatoCavo = false;
-    			return true;
-    		default:
-    			if(!cartaInceppata) {
-    				printerState = Stato.PRONTA;
-    				System.out.println("Stampa terminata con successo");
-    				return true;
-    			}
-    			else {
-    				printerState = Stato.ERRORE;
-    				System.out.println("Carta inceppata");
-					utenteCorrente.rimborsaCredito(50);
-					return false;
-    			}
+    	if(printerState == Stato.INUSO) {
+    		switch(selectedService) {
+	    		case SCANSIONE:
+	    			printerState = Stato.PRONTA;
+	    			System.out.println("Scansione terminata con successo");
+	    			//Si scollegano i device
+	    			collegatoWireless = false;
+	    			collegatoCavo = false;
+	    			return true;
+	    		default:
+	    			if(!cartaInceppata) {
+	    				printerState = Stato.PRONTA;
+	    				System.out.println("Stampa terminata con successo");
+	    				return true;
+	    			}
+	    			else {
+	    				printerState = Stato.ERRORE;
+	    				System.out.println("Carta inceppata");
+						utenteCorrente.rimborsaCredito(50);
+						return false;
+	    			}
+	    	}
     	}
+    	
+    	System.out.println("Azione non consentita");
+    	return false;
+    	
     }
     
     protected boolean gestioneErrore() {
-    	if(!cartaInceppata) {
-    		printerState = Stato.PRONTA;
-    		System.out.println("Carta sistemata");
-    		return true;
+    	if(printerState == Stato.ERRORE) {
+    		if(!cartaInceppata) {
+        		printerState = Stato.PRONTA;
+        		System.out.println("Carta sistemata");
+        		return true;
+        	}
+        	return false;
     	}
+    	
+    	System.out.println("Azione non consentita");
     	return false;
+    	
     }
 
     protected void statoCorrente() {

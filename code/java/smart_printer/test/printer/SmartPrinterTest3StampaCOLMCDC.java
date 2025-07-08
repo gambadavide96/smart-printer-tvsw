@@ -26,26 +26,28 @@ public class SmartPrinterTest3StampaCOLMCDC {
     private int carta;
     private int credito;
     private boolean expectedResult;
+    private Stato expectedState;
     
     public SmartPrinterTest3StampaCOLMCDC(int creditoCorrente, int tonerNero, 
-    		int tonerColore,int carta, boolean expectedResult) 
+    		int tonerColore,int carta, boolean expectedResult,Stato expectedState) 
     {
         this.tonerNero = tonerNero;
         this.tonerColore = tonerColore;
         this.carta = carta;
         this.credito = creditoCorrente;
         this.expectedResult = expectedResult;
+        this.expectedState = expectedState;
     }
     
     @Parameters
     public static Collection<Object[]> stampaCOLParametri() {
         return Arrays.asList(new Object[][] {
         	//Credito,tonerNero,TonerColore,carta,expected
-            {45, 100, 100, 500, false},		// credito insufficiente
-            {1000, 5,5, 10, true},			// Caso ok
-            {1000, 4,5, 10, false},			// decide tonerNero
-            {1000, 5,4, 10, false},			// decide tonerColore
-            {1000, 5,5, 9, false}			// decide Carta
+            {45, 100, 100, 500, false,Stato.PRONTA},	// credito insufficiente
+            {1000, 5,5, 10, true,Stato.INUSO},			// Caso ok
+            {1000, 4,5, 10, false,Stato.PRONTA},		// decide tonerNero
+            {1000, 5,4, 10, false,Stato.PRONTA},		// decide tonerColore
+            {1000, 5,5, 9, false,Stato.PRONTA}			// decide Carta
             
         });
     }
@@ -73,9 +75,9 @@ public class SmartPrinterTest3StampaCOLMCDC {
 	
 	@Test
 	public void stampaCOLTest() {
-		//TODO
 		boolean result = stampante.stampaCOL();
         assertEquals(expectedResult, result);
+        assertEquals(expectedState,stampante.getPrinterState());
 	}
 	
 
