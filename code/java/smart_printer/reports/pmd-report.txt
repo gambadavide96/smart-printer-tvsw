@@ -1,0 +1,474 @@
+src/esecuzione/Main.java:7:	CommentRequired:	CommentRequired: Class comments are required
+src/esecuzione/Main.java:7:	ShortClassName:	ShortClassName: Avoid short class names like Main
+src/esecuzione/Main.java:7:	UseUtilityClass:	UseUtilityClass: This utility class has a non-private constructor
+src/esecuzione/Main.java:9:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+src/esecuzione/Main.java:11:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'davide' could be declared final
+src/esecuzione/Main.java:12:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'matteo' could be declared final
+src/esecuzione/Main.java:14:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'stampante' could be declared final
+src/esecuzione/Main.java:17:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'interazione' could be declared final
+src/printer/InterazioneStampante.java:7:	UnnecessaryImport:	UnnecessaryImport: Unused import 'printer.SmartPrinter.Stato'
+src/printer/InterazioneStampante.java:9:	CommentRequired:	CommentRequired: Class comments are required
+src/printer/InterazioneStampante.java:11:	CommentRequired:	CommentRequired: Field comments are required
+src/printer/InterazioneStampante.java:11:	ImmutableField:	ImmutableField: Field 'stampante' may be declared final
+src/printer/InterazioneStampante.java:13:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+src/printer/InterazioneStampante.java:13:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 's' is not assigned and could be declared final
+src/printer/InterazioneStampante.java:13:	ShortVariable:	ShortVariable: Avoid variables with short names like s
+src/printer/InterazioneStampante.java:17:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 's' is not assigned and could be declared final
+src/printer/InterazioneStampante.java:17:	ShortVariable:	ShortVariable: Avoid variables with short names like s
+src/printer/InterazioneStampante.java:18:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/printer/InterazioneStampante.java:18:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/printer/InterazioneStampante.java:18:	SimplifiedTernary:	SimplifiedTernary: This conditional expression can be simplified with || or &&
+src/printer/InterazioneStampante.java:21:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 's' is not assigned and could be declared final
+src/printer/InterazioneStampante.java:21:	ShortVariable:	ShortVariable: Avoid variables with short names like s
+src/printer/InterazioneStampante.java:22:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/printer/InterazioneStampante.java:22:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/printer/InterazioneStampante.java:22:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/printer/InterazioneStampante.java:22:	SimplifiedTernary:	SimplifiedTernary: This conditional expression can be simplified with || or &&
+src/printer/InterazioneStampante.java:23:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/printer/InterazioneStampante.java:26:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 's' is not assigned and could be declared final
+src/printer/InterazioneStampante.java:26:	ShortVariable:	ShortVariable: Avoid variables with short names like s
+src/printer/InterazioneStampante.java:27:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/printer/InterazioneStampante.java:27:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/printer/InterazioneStampante.java:27:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/printer/InterazioneStampante.java:27:	SimplifiedTernary:	SimplifiedTernary: This conditional expression can be simplified with || or &&
+src/printer/InterazioneStampante.java:28:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/printer/InterazioneStampante.java:31:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+src/printer/InterazioneStampante.java:31:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'u' is not assigned and could be declared final
+src/printer/InterazioneStampante.java:31:	ShortVariable:	ShortVariable: Avoid variables with short names like u
+src/printer/InterazioneStampante.java:36:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+src/printer/InterazioneStampante.java:41:	CognitiveComplexity:	CognitiveComplexity: The method 'usoStampante()' has a cognitive complexity of 63, current threshold is 15
+src/printer/InterazioneStampante.java:41:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+src/printer/InterazioneStampante.java:41:	CyclomaticComplexity:	CyclomaticComplexity: The method 'usoStampante()' has a cyclomatic complexity of 28.
+src/printer/InterazioneStampante.java:41:	NcssCount:	NcssCount: The method 'usoStampante()' has a NCSS line count of 108.
+src/printer/InterazioneStampante.java:42:	CloseResource:	CloseResource: Ensure that resources like this Scanner object are closed after use
+src/printer/InterazioneStampante.java:42:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'scanner' could be declared final
+src/printer/InterazioneStampante.java:44:	UnusedAssignment:	UnusedAssignment: The initializer for variable 'validInput' is never used (overwritten on lines 56, 74, 91, 105, 126, 150, 178 and 196)
+src/printer/InterazioneStampante.java:48:	LawOfDemeter:	LawOfDemeter: Call to `getPrinterState` on foreign value `stampante` (degree 1)
+src/printer/InterazioneStampante.java:48:	SwitchDensity:	SwitchDensity: A high ratio of statements to labels in a switch statement.  Consider refactoring.
+src/printer/InterazioneStampante.java:52:	LongVariable:	LongVariable: Avoid excessively long variable names like rispostaAccensione
+src/printer/InterazioneStampante.java:54:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/InterazioneStampante.java:55:	UseLocaleWithCaseConversions:	UseLocaleWithCaseConversions: When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+src/printer/InterazioneStampante.java:60:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/printer/InterazioneStampante.java:61:	ControlStatementBraces:	ControlStatementBraces: This statement should have braces
+src/printer/InterazioneStampante.java:63:	ControlStatementBraces:	ControlStatementBraces: This statement should have braces
+src/printer/InterazioneStampante.java:72:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/InterazioneStampante.java:73:	UseLocaleWithCaseConversions:	UseLocaleWithCaseConversions: When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+src/printer/InterazioneStampante.java:78:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/printer/InterazioneStampante.java:79:	ControlStatementBraces:	ControlStatementBraces: This statement should have braces
+src/printer/InterazioneStampante.java:87:	LongVariable:	LongVariable: Avoid excessively long variable names like rispostaGuastoRiparato
+src/printer/InterazioneStampante.java:89:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/InterazioneStampante.java:90:	UseLocaleWithCaseConversions:	UseLocaleWithCaseConversions: When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+src/printer/InterazioneStampante.java:95:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/printer/InterazioneStampante.java:96:	ControlStatementBraces:	ControlStatementBraces: This statement should have braces
+src/printer/InterazioneStampante.java:108:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/InterazioneStampante.java:113:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/InterazioneStampante.java:129:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/InterazioneStampante.java:134:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/InterazioneStampante.java:148:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/InterazioneStampante.java:149:	UseLocaleWithCaseConversions:	UseLocaleWithCaseConversions: When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+src/printer/InterazioneStampante.java:156:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/printer/InterazioneStampante.java:158:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/InterazioneStampante.java:159:	UseLocaleWithCaseConversions:	UseLocaleWithCaseConversions: When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+src/printer/InterazioneStampante.java:173:	LawOfDemeter:	LawOfDemeter: Call to `getSelectedService` on foreign value `stampante` (degree 1)
+src/printer/InterazioneStampante.java:174:	LongVariable:	LongVariable: Avoid excessively long variable names like rispostaCartaInceppata
+src/printer/InterazioneStampante.java:176:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/InterazioneStampante.java:177:	UseLocaleWithCaseConversions:	UseLocaleWithCaseConversions: When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+src/printer/InterazioneStampante.java:182:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/printer/InterazioneStampante.java:183:	ControlStatementBraces:	ControlStatementBraces: This statement should have braces
+src/printer/InterazioneStampante.java:192:	LongVariable:	LongVariable: Avoid excessively long variable names like rispostaCartaAncoraInceppata
+src/printer/InterazioneStampante.java:194:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/InterazioneStampante.java:195:	UseLocaleWithCaseConversions:	UseLocaleWithCaseConversions: When doing a String.toLowerCase()/toUpperCase() call, use a Locale
+src/printer/InterazioneStampante.java:200:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/printer/InterazioneStampante.java:201:	ControlStatementBraces:	ControlStatementBraces: This statement should have braces
+src/printer/SmartPrinter.java:3:	UnnecessaryImport:	UnnecessaryImport: Unused import 'java.util.HashMap'
+src/printer/SmartPrinter.java:4:	UnnecessaryImport:	UnnecessaryImport: Unused import 'java.util.InputMismatchException'
+src/printer/SmartPrinter.java:5:	UnnecessaryImport:	UnnecessaryImport: Unused import 'java.util.Scanner'
+src/printer/SmartPrinter.java:7:	UnnecessaryImport:	UnnecessaryImport: Unused import 'printer.SmartPrinter.Servizio'
+src/printer/SmartPrinter.java:8:	UnnecessaryImport:	UnnecessaryImport: Unused import 'printer.SmartPrinter.Stato'
+src/printer/SmartPrinter.java:11:	CommentRequired:	CommentRequired: Class comments are required
+src/printer/SmartPrinter.java:11:	CyclomaticComplexity:	CyclomaticComplexity: The class 'SmartPrinter' has a total cyclomatic complexity of 85 (highest 6).
+src/printer/SmartPrinter.java:11:	GodClass:	GodClass: Possible God Class (WMC=85, ATFD=8, TCC=28.876%)
+src/printer/SmartPrinter.java:11:	TooManyMethods:	TooManyMethods: This class has too many methods, consider refactoring it.
+src/printer/SmartPrinter.java:13:	CommentRequired:	CommentRequired: Enum comments are required
+src/printer/SmartPrinter.java:14:	CommentRequired:	CommentRequired: Enum comments are required
+src/printer/SmartPrinter.java:15:	CommentRequired:	CommentRequired: Enum comments are required
+src/printer/SmartPrinter.java:17:	CommentRequired:	CommentRequired: Field comments are required
+src/printer/SmartPrinter.java:18:	CommentRequired:	CommentRequired: Field comments are required
+src/printer/SmartPrinter.java:19:	CommentRequired:	CommentRequired: Field comments are required
+src/printer/SmartPrinter.java:21:	CommentRequired:	CommentRequired: Field comments are required
+src/printer/SmartPrinter.java:22:	CommentRequired:	CommentRequired: Field comments are required
+src/printer/SmartPrinter.java:23:	CommentRequired:	CommentRequired: Field comments are required
+src/printer/SmartPrinter.java:25:	CommentRequired:	CommentRequired: Field comments are required
+src/printer/SmartPrinter.java:26:	CommentRequired:	CommentRequired: Field comments are required
+src/printer/SmartPrinter.java:27:	AvoidFieldNameMatchingMethodName:	AvoidFieldNameMatchingMethodName: Field cartaInceppata has the same name as a method
+src/printer/SmartPrinter.java:27:	CommentRequired:	CommentRequired: Field comments are required
+src/printer/SmartPrinter.java:29:	CommentRequired:	CommentRequired: Field comments are required
+src/printer/SmartPrinter.java:29:	ImmutableField:	ImmutableField: Field 'utenti' may be declared final
+src/printer/SmartPrinter.java:30:	CommentRequired:	CommentRequired: Field comments are required
+src/printer/SmartPrinter.java:31:	CommentRequired:	CommentRequired: Field comments are required
+src/printer/SmartPrinter.java:33:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+src/printer/SmartPrinter.java:61:	MethodReturnsInternalArray:	MethodReturnsInternalArray: Returning 'utenti' may expose an internal array.
+src/printer/SmartPrinter.java:92:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'tonerNero' is not assigned and could be declared final
+src/printer/SmartPrinter.java:96:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'tonerColore' is not assigned and could be declared final
+src/printer/SmartPrinter.java:100:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'fogliCarta' is not assigned and could be declared final
+src/printer/SmartPrinter.java:104:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'collegatoWireless' is not assigned and could be declared final
+src/printer/SmartPrinter.java:108:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'collegatoCavo' is not assigned and could be declared final
+src/printer/SmartPrinter.java:114:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'u' is not assigned and could be declared final
+src/printer/SmartPrinter.java:114:	ShortVariable:	ShortVariable: Avoid variables with short names like u
+src/printer/SmartPrinter.java:118:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'u' is not assigned and could be declared final
+src/printer/SmartPrinter.java:118:	ShortVariable:	ShortVariable: Avoid variables with short names like u
+src/printer/SmartPrinter.java:122:	CommentRequired:	CommentRequired: Protected method constructor comments are required
+src/printer/SmartPrinter.java:122:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'numBadgeInserito' is not assigned and could be declared final
+src/printer/SmartPrinter.java:126:	ControlStatementBraces:	ControlStatementBraces: This statement should have braces
+src/printer/SmartPrinter.java:126:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:133:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'numBadge' is not assigned and could be declared final
+src/printer/SmartPrinter.java:135:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'u' could be declared final
+src/printer/SmartPrinter.java:137:	ControlStatementBraces:	ControlStatementBraces: This statement should have braces
+src/printer/SmartPrinter.java:137:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:143:	CommentRequired:	CommentRequired: Protected method constructor comments are required
+src/printer/SmartPrinter.java:143:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'device' is not assigned and could be declared final
+src/printer/SmartPrinter.java:145:	NonExhaustiveSwitch:	NonExhaustiveSwitch: Switch statements or expressions should be exhaustive, add a default case (or missing enum branches)
+src/printer/SmartPrinter.java:157:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:163:	CommentRequired:	CommentRequired: Protected method constructor comments are required
+src/printer/SmartPrinter.java:165:	ControlStatementBraces:	ControlStatementBraces: This statement should have braces
+src/printer/SmartPrinter.java:168:	CommentRequired:	CommentRequired: Protected method constructor comments are required
+src/printer/SmartPrinter.java:170:	ControlStatementBraces:	ControlStatementBraces: This statement should have braces
+src/printer/SmartPrinter.java:173:	CommentRequired:	CommentRequired: Protected method constructor comments are required
+src/printer/SmartPrinter.java:175:	ControlStatementBraces:	ControlStatementBraces: This statement should have braces
+src/printer/SmartPrinter.java:178:	CommentRequired:	CommentRequired: Protected method constructor comments are required
+src/printer/SmartPrinter.java:180:	ControlStatementBraces:	ControlStatementBraces: This statement should have braces
+src/printer/SmartPrinter.java:183:	CommentRequired:	CommentRequired: Protected method constructor comments are required
+src/printer/SmartPrinter.java:183:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'u' is not assigned and could be declared final
+src/printer/SmartPrinter.java:183:	ShortVariable:	ShortVariable: Avoid variables with short names like u
+src/printer/SmartPrinter.java:187:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:188:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:191:	ControlStatementBraces:	ControlStatementBraces: This statement should have braces
+src/printer/SmartPrinter.java:191:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:201:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:202:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:204:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:209:	CommentRequired:	CommentRequired: Protected method constructor comments are required
+src/printer/SmartPrinter.java:213:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:214:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:218:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:219:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:222:	AvoidDuplicateLiterals:	AvoidDuplicateLiterals: The String literal "Azione non consentita" appears 10 times in this file; the first occurrence is on line 222
+src/printer/SmartPrinter.java:222:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:226:	CommentRequired:	CommentRequired: Protected method constructor comments are required
+src/printer/SmartPrinter.java:230:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:231:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:234:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:235:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:238:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:242:	CommentRequired:	CommentRequired: Protected method constructor comments are required
+src/printer/SmartPrinter.java:242:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'numBadge' is not assigned and could be declared final
+src/printer/SmartPrinter.java:247:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:248:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:251:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:252:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:255:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:260:	CommentRequired:	CommentRequired: Protected method constructor comments are required
+src/printer/SmartPrinter.java:260:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'insertedPin' is not assigned and could be declared final
+src/printer/SmartPrinter.java:265:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:266:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:270:	NullAssignment:	NullAssignment: Assigning an Object to null is a code smell.  Consider refactoring.
+src/printer/SmartPrinter.java:271:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:272:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:276:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:281:	CommentRequired:	CommentRequired: Protected method constructor comments are required
+src/printer/SmartPrinter.java:290:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:291:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:294:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:295:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:299:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:300:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:303:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:307:	CommentRequired:	CommentRequired: Protected method constructor comments are required
+src/printer/SmartPrinter.java:317:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:318:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:321:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:322:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:326:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:327:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:330:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:334:	CommentRequired:	CommentRequired: Protected method constructor comments are required
+src/printer/SmartPrinter.java:339:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:340:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:343:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:344:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:347:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:351:	CommentRequired:	CommentRequired: Protected method constructor comments are required
+src/printer/SmartPrinter.java:351:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'sceltaServizio' is not assigned and could be declared final
+src/printer/SmartPrinter.java:355:	NonExhaustiveSwitch:	NonExhaustiveSwitch: Switch statements or expressions should be exhaustive, add a default case (or missing enum branches)
+src/printer/SmartPrinter.java:358:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:361:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:364:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:367:	NullAssignment:	NullAssignment: Assigning an Object to null is a code smell.  Consider refactoring.
+src/printer/SmartPrinter.java:368:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:369:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:374:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:379:	CommentRequired:	CommentRequired: Protected method constructor comments are required
+src/printer/SmartPrinter.java:381:	TooFewBranchesForSwitch:	TooFewBranchesForSwitch: A switch with less than three branches is inefficient, use a if statement instead.
+src/printer/SmartPrinter.java:384:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:388:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:390:	ConfusingTernary:	ConfusingTernary: Avoid if (x != y) ..; else ..;
+src/printer/SmartPrinter.java:392:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:393:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:397:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:399:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:404:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:409:	CommentRequired:	CommentRequired: Protected method constructor comments are required
+src/printer/SmartPrinter.java:413:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:414:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:416:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/SmartPrinter.java:419:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:424:	CommentRequired:	CommentRequired: Protected method constructor comments are required
+src/printer/SmartPrinter.java:425:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:426:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:427:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:428:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:429:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:430:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:431:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:432:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:433:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:434:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:435:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/SmartPrinter.java:436:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/printer/Utente.java:3:	CommentRequired:	CommentRequired: Class comments are required
+src/printer/Utente.java:4:	CommentRequired:	CommentRequired: Field comments are required
+src/printer/Utente.java:4:	ImmutableField:	ImmutableField: Field 'nome' may be declared final
+src/printer/Utente.java:5:	CommentRequired:	CommentRequired: Field comments are required
+src/printer/Utente.java:5:	ImmutableField:	ImmutableField: Field 'badgeId' may be declared final
+src/printer/Utente.java:6:	CommentRequired:	CommentRequired: Field comments are required
+src/printer/Utente.java:6:	ImmutableField:	ImmutableField: Field 'pin' may be declared final
+src/printer/Utente.java:7:	CommentRequired:	CommentRequired: Field comments are required
+src/printer/Utente.java:9:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+src/printer/Utente.java:9:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'badgeId' is not assigned and could be declared final
+src/printer/Utente.java:9:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'credito' is not assigned and could be declared final
+src/printer/Utente.java:9:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'nome' is not assigned and could be declared final
+src/printer/Utente.java:9:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'pin' is not assigned and could be declared final
+src/printer/Utente.java:20:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+src/printer/Utente.java:20:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'inputPin' is not assigned and could be declared final
+src/printer/Utente.java:24:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+src/printer/Utente.java:28:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+src/printer/Utente.java:28:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'amount' is not assigned and could be declared final
+src/printer/Utente.java:32:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+src/printer/Utente.java:32:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'amount' is not assigned and could be declared final
+src/printer/Utente.java:45:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'obj' is not assigned and could be declared final
+src/printer/Utente.java:45:	OverrideBothEqualsAndHashcode:	OverrideBothEqualsAndHashcode: Ensure you override both equals() and hashCode()
+src/printer/Utente.java:47:	ControlStatementBraces:	ControlStatementBraces: This statement should have braces
+src/printer/Utente.java:47:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/Utente.java:50:	ControlStatementBraces:	ControlStatementBraces: This statement should have braces
+src/printer/Utente.java:50:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/printer/Utente.java:52:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'u' could be declared final
+src/printer/Utente.java:52:	ShortVariable:	ShortVariable: Avoid variables with short names like u
+test/printer/SmartPrinterTest1Login.java:14:	AtLeastOneConstructor:	AtLeastOneConstructor: Each class should declare at least one constructor
+test/printer/SmartPrinterTest1Login.java:14:	ClassNamingConventions:	ClassNamingConventions: The class name 'SmartPrinterTest1Login' doesn't match '^Test.*$|^[A-Z][a-zA-Z0-9]*Test(s|Case)?$'
+test/printer/SmartPrinterTest1Login.java:14:	CommentRequired:	CommentRequired: Class comments are required
+test/printer/SmartPrinterTest1Login.java:14:	TooManyMethods:	TooManyMethods: This class has too many methods, consider refactoring it.
+test/printer/SmartPrinterTest1Login.java:16:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest1Login.java:17:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest1Login.java:18:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest1Login.java:19:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest1Login.java:22:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest1Login.java:28:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:29:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:34:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest1Login.java:34:	UnitTestContainsTooManyAsserts:	UnitTestContainsTooManyAsserts: Unit tests should not contain more than 1 assert(s).
+test/printer/SmartPrinterTest1Login.java:38:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:39:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:41:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:43:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:48:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest1Login.java:48:	UnitTestContainsTooManyAsserts:	UnitTestContainsTooManyAsserts: Unit tests should not contain more than 1 assert(s).
+test/printer/SmartPrinterTest1Login.java:50:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:51:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:52:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:53:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:57:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest1Login.java:57:	UnitTestContainsTooManyAsserts:	UnitTestContainsTooManyAsserts: Unit tests should not contain more than 1 assert(s).
+test/printer/SmartPrinterTest1Login.java:59:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:62:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:63:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:69:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest1Login.java:69:	UnitTestContainsTooManyAsserts:	UnitTestContainsTooManyAsserts: Unit tests should not contain more than 1 assert(s).
+test/printer/SmartPrinterTest1Login.java:74:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:76:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:77:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:82:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest1Login.java:82:	UnitTestContainsTooManyAsserts:	UnitTestContainsTooManyAsserts: Unit tests should not contain more than 1 assert(s).
+test/printer/SmartPrinterTest1Login.java:84:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:90:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:91:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:94:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:96:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:97:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:102:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest1Login.java:102:	UnitTestContainsTooManyAsserts:	UnitTestContainsTooManyAsserts: Unit tests should not contain more than 1 assert(s).
+test/printer/SmartPrinterTest1Login.java:104:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:109:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:110:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:112:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:113:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:114:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:120:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest1Login.java:120:	UnitTestContainsTooManyAsserts:	UnitTestContainsTooManyAsserts: Unit tests should not contain more than 1 assert(s).
+test/printer/SmartPrinterTest1Login.java:122:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:128:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:129:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:132:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:133:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:139:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest1Login.java:139:	UnitTestContainsTooManyAsserts:	UnitTestContainsTooManyAsserts: Unit tests should not contain more than 1 assert(s).
+test/printer/SmartPrinterTest1Login.java:141:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:149:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:151:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:152:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:156:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest1Login.java:156:	UnitTestContainsTooManyAsserts:	UnitTestContainsTooManyAsserts: Unit tests should not contain more than 1 assert(s).
+test/printer/SmartPrinterTest1Login.java:164:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:166:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:167:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:172:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest1Login.java:172:	UnitTestContainsTooManyAsserts:	UnitTestContainsTooManyAsserts: Unit tests should not contain more than 1 assert(s).
+test/printer/SmartPrinterTest1Login.java:180:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:182:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:185:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:190:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest1Login.java:190:	UnitTestContainsTooManyAsserts:	UnitTestContainsTooManyAsserts: Unit tests should not contain more than 1 assert(s).
+test/printer/SmartPrinterTest1Login.java:198:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:200:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:201:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest1Login.java:202:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest2StampaBNMCDC.java:20:	ClassNamingConventions:	ClassNamingConventions: The class name 'SmartPrinterTest2StampaBNMCDC' doesn't match '^Test.*$|^[A-Z][a-zA-Z0-9]*Test(s|Case)?$'
+test/printer/SmartPrinterTest2StampaBNMCDC.java:20:	CommentRequired:	CommentRequired: Class comments are required
+test/printer/SmartPrinterTest2StampaBNMCDC.java:22:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest2StampaBNMCDC.java:23:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest2StampaBNMCDC.java:23:	SingularField:	SingularField: Perhaps 'davide' could be replaced by a local variable.
+test/printer/SmartPrinterTest2StampaBNMCDC.java:25:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest2StampaBNMCDC.java:25:	ImmutableField:	ImmutableField: Field 'tonerNero' may be declared final
+test/printer/SmartPrinterTest2StampaBNMCDC.java:26:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest2StampaBNMCDC.java:26:	ImmutableField:	ImmutableField: Field 'carta' may be declared final
+test/printer/SmartPrinterTest2StampaBNMCDC.java:27:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest2StampaBNMCDC.java:27:	ImmutableField:	ImmutableField: Field 'credito' may be declared final
+test/printer/SmartPrinterTest2StampaBNMCDC.java:28:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest2StampaBNMCDC.java:28:	ImmutableField:	ImmutableField: Field 'expectedResult' may be declared final
+test/printer/SmartPrinterTest2StampaBNMCDC.java:29:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest2StampaBNMCDC.java:29:	ImmutableField:	ImmutableField: Field 'expectedState' may be declared final
+test/printer/SmartPrinterTest2StampaBNMCDC.java:31:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest2StampaBNMCDC.java:31:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'carta' is not assigned and could be declared final
+test/printer/SmartPrinterTest2StampaBNMCDC.java:31:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'creditoCorrente' is not assigned and could be declared final
+test/printer/SmartPrinterTest2StampaBNMCDC.java:31:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'tonerNero' is not assigned and could be declared final
+test/printer/SmartPrinterTest2StampaBNMCDC.java:32:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'expectedResult' is not assigned and could be declared final
+test/printer/SmartPrinterTest2StampaBNMCDC.java:32:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'expectedState' is not assigned and could be declared final
+test/printer/SmartPrinterTest2StampaBNMCDC.java:41:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest2StampaBNMCDC.java:42:	UnnecessaryVarargsArrayCreation:	UnnecessaryVarargsArrayCreation: Unnecessary explicit array creation for varargs method call
+test/printer/SmartPrinterTest2StampaBNMCDC.java:52:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest2StampaBNMCDC.java:57:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest2StampaBNMCDC.java:63:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest2StampaBNMCDC.java:72:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest2StampaBNMCDC.java:72:	UnitTestContainsTooManyAsserts:	UnitTestContainsTooManyAsserts: Unit tests should not contain more than 1 assert(s).
+test/printer/SmartPrinterTest2StampaBNMCDC.java:73:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'result' could be declared final
+test/printer/SmartPrinterTest2StampaBNMCDC.java:74:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest2StampaBNMCDC.java:75:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:19:	ClassNamingConventions:	ClassNamingConventions: The class name 'SmartPrinterTest3StampaCOLMCDC' doesn't match '^Test.*$|^[A-Z][a-zA-Z0-9]*Test(s|Case)?$'
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:19:	CommentRequired:	CommentRequired: Class comments are required
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:21:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:22:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:22:	SingularField:	SingularField: Perhaps 'davide' could be replaced by a local variable.
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:24:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:24:	ImmutableField:	ImmutableField: Field 'tonerNero' may be declared final
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:25:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:25:	ImmutableField:	ImmutableField: Field 'tonerColore' may be declared final
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:26:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:26:	ImmutableField:	ImmutableField: Field 'carta' may be declared final
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:27:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:27:	ImmutableField:	ImmutableField: Field 'credito' may be declared final
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:28:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:28:	ImmutableField:	ImmutableField: Field 'expectedResult' may be declared final
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:29:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:29:	ImmutableField:	ImmutableField: Field 'expectedState' may be declared final
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:31:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:31:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'creditoCorrente' is not assigned and could be declared final
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:31:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'tonerNero' is not assigned and could be declared final
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:32:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'carta' is not assigned and could be declared final
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:32:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'expectedResult' is not assigned and could be declared final
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:32:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'expectedState' is not assigned and could be declared final
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:32:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'tonerColore' is not assigned and could be declared final
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:43:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:44:	UnnecessaryVarargsArrayCreation:	UnnecessaryVarargsArrayCreation: Unnecessary explicit array creation for varargs method call
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:56:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:61:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:67:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:77:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:77:	UnitTestContainsTooManyAsserts:	UnitTestContainsTooManyAsserts: Unit tests should not contain more than 1 assert(s).
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:78:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'result' could be declared final
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:79:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest3StampaCOLMCDC.java:80:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest4ScansioneMCDC.java:17:	ClassNamingConventions:	ClassNamingConventions: The class name 'SmartPrinterTest4ScansioneMCDC' doesn't match '^Test.*$|^[A-Z][a-zA-Z0-9]*Test(s|Case)?$'
+test/printer/SmartPrinterTest4ScansioneMCDC.java:17:	CommentRequired:	CommentRequired: Class comments are required
+test/printer/SmartPrinterTest4ScansioneMCDC.java:19:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest4ScansioneMCDC.java:20:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest4ScansioneMCDC.java:20:	SingularField:	SingularField: Perhaps 'davide' could be replaced by a local variable.
+test/printer/SmartPrinterTest4ScansioneMCDC.java:22:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest4ScansioneMCDC.java:22:	ImmutableField:	ImmutableField: Field 'collegatoWireless' may be declared final
+test/printer/SmartPrinterTest4ScansioneMCDC.java:23:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest4ScansioneMCDC.java:23:	ImmutableField:	ImmutableField: Field 'collegatoCavo' may be declared final
+test/printer/SmartPrinterTest4ScansioneMCDC.java:24:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest4ScansioneMCDC.java:24:	ImmutableField:	ImmutableField: Field 'expectedResult' may be declared final
+test/printer/SmartPrinterTest4ScansioneMCDC.java:25:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest4ScansioneMCDC.java:25:	ImmutableField:	ImmutableField: Field 'expectedState' may be declared final
+test/printer/SmartPrinterTest4ScansioneMCDC.java:27:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest4ScansioneMCDC.java:27:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'cavo' is not assigned and could be declared final
+test/printer/SmartPrinterTest4ScansioneMCDC.java:27:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'wireless' is not assigned and could be declared final
+test/printer/SmartPrinterTest4ScansioneMCDC.java:28:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'expectedResult' is not assigned and could be declared final
+test/printer/SmartPrinterTest4ScansioneMCDC.java:28:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'expectedState' is not assigned and could be declared final
+test/printer/SmartPrinterTest4ScansioneMCDC.java:38:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest4ScansioneMCDC.java:39:	UnnecessaryVarargsArrayCreation:	UnnecessaryVarargsArrayCreation: Unnecessary explicit array creation for varargs method call
+test/printer/SmartPrinterTest4ScansioneMCDC.java:49:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest4ScansioneMCDC.java:54:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest4ScansioneMCDC.java:60:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest4ScansioneMCDC.java:69:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest4ScansioneMCDC.java:69:	UnitTestContainsTooManyAsserts:	UnitTestContainsTooManyAsserts: Unit tests should not contain more than 1 assert(s).
+test/printer/SmartPrinterTest4ScansioneMCDC.java:70:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'result' could be declared final
+test/printer/SmartPrinterTest4ScansioneMCDC.java:71:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest4ScansioneMCDC.java:72:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:11:	AtLeastOneConstructor:	AtLeastOneConstructor: Each class should declare at least one constructor
+test/printer/SmartPrinterTest5InUsoErrore.java:11:	ClassNamingConventions:	ClassNamingConventions: The class name 'SmartPrinterTest5InUsoErrore' doesn't match '^Test.*$|^[A-Z][a-zA-Z0-9]*Test(s|Case)?$'
+test/printer/SmartPrinterTest5InUsoErrore.java:11:	CommentRequired:	CommentRequired: Class comments are required
+test/printer/SmartPrinterTest5InUsoErrore.java:13:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest5InUsoErrore.java:14:	CommentRequired:	CommentRequired: Field comments are required
+test/printer/SmartPrinterTest5InUsoErrore.java:14:	SingularField:	SingularField: Perhaps 'davide' could be replaced by a local variable.
+test/printer/SmartPrinterTest5InUsoErrore.java:17:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest5InUsoErrore.java:23:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:24:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:30:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:35:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest5InUsoErrore.java:35:	UnitTestContainsTooManyAsserts:	UnitTestContainsTooManyAsserts: Unit tests should not contain more than 1 assert(s).
+test/printer/SmartPrinterTest5InUsoErrore.java:40:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:42:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:44:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:45:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:47:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:48:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:53:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest5InUsoErrore.java:53:	UnitTestContainsTooManyAsserts:	UnitTestContainsTooManyAsserts: Unit tests should not contain more than 1 assert(s).
+test/printer/SmartPrinterTest5InUsoErrore.java:57:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:59:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:61:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:62:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:67:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest5InUsoErrore.java:67:	UnitTestContainsTooManyAsserts:	UnitTestContainsTooManyAsserts: Unit tests should not contain more than 1 assert(s).
+test/printer/SmartPrinterTest5InUsoErrore.java:71:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:73:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:76:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:77:	LawOfDemeter:	LawOfDemeter: Call to `getUtenteCorrente` on foreign value `stampante` (degree 1)
+test/printer/SmartPrinterTest5InUsoErrore.java:77:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:78:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:83:	CommentRequired:	CommentRequired: Public method and constructor comments are required
+test/printer/SmartPrinterTest5InUsoErrore.java:83:	UnitTestContainsTooManyAsserts:	UnitTestContainsTooManyAsserts: Unit tests should not contain more than 1 assert(s).
+test/printer/SmartPrinterTest5InUsoErrore.java:88:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:90:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:93:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
+test/printer/SmartPrinterTest5InUsoErrore.java:94:	UnitTestAssertionsShouldIncludeMessage:	UnitTestAssertionsShouldIncludeMessage: Unit test assertions should include a message
