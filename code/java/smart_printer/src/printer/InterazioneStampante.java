@@ -2,9 +2,7 @@ package printer;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
 import printer.SmartPrinter.Servizio;
-import printer.SmartPrinter.Stato;
 
 public class InterazioneStampante {
 	
@@ -15,17 +13,17 @@ public class InterazioneStampante {
 	}
 	
 	private static boolean controlloInputUtenteBool(String s) {
-	    return s.equals("si") || s.equals("no")  ? true : false;
+	    return s.equals("si") || s.equals("no");
 	}
 	
 	private static boolean controlloInputUtenteSceltaServizio(String s) {
 		return s.equals("BN") || s.equals("COL") || s.equals("S") ||
-				s.equals("E")? true : false;
+				s.equals("E");
 	}
 	
 	private boolean controlloInputUtenteSceltaDevice(String s) {
 		return s.equals("W") || s.equals("C") || s.equals("D") ||
-				s.equals("N")? true : false;
+				s.equals("N");
 	}
 	
 	public boolean aggiungiUtente(Utente u) {
@@ -51,7 +49,7 @@ public class InterazioneStampante {
 	        		
 	        		String rispostaAccensione;
 	        		do {
-		        		System.out.println("Vuoi accendere la stampante? (si/no): ");
+		        		Log.print("Vuoi accendere la stampante? (si/no): ");
 		        		rispostaAccensione = scanner.nextLine().toLowerCase();
 		        		validInput = controlloInputUtenteBool(rispostaAccensione);
 	        		}
@@ -69,7 +67,7 @@ public class InterazioneStampante {
 					
 	        		String rispostaGuasto;
 	        		do {
-	        			System.out.println("Si è verificato un guasto? (si/no): ");
+	        			Log.print("Si è verificato un guasto? (si/no): ");
 	        			rispostaGuasto = scanner.nextLine().toLowerCase();
 		        		validInput = controlloInputUtenteBool(rispostaGuasto);
 	        		}
@@ -86,7 +84,7 @@ public class InterazioneStampante {
 					
 					String rispostaGuastoRiparato;
 	        		do {
-		        		System.out.println("Il guasto è stato riparato? (si/no): ");
+		        		Log.print("Il guasto è stato riparato? (si/no): ");
 		        		rispostaGuastoRiparato = scanner.nextLine().toLowerCase();
 		        		validInput = controlloInputUtenteBool(rispostaGuastoRiparato);
 	        		}
@@ -105,12 +103,12 @@ public class InterazioneStampante {
 					validInput = false;
 					
 					while(!validInput) {
-						System.out.println("Inserire un numero di Badge: ");
+						Log.print("Inserire un numero di Badge: ");
 						  try {
 						        badgeMostrato = scanner.nextInt();
 						        validInput = true;
 						    } catch (InputMismatchException e) {
-						        System.out.println("Input non valido. Inserisci un numero di Badge.");
+						        Log.print("Input non valido. Inserisci un numero di Badge.");
 						        scanner.nextLine(); 
 						    }
 					}
@@ -126,12 +124,12 @@ public class InterazioneStampante {
 					validInput = false;
 					
 					while(!validInput) {
-						System.out.println("Inserisci il tuo Pin: ");
+						Log.print("Inserisci il tuo Pin: ");
 						  try {
 						        pinInserito = scanner.nextInt();
 						        validInput = true;
 						    } catch (InputMismatchException e) {
-						        System.out.println("Input non valido. Inserisci un un numero .");
+						        Log.print("Input non valido. Inserisci un un numero .");
 						        scanner.nextLine(); 
 						    }
 					}
@@ -145,7 +143,7 @@ public class InterazioneStampante {
 					
 					String servizioScelto;
 	        		do {
-	        			System.out.println("Quale operazione vuoi effettuare? (BN/COL/S/E): ");
+	        			Log.print("Quale operazione vuoi effettuare? (BN/COL/S/E): ");
 	        			servizioScelto = scanner.nextLine().toUpperCase();
 		        		validInput = controlloInputUtenteSceltaServizio(servizioScelto);
 	        		}
@@ -155,7 +153,7 @@ public class InterazioneStampante {
 	        		String deviceDaCollegare;
 	        		if(servizioScelto.equals("S")) {
 	        			do {
-		        			System.out.println("Collega i device dove ricevere la scansione: (W/C/D/N): ");
+		        			Log.print("Collega i device dove ricevere la scansione: (W/C/D/N): ");
 		        			deviceDaCollegare = scanner.nextLine().toUpperCase();
 			        		validInput = controlloInputUtenteSceltaDevice(deviceDaCollegare);
 		        		}
@@ -173,7 +171,7 @@ public class InterazioneStampante {
 					if(stampante.getSelectedService() != Servizio.SCANSIONE) {
 						String rispostaCartaInceppata;
 						do {
-			        		System.out.println("La carta si è inceppata? (si/no): ");
+			        		Log.print("La carta si è inceppata? (si/no): ");
 			        		rispostaCartaInceppata = scanner.nextLine().toLowerCase();
 			        		validInput = controlloInputUtenteBool(rispostaCartaInceppata);
 		        		}
@@ -191,7 +189,7 @@ public class InterazioneStampante {
 					
 					String rispostaCartaAncoraInceppata;
 					do {
-		        		System.out.println("La carta è ancora inceppata? (si/no): ");
+		        		Log.print("La carta è ancora inceppata? (si/no): ");
 		        		rispostaCartaAncoraInceppata = scanner.nextLine().toLowerCase();
 		        		validInput = controlloInputUtenteBool(rispostaCartaAncoraInceppata);
 	        		}

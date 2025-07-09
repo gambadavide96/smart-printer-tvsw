@@ -1,5 +1,7 @@
 package printer;
 
+import java.util.Objects;
+
 public class Utente {
     private String nome;
     private int badgeId;
@@ -51,5 +53,10 @@ public class Utente {
         
         Utente u = (Utente) obj;
         return badgeId == u.badgeId;
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(badgeId);
     }
 }

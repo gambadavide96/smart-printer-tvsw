@@ -1,15 +1,7 @@
 package printer;
 
-import java.util.HashMap;
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
-import printer.SmartPrinter.Servizio;
-import printer.SmartPrinter.Stato;
-
-
 public class SmartPrinter {
-
+	
     public enum Stato { SPENTA, AVVIO, MOSTRABADGE, INSERISCIPIN, PRONTA, INUSO, ERRORE, OUTOFSERVICE }
     public enum Servizio { PRINTBN, PRINTCOL, SCANSIONE, EXIT }
     public enum StatoMacchina { GUASTA, NONGUASTA }
@@ -29,6 +21,8 @@ public class SmartPrinter {
     private Utente[] utenti;
     private int numUtenti;
     private Utente utenteCorrente;
+    
+    final String denyMessage = "Azione non consentita";
     
     public SmartPrinter() {
         printerState = Stato.SPENTA;
@@ -154,8 +148,10 @@ public class SmartPrinter {
 				collegatoCavo = true;
 				break;
 			case "N":
-				System.out.println("Non hai collegato nessun device");
+				Log.print("Non hai collegato nessun device");
 				break;
+			default:
+				Log.print("Valore inserito non valido, inserirne un altro"); //aggiungo default case
 			}
 			
 	}
@@ -184,12 +180,12 @@ public class SmartPrinter {
         if(numUtenti < utenti.length) {
         	utenti[numUtenti] = u;
         	numUtenti++;
-        	System.out.println("Utente aggiunto: " + u.getNome() + " : " + u.getBadgeId());
+        	Log.print("Utente aggiunto: " + u.getNome() + " : " + u.getBadgeId());
         	return true;
         }
-        else
-        	System.out.println("Non è possibile aggiungere altri utenti");
-        	return false;
+        
+        Log.print("Non è possibile aggiungere altri utenti");
+    	return false;
         
     }
     
@@ -198,10 +194,10 @@ public class SmartPrinter {
     protected boolean accendiStampante() {
     	if(printerState == Stato.SPENTA) {
     		printerState = Stato.AVVIO;
-    		System.out.println("Accensione in corso");
+    		Log.print("Accensione in corso");
     		return true;
     	}
-    	System.out.println("La stampante è già accesa");
+    	Log.print("La stampante è già accesa");
     	return false;
     	
     }
@@ -210,16 +206,16 @@ public class SmartPrinter {
     	if(printerState == Stato.AVVIO) {
     		if(spiaGuasto == StatoMacchina.GUASTA) {
     			printerState = Stato.OUTOFSERVICE;
-    			System.out.println("Stampante guasta");
+    			Log.print("Stampante guasta");
     			return false;
         	}
         	else {
     			printerState = Stato.MOSTRABADGE;
-    			System.out.println("Mostrare Badge");
+    			Log.print("Mostrare Badge");
     			return true;
     		}
     	}
-    	System.out.println("Azione non consentita");
+    	Log.print(denyMessage);
     	return false;
     }
     
@@ -227,15 +223,15 @@ public class SmartPrinter {
     	if(printerState == Stato.OUTOFSERVICE) {
     		if(spiaGuasto == StatoMacchina.NONGUASTA) {
     			printerState = Stato.MOSTRABADGE;
-    			System.out.println("Mostrare Badge");
+    			Log.print("Mostrare Badge");
     			return true;
         	}
         	else {
-        		System.out.println("Stampante ancora guasta");
+        		Log.print("Stampante ancora guasta");
         		return false;
         	}
     	}
-    	System.out.println("Azione non consentita");
+    	Log.print(denyMessage);
     	return false;
     }
     
@@ -244,15 +240,15 @@ public class SmartPrinter {
     	 	if(ricercaUtente(numBadge)) {
     			utenteCorrente = getUtentebyNumBadge(numBadge);
     			printerState = Stato.INSERISCIPIN;
-    			System.out.println("Benvenuto " + utenteCorrente.getNome() + ", Inserisci Pin");
+    			Log.print("Benvenuto " + utenteCorrente.getNome() + ", Inserisci Pin");
     			return true;
         	}
         	else {
-        		System.out.println("Badge non riconosciuto");
+        		Log.print("Badge non riconosciuto");
         		return false;
         	}
     	}
-    	System.out.println("Azione non consentita");
+    	Log.print(denyMessage);
     	return false;
     }
 
@@ -262,18 +258,18 @@ public class SmartPrinter {
     	if(printerState == Stato.INSERISCIPIN) {
     		if(utenteCorrente.verificaPin(insertedPin)) {
 	    		printerState = Stato.PRONTA;
-	    		System.out.println("Selezionare una azione");
+	    		Log.print("Selezionare una azione");
 	    		return true;
     		}
 	    	else {
 	    		printerState = Stato.MOSTRABADGE;
 	    		utenteCorrente = null;
-	    		System.out.println("Pin errato");
+	    		Log.print("Pin errato");
 	    		return false;
 	    	}
     	}
     	
-    	System.out.println("Azione non consentita");
+    	Log.print(denyMessage);
     	return false;
     }
  
@@ -287,20 +283,20 @@ public class SmartPrinter {
  					tonerNero = tonerNero - 5;
  					fogliCarta = fogliCarta - 10;
  					utenteCorrente.scalaCredito(50);
- 					System.out.println("Stampa BN in corso");
+ 					Log.print("Stampa BN in corso");
  					return true;
  	 			}
  				else {
- 					System.out.println("Risorse finite, caricare stampante");
+ 					Log.print("Risorse finite, caricare stampante");
  					return false;
  				}
  	 		}
  	 		else {
- 	 			System.out.println("Credito insufficiente");
+ 	 			Log.print("Credito insufficiente");
  	 			return false;
  	 		}
  		}
- 		System.out.println("Azione non consentita");
+ 		Log.print(denyMessage);
     	return false;
  	}
  	
@@ -314,20 +310,20 @@ public class SmartPrinter {
  					tonerColore = tonerColore - 5;
  					fogliCarta = fogliCarta - 10;
  					utenteCorrente.scalaCredito(50);
- 					System.out.println("Stampa a Colori in corso");
+ 					Log.print("Stampa a Colori in corso");
  					return true;
  	 			}
  				else {
- 					System.out.println("Risorse finite, caricare stampante");
+ 					Log.print("Risorse finite, caricare stampante");
  					return false;
  				}
  	 		}
  	 		else {
- 	 			System.out.println("Credito insufficiente");
+ 	 			Log.print("Credito insufficiente");
  	 			return false;
  	 		}
  		}
- 		System.out.println("Azione non consentita");
+ 		Log.print(denyMessage);
     	return false;
  	}
  	
@@ -336,15 +332,15 @@ public class SmartPrinter {
  			if (collegatoWireless || collegatoCavo) {
  				printerState = Stato.INUSO;
  				selectedService = Servizio.SCANSIONE;
- 				System.out.println("Scansione in corso");
+ 				Log.print("Scansione in corso");
  				return true;
  			}
  	 		else {
- 	 			System.out.println("Collega un dispositivo per effettuare la scansione");
+ 	 			Log.print("Collega un dispositivo per effettuare la scansione");
  	 			return false;
  	 		}
  		}
- 		System.out.println("Azione non consentita");
+ 		Log.print(denyMessage);
     	return false;
  	}
     
@@ -365,75 +361,78 @@ public class SmartPrinter {
 			case "E":
 				printerState = Stato.SPENTA;
 				utenteCorrente = null;
-				System.out.println("Stampante spenta");
+				Log.print("Stampante spenta");
 				return true;
+			default:
+				Log.print("Valore inserito non valido, inserirne un altro"); //aggiungo default case
     		}
     		
     	}
     	
-    	System.out.println("Azione non consentita");
+    	Log.print(denyMessage);
     	return false;
     	
     }
     
     protected boolean stampanteInUso() {
-    	if(printerState == Stato.INUSO) {
-    		switch(selectedService) {
-	    		case SCANSIONE:
+    	if(printerState == Stato.INUSO){
+    		
+    		if(selectedService == Servizio.SCANSIONE) {
+	    		printerState = Stato.PRONTA;
+	    		Log.print("Scansione terminata con successo");
+	    		//Si scollegano i device
+	    		collegatoWireless = false;
+	    		collegatoCavo = false;
+	    		return true;
+    		}
+    		//è in corso una stampa
+    		else {
+	    		if(!cartaInceppata) {
 	    			printerState = Stato.PRONTA;
-	    			System.out.println("Scansione terminata con successo");
-	    			//Si scollegano i device
-	    			collegatoWireless = false;
-	    			collegatoCavo = false;
+	    			Log.print("Stampa terminata con successo");
 	    			return true;
-	    		default:
-	    			if(!cartaInceppata) {
-	    				printerState = Stato.PRONTA;
-	    				System.out.println("Stampa terminata con successo");
-	    				return true;
-	    			}
-	    			else {
-	    				printerState = Stato.ERRORE;
-	    				System.out.println("Carta inceppata");
-						utenteCorrente.rimborsaCredito(50);
-						return false;
-	    			}
-	    	}
-    	}
-    	
-    	System.out.println("Azione non consentita");
+	    		}
+	    		else {
+	    			printerState = Stato.ERRORE;
+	    			Log.print("Carta inceppata");
+					utenteCorrente.rimborsaCredito(50);
+					return false;
+	    		}
+    		}
+	    }
+    	Log.print(denyMessage);
     	return false;
-    	
     }
+    	
     
     protected boolean gestioneErrore() {
     	if(printerState == Stato.ERRORE) {
     		if(!cartaInceppata) {
         		printerState = Stato.PRONTA;
-        		System.out.println("Carta sistemata");
+        		Log.print("Carta sistemata");
         		return true;
         	}
         	return false;
     	}
     	
-    	System.out.println("Azione non consentita");
+    	Log.print(denyMessage);
     	return false;
     	
     }
 
     protected void statoCorrente() {
-        System.out.println("\n--- STATO CORRENTE ---");
-        System.out.println("Stato: " + printerState);
-        System.out.println("Guasto: " + spiaGuasto);
-        System.out.println("Utente loggato: " + getNomeUtenteLoggato(utenteCorrente));
-        System.out.println("Credito utente: " + getCreditoUtente(utenteCorrente));
-        System.out.println("Toner Nero: " + tonerNero);
-        System.out.println("Toner Colore: " + tonerColore);
-        System.out.println("Carta: " + fogliCarta);
-        System.out.println("Collegato Wireless: " + collegatoWireless);
-        System.out.println("Collegato Cavo: " + collegatoCavo);
-        System.out.println("Carta inceppata: " + cartaInceppata);
-        System.out.println("------------------------\n");
+        Log.print("\n--- STATO CORRENTE ---");
+        Log.print("Stato: " + printerState);
+        Log.print("Guasto: " + spiaGuasto);
+        Log.print("Utente loggato: " + getNomeUtenteLoggato(utenteCorrente));
+        Log.print("Credito utente: " + getCreditoUtente(utenteCorrente));
+        Log.print("Toner Nero: " + tonerNero);
+        Log.print("Toner Colore: " + tonerColore);
+        Log.print("Carta: " + fogliCarta);
+        Log.print("Collegato Wireless: " + collegatoWireless);
+        Log.print("Collegato Cavo: " + collegatoCavo);
+        Log.print("Carta inceppata: " + cartaInceppata);
+        Log.print("------------------------\n");
     }
     
 }
