@@ -27,7 +27,7 @@ Il progetto affronta le seguenti attività:
 ### 🧪 **Testing**:
 
   * ✅ Test con JUnit e test parametrici.
-  * 📊 Analisi della copertura (statement).
+  * 📊 Analisi della copertura (statement,MCDC).
 
 ### 🧬 **Analisi statica del Codice**: 
 
