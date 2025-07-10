@@ -198,8 +198,8 @@ public class SmartPrinter {
     
     
     /**
-     * Tenta di accendere la stampante se si trova nello stato SPENTA.
-     * Se la stampante è spenta, lo stato viene aggiornato a AVVIO.
+     * Tenta di accendere la stampante se si trova nello stato @code {SPENTA}.
+     * Se la stampante è spenta, lo stato viene aggiornato a @code {AVVIO}.
      * In caso contrario, viene emesso un messaggio.
      * 
      * @return {@code true} se la transizione di stato è avvenuta con successo,
@@ -216,10 +216,11 @@ public class SmartPrinter {
     }
 
     /**
-     * Porta la stampante dalla fase di accensione alla fase operativa.
-     * Se la stampante è in stato di avvio ma si è verificato un guasto, lo stato viene aggiornato a OUTOFSERVICE.
-     * Se la stampante è in stato di avvio e non si è verificato un guasto, lo stato viene aggiornato a MOSTRABADGE.
-     * Se la stampante non è in stato di avvio, viene emesso un messaggio di Deny.
+     * Porta la stampante dalla fase di accensione alla fase operativa, controllando se si sono verificati guasti
+     * 
+     * Se la stampante è in @code {AVVIO} ma si è verificato un guasto, lo stato viene aggiornato a @code {OUTOFSERVICE}.
+     * Se la stampante è in @code {AVVIO} e non si è verificato un guasto, lo stato viene aggiornato a @code {MOSTRABADGE}.
+     * Se la stampante non è in @code {AVVIO}, viene emesso un messaggio di Deny.
      * 
      * @return {@code true} se la transizione di stato è avvenuta con successo,
      *         	{@code false} altrimenti.
