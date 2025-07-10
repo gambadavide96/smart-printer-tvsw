@@ -171,7 +171,7 @@ definitions:
 		(chooseService = PRINTBN or chooseService = PRINTCOL)
 	//P8: In qualsiasi stato si trovi la macchina, esiste un percorso che la porta nello stato futuro di PRONTA
 	CTLSPEC ag(ef(printerState = PRONTA))
-	//P9: Nella stampante ci saranno sempre almeno 300 fogli (200 fogli per finire il toner)
+	//P9: Nella stampante ci saranno sempre almeno 300 fogli (200 fogli per finire il toner -> 20 stampe)
 	CTLSPEC ag(fogliCarta >= 300)
 	//P10: Una volta che il toner è finito, rimane a zero
 	CTLSPEC (tonerNero = 0 implies ag(tonerNero = 0))
