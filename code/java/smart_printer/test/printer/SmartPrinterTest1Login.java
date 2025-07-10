@@ -31,21 +31,21 @@ public class SmartPrinterTest1Login {
 	
 	
 	@Test
-	public void aggiungiUtenteTest() {
+	public void testAggiungiUtente() {
 		
 		stampante.statoCorrente();
 	    
-		assertTrue(stampante.ricercaUtente(davide.getBadgeId()));
-		assertTrue(stampante.ricercaUtente(matteo.getBadgeId()));
+		assertNotNull(stampante.getUtentebyNumBadge(davide.getBadgeId()));
+		assertNotNull(stampante.getUtentebyNumBadge(matteo.getBadgeId()));
 		
 		assertFalse(stampante.aggiungiUtente(giovanni)); //Non è possibile aggiungere altri utenti
 		
-		assertFalse(stampante.ricercaUtente(1111)); //ricerca con NumBadge casuale
+		assertNull(stampante.getUtentebyNumBadge(1111)); //ricerca con NumBadge casuale
 	}
 
 	//All'inizio la stampante è spenta e poi si accende
 	@Test
-	public void accendiStampanteTest() {
+	public void testAccendiStampante() {
 		
 		assertEquals(Stato.SPENTA,stampante.getPrinterState());
 		assertTrue(stampante.accendiStampante()); 	//Stampante in accensione
@@ -54,7 +54,7 @@ public class SmartPrinterTest1Login {
 	}
 	
 	@Test
-	public void avvioStampanteTest() {
+	public void testAvvioStampante() {
 		
 		assertFalse(stampante.avvioStampante()); //azione non consentita
 		stampante.accendiStampante();
@@ -66,7 +66,7 @@ public class SmartPrinterTest1Login {
 
 	
 	@Test
-	public void avvioStampanteTestGuasta() {
+	public void testAvvioStampanteGuasta() {
 	
 		stampante.accendiStampante();
 		
@@ -79,7 +79,7 @@ public class SmartPrinterTest1Login {
 	}
 	
 	@Test
-	public void gestioneGuastoTest() {
+	public void testGestioneGuasto() {
 		
 		assertFalse(stampante.gestioneGuasto()); //azione non consentita
 		
@@ -99,7 +99,7 @@ public class SmartPrinterTest1Login {
 	}
 	
 	@Test 
-	public void identificazioneUtenteTest() {
+	public void testIdentificazioneUtente() {
 		
 		assertFalse(stampante.identificazioneUtente(0)); //azione non consentita
 		
@@ -117,7 +117,7 @@ public class SmartPrinterTest1Login {
 	}
 	
 	@Test
-	public void inserimentoPinTest() {
+	public void testInserimentoPin() {
 		
 		assertFalse(stampante.inserimentoPin(0)); //azione non consentita
 		
@@ -136,7 +136,7 @@ public class SmartPrinterTest1Login {
 	}
 	
 	@Test
-	public void sceltaServizioTestBN() {
+	public void testSceltaServizioBN() {
 		
 		assertFalse(stampante.sceltaServizio("x")); //Azione non consentita
 		
@@ -153,7 +153,7 @@ public class SmartPrinterTest1Login {
 	}
 	
 	@Test
-	public void sceltaServizioTestCOL() {
+	public void testSceltaServizioCOL() {
 		
 		stampante.accendiStampante();
 		stampante.avvioStampante();
@@ -169,7 +169,7 @@ public class SmartPrinterTest1Login {
 	}
 	
 	@Test
-	public void sceltaServizioTestS() {
+	public void testSceltaServizioS() {
 		
 		stampante.accendiStampante();
 		stampante.avvioStampante();
@@ -187,7 +187,7 @@ public class SmartPrinterTest1Login {
 	}
 	
 	@Test
-	public void sceltaServizioTestE() {
+	public void testSceltaServizioE() {
 		
 		stampante.accendiStampante();
 		stampante.avvioStampante();

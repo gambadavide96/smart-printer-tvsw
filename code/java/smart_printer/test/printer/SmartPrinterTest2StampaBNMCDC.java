@@ -69,7 +69,7 @@ public class SmartPrinterTest2StampaBNMCDC {
 	}
 
 	@Test
-	public void stampaBNTest() {
+	public void testStampaBN() {
 		boolean result = stampante.stampaBN();
         assertEquals(expectedResult, result);
         assertEquals(expectedState,stampante.getPrinterState());

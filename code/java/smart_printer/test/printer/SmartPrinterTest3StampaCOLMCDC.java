@@ -74,7 +74,7 @@ public class SmartPrinterTest3StampaCOLMCDC {
 	}
 	
 	@Test
-	public void stampaCOLTest() {
+	public void testStampaCOL() {
 		boolean result = stampante.stampaCOL();
         assertEquals(expectedResult, result);
         assertEquals(expectedState,stampante.getPrinterState());

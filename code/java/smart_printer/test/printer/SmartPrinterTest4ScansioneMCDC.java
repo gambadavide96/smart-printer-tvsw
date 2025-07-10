@@ -66,7 +66,7 @@ public class SmartPrinterTest4ScansioneMCDC {
 	}
 
 	@Test
-	public void scansioneTest() {
+	public void testScansione() {
 		boolean result = stampante.scansione();
         assertEquals(expectedResult, result);
         assertEquals(expectedState,stampante.getPrinterState());

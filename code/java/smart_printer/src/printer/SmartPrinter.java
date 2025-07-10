@@ -22,7 +22,7 @@ public class SmartPrinter {
     private int numUtenti;
     private Utente utenteCorrente;
     
-    final String denyMessage = "Azione non consentita";
+    static final String DENY = "Azione non consentita";
     
     public SmartPrinter() {
         printerState = Stato.SPENTA;
@@ -105,35 +105,40 @@ public class SmartPrinter {
 	
 	/*********************** UTILITY METHODS ****************************/
 	
-	private static String getNomeUtenteLoggato(Utente u) {
-    	return u != null ? u.getNome() : "Nessuno";
+	private static String getNomeUtenteLoggato(Utente user) {
+    	return user != null ? user.getNome() : "Nessuno";
     }
     
-    private static int getCreditoUtente(Utente u) {
-    	return u != null ? u.getCredito() : 0;
+    private static int getCreditoUtente(Utente user) {
+    	return user != null ? user.getCredito() : 0;
     }
     
-    protected boolean ricercaUtente(int numBadgeInserito) {
-    	
-    	for(int i = 0; i < numUtenti; i++) {
-    		if(utenti[i].getBadgeId() == numBadgeInserito)
-    			return true;
-    	}
-    	
+    protected boolean aggiungiUtente(Utente user) {
+        if(numUtenti < utenti.length) {
+        	utenti[numUtenti] = user;
+        	numUtenti++;
+        	Log.print("Utente aggiunto: " + user.getNome() + " : " + user.getBadgeId());
+        	return true;
+        }
+        
+        Log.print("Non è possibile aggiungere altri utenti");
     	return false;
-    	
+        
     }
     
-    private Utente getUtentebyNumBadge(int numBadge) {
-    	
-    	for(Utente u: utenti) {
-    		if(u.getBadgeId() == numBadge)
-    			return u;
+    protected Utente getUtentebyNumBadge(int numBadge) {
+    	for(int i = 0; i < numUtenti; i++) {
+    		if(utenti[i].getBadgeId() == numBadge)
+    			return utenti[i];
     	}
     	
     	return null;
     }
     
+    /**
+     * Imposta il tipo di collegamento del dispositivo alla stampante.
+     * @param device una stringa che rappresenta il tipo di collegamento
+    */
 	protected void collegoDevice(String device) {
 			
 		switch (device) {
@@ -156,41 +161,50 @@ public class SmartPrinter {
 			
 	}
     
+	/** 
+	 * Imposta la stampante a guasta,indica un evento che ha guastato la stampante
+	*/
     protected void guastoStampante() {
     	if(printerState == Stato.AVVIO)
     		spiaGuasto = StatoMacchina.GUASTA;
     }
     
+    /** 
+	 * Imposta la stampante a non guasta, indica un evento che ha riparato la stampante
+	*/
     protected void riparazioneStampante() {
     	if(printerState == Stato.OUTOFSERVICE)
     		spiaGuasto = StatoMacchina.NONGUASTA;
     }
     
+    /** 
+	 * La carta si è inceppata durante il processo di una stampa
+	*/
     protected void cartaInceppata() {
     	if(printerState == Stato.INUSO)
     		cartaInceppata = true;
     }
     
+    /** 
+	 * La carta è stata sistemata dopo che era andata nello stato di errore.
+	*/
     protected void cartaNonInceppata() {
     	if(printerState == Stato.ERRORE)
     		cartaInceppata = false;
     }
     
-    protected boolean aggiungiUtente(Utente u) {
-        if(numUtenti < utenti.length) {
-        	utenti[numUtenti] = u;
-        	numUtenti++;
-        	Log.print("Utente aggiunto: " + u.getNome() + " : " + u.getBadgeId());
-        	return true;
-        }
-        
-        Log.print("Non è possibile aggiungere altri utenti");
-    	return false;
-        
-    }
     
     /******************** REGOLE STAMPANTE *********************************/
-
+    
+    
+    /**
+     * Tenta di accendere la stampante se si trova nello stato SPENTA.
+     * Se la stampante è spenta, lo stato viene aggiornato a AVVIO.
+     * In caso contrario, viene emesso un messaggio.
+     * 
+     * @return {@code true} se la transizione di stato è avvenuta con successo,
+     *         	{@code false} altrimenti.
+	*/
     protected boolean accendiStampante() {
     	if(printerState == Stato.SPENTA) {
     		printerState = Stato.AVVIO;
@@ -199,9 +213,17 @@ public class SmartPrinter {
     	}
     	Log.print("La stampante è già accesa");
     	return false;
-    	
     }
 
+    /**
+     * Porta la stampante dalla fase di accensione alla fase operativa.
+     * Se la stampante è in stato di avvio ma si è verificato un guasto, lo stato viene aggiornato a OUTOFSERVICE.
+     * Se la stampante è in stato di avvio e non si è verificato un guasto, lo stato viene aggiornato a MOSTRABADGE.
+     * Se la stampante non è in stato di avvio, viene emesso un messaggio di Deny.
+     * 
+     * @return {@code true} se la transizione di stato è avvenuta con successo,
+     *         	{@code false} altrimenti.
+	*/
     protected boolean avvioStampante() {
     	if(printerState == Stato.AVVIO) {
     		if(spiaGuasto == StatoMacchina.GUASTA) {
@@ -215,7 +237,7 @@ public class SmartPrinter {
     			return true;
     		}
     	}
-    	Log.print(denyMessage);
+    	Log.print(DENY);
     	return false;
     }
     
@@ -231,14 +253,14 @@ public class SmartPrinter {
         		return false;
         	}
     	}
-    	Log.print(denyMessage);
+    	Log.print(DENY);
     	return false;
     }
     
     protected boolean identificazioneUtente(int numBadge) {
     	if(printerState == Stato.MOSTRABADGE) {
-    	 	if(ricercaUtente(numBadge)) {
-    			utenteCorrente = getUtentebyNumBadge(numBadge);
+    		utenteCorrente = getUtentebyNumBadge(numBadge);
+    	 	if(utenteCorrente != null) {
     			printerState = Stato.INSERISCIPIN;
     			Log.print("Benvenuto " + utenteCorrente.getNome() + ", Inserisci Pin");
     			return true;
@@ -248,7 +270,7 @@ public class SmartPrinter {
         		return false;
         	}
     	}
-    	Log.print(denyMessage);
+    	Log.print(DENY);
     	return false;
     }
 
@@ -269,7 +291,7 @@ public class SmartPrinter {
 	    	}
     	}
     	
-    	Log.print(denyMessage);
+    	Log.print(DENY);
     	return false;
     }
  
@@ -296,7 +318,7 @@ public class SmartPrinter {
  	 			return false;
  	 		}
  		}
- 		Log.print(denyMessage);
+ 		Log.print(DENY);
     	return false;
  	}
  	
@@ -323,7 +345,7 @@ public class SmartPrinter {
  	 			return false;
  	 		}
  		}
- 		Log.print(denyMessage);
+ 		Log.print(DENY);
     	return false;
  	}
  	
@@ -340,7 +362,7 @@ public class SmartPrinter {
  	 			return false;
  	 		}
  		}
- 		Log.print(denyMessage);
+ 		Log.print(DENY);
     	return false;
  	}
     
@@ -369,7 +391,7 @@ public class SmartPrinter {
     		
     	}
     	
-    	Log.print(denyMessage);
+    	Log.print(DENY);
     	return false;
     	
     }
@@ -400,7 +422,7 @@ public class SmartPrinter {
 	    		}
     		}
 	    }
-    	Log.print(denyMessage);
+    	Log.print(DENY);
     	return false;
     }
     	
@@ -415,7 +437,7 @@ public class SmartPrinter {
         	return false;
     	}
     	
-    	Log.print(denyMessage);
+    	Log.print(DENY);
     	return false;
     	
     }

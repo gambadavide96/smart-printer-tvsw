@@ -32,7 +32,7 @@ public class SmartPrinterTest5InUsoErrore {
 	}
 
 	@Test
-	public void stampanteInUsoScansioneTest() {
+	public void testStampanteInUsoScansione() {
 		
 		//Seleziono scansione come operazione
 		stampante.setCollegatoWireless(true);
@@ -50,7 +50,7 @@ public class SmartPrinterTest5InUsoErrore {
 	}
 	
 	@Test
-	public void stampanteInUsoNotCartaInceppataTest() {
+	public void testStampanteInUsoNotCartaInceppata() {
 		
 		//Seleziono una stampa come operazione
 		stampante.stampaBN();
@@ -64,7 +64,7 @@ public class SmartPrinterTest5InUsoErrore {
 	}
 	
 	@Test
-	public void stampanteInUsoCartaInceppataTest() {
+	public void testStampanteInUsoCartaInceppata() {
 		
 		//Seleziono una stampa come operazione
 		stampante.stampaCOL();
@@ -80,7 +80,7 @@ public class SmartPrinterTest5InUsoErrore {
 	}
 	
 	@Test
-	public void gestioneErroreTest() {
+	public void testGestioneErrore() {
 		//Seleziono una stampa come operazione
 		stampante.stampaCOL();
 		stampante.cartaInceppata(); //la carta si inceppa
