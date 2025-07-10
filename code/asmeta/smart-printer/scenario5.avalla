@@ -2,6 +2,9 @@
 scenario scenario5
 load smartPrinter.asm
 
+
+/*La scansione non viene eseguita perchè non è stato collegato nessun dispositivo */
+
 invariant inv_1: fogliCarta = 500;
 invariant inv_2: tonerNero = 100;
 invariant inv_3: tonerColore = 100;

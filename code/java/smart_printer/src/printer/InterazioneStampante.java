@@ -196,7 +196,7 @@ public class InterazioneStampante {
 	        		while(!validInput);
 					
 					if(rispostaCartaAncoraInceppata.equals("no"))
-						stampante.cartaNonInceppata();
+						stampante.sistemaCarta();
 					
 					stampante.gestioneErrore();
 					break;

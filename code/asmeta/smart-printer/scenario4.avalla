@@ -1,6 +1,10 @@
 scenario scenario4
 load smartPrinter.asm
 
+/*
+ * Un utente inserisce il pin sbagliato e ripete quindi il processo di autenticazione.
+ */
+
 check printerState = SPENTA;
 set onOff := ON;
 step

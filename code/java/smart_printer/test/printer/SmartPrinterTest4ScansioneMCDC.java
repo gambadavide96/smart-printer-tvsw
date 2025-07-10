@@ -17,7 +17,6 @@ import printer.SmartPrinter.Stato;
 public class SmartPrinterTest4ScansioneMCDC {
 	
 	private SmartPrinter stampante;
-	private Utente davide;
 	
 	private boolean collegatoWireless;
 	private boolean collegatoCavo;
@@ -48,7 +47,7 @@ public class SmartPrinterTest4ScansioneMCDC {
     @Before
 	public void setup() {
 	    stampante = new SmartPrinter();
-	    davide = new Utente("Davide", 2096, 1, 1000);
+	    Utente davide = new Utente("Davide", 2096, 1, 1000);
 	    stampante.aggiungiUtente(davide);
 	    
 	    assertFalse(stampante.scansione()); //Operazione non consentita

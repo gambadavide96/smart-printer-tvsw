@@ -1,6 +1,10 @@
 scenario scenario9
 load smartPrinter.asm
 
+/*
+ * La stampa non viene consentita con credito utente finito.
+ */
+
 //Imposto il credito di un utente a valore basso
 exec
 	par

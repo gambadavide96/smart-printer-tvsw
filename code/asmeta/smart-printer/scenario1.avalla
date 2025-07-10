@@ -1,6 +1,11 @@
 scenario scenario1
 load smartPrinter.asm
 
+/**
+ * Un utente si collega ed effettua una stampa in bianco e nero, poi si scollega e si collega un altro utente
+ * che effettua una stampa a colori.
+ */
+
 check printerState = SPENTA;
 set onOff := ON;
 step

@@ -19,7 +19,6 @@ import printer.SmartPrinter.Stato;
 public class SmartPrinterTest3StampaCOLMCDC {
 	
 	private SmartPrinter stampante;
-	private Utente davide;
 	
 	private int tonerNero;
 	private int tonerColore;
@@ -55,7 +54,7 @@ public class SmartPrinterTest3StampaCOLMCDC {
 	@Before
 	public void setup() {
 	    stampante = new SmartPrinter();
-	    davide = new Utente("Davide", 2096, 1, credito);
+	    Utente davide = new Utente("Davide", 2096, 1, credito);
 	    stampante.aggiungiUtente(davide);
 	    
 	    assertFalse(stampante.stampaCOL()); //Operazione non consentita

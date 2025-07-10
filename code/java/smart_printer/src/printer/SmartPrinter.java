@@ -186,9 +186,9 @@ public class SmartPrinter {
     }
     
     /** 
-	 * La carta è stata sistemata dopo che era andata nello stato di errore.
+	 * La carta viene sistemata dopo che era andata nello stato di errore.
 	*/
-    protected void cartaNonInceppata() {
+    protected void sistemaCarta() {
     	if(printerState == Stato.ERRORE)
     		cartaInceppata = false;
     }

@@ -2,6 +2,11 @@
 scenario scenario3
 load smartPrinter.asm
 
+/*
+ * Un utente accede ed effettua una stampa ma la carta si inceppa, l'utente sistema la carta e ripete la stampa
+ * L'utente si scollega e poi si collega un'altro utente che effettua una scansione.
+ */
+
 check printerState = SPENTA;
 set onOff := ON;
 step

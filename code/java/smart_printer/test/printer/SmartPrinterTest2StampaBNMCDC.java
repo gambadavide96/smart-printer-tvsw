@@ -20,7 +20,6 @@ import printer.SmartPrinter.Stato;
 public class SmartPrinterTest2StampaBNMCDC {
 	
 	private SmartPrinter stampante;
-	private Utente davide;
 	
 	private int tonerNero;
     private int carta;
@@ -51,7 +50,7 @@ public class SmartPrinterTest2StampaBNMCDC {
 	@Before
 	public void setup() {
 	    stampante = new SmartPrinter();
-	    davide = new Utente("Davide", 2096, 1, credito);
+	    Utente davide = new Utente("Davide", 2096, 1, credito);
 	    stampante.aggiungiUtente(davide);
 	    
 	    assertFalse(stampante.stampaBN()); //Operazione non consentita

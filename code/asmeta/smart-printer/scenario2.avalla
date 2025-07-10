@@ -2,6 +2,11 @@
 scenario scenario2
 load smartPrinter.asm
 
+/* 
+ * Un utente vuole ad accedere ma la stampante è guasta, dopo due stati viene sistemata e l'utente effettua
+ * l'accesso. L'utente esegue poi due scansioni, una per ogni device.
+ */
+
 check printerState = SPENTA;
 set onOff := ON;
 step

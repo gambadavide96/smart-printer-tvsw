@@ -1,6 +1,10 @@
 scenario scenario6
 load smartPrinter.asm
 
+/*
+ * La stampa non viene consentita con Toner nero finito.
+ */
+
 //Imposto il toner ad un valore basso
 exec
 	par

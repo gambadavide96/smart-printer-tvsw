@@ -11,13 +11,12 @@ import printer.SmartPrinter.Stato;
 public class SmartPrinterTest5InUsoErrore {
 	
 	private SmartPrinter stampante;
-	private Utente davide;
 	
 	@Before
 	public void setup() {
 		
 		stampante = new SmartPrinter();
-	    davide = new Utente("Davide", 2096, 1, 1000);
+	    Utente davide = new Utente("Davide", 2096, 1, 1000);
 	    stampante.aggiungiUtente(davide);
 	    
 	    assertFalse(stampante.stampanteInUso()); //Azione non consentita
@@ -89,7 +88,7 @@ public class SmartPrinterTest5InUsoErrore {
 		//la carta è ancora inceppata
 		assertFalse(stampante.gestioneErrore());
 		//la carta viene sistemata
-		stampante.cartaNonInceppata();
+		stampante.sistemaCarta();
 		assertTrue(stampante.gestioneErrore());
 		assertEquals(Stato.PRONTA,stampante.getPrinterState());
 	}
