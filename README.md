@@ -1,9 +1,8 @@
 
 # SmartPrinter 🖨️
 
-**SmartPrinter** è un progetto finalizzato alla modellazione e simulazione delle principali funzionalità di una stampante moderna, in grado di eseguire operazioni stampa, copia e scansione di documenti.
-Il progetto pone particolare attenzione alla gestione delle risorse fisiche (come carta e toner) e alla rilevazione degli errori più comuni, come inceppamenti e guasti.
-La stampante integra anche un meccanismo di autenticazione, in modo tale da consentire l’accesso ai servizi solo agli utenti autorizzati, garantendo un uso controllato, sicuro e monitorabile del dispositivo.
+**SmartPrinter** è un progetto finalizzato alla modellazione e simulazione delle principali funzionalità di una stampante moderna, in grado di eseguire operazioni stampa, copia e scansione di documenti.  
+Il progetto pone particolare attenzione alla gestione delle risorse fisiche (come carta e toner) e alla rilevazione degli errori più comuni, come inceppamenti e guasti. La stampante integra anche un meccanismo di autenticazione, in modo tale da consentire l’accesso ai servizi solo agli utenti autorizzati, garantendo un uso controllato, sicuro e monitorabile del dispositivo.  
 L’obiettivo del progetto è fornire una rappresentazione formale del comportamento della stampante nei vari stati operativi, assicurando affidabilità, coerenza e una gestione efficace delle risorse e degli errori.
 
 ---
