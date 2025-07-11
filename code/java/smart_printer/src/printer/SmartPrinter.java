@@ -37,7 +37,7 @@ public class SmartPrinter {
         cartaInceppata = false;
     }
     
-    /*********************** GETTER AND SETTERS ****************************/
+    /*********************** GETTERS AND SETTERS ****************************/
     
     protected Stato getPrinterState() {
 		return printerState;
