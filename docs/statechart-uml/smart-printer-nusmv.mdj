@@ -1316,6 +1316,7 @@
 							"lineStyle": 1,
 							"points": "769:416;541:511",
 							"showVisibility": true,
+							"showProperty": false,
 							"nameLabel": {
 								"$ref": "AAAAAAGX1XqcIc+65w4="
 							},

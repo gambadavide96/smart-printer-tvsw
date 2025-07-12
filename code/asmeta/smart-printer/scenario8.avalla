@@ -2,7 +2,7 @@ scenario scenario8
 load smartPrinter.asm
 
 /*
- * La stampa non viene consentita con fogli finiti
+ * La stampa non viene consentita con quantità fogli insufficiente.
  */
 
 //Imposto il numero fogli ad un valore basso

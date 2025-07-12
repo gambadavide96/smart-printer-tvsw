@@ -4,7 +4,7 @@ load smartPrinter.asm
 
 /* 
  * Un utente vuole ad accedere ma la stampante è guasta, dopo due stati viene sistemata e l'utente effettua
- * l'accesso. L'utente esegue poi due scansioni, una per ogni device.
+ * l'accesso. L'utente esegue poi due scansioni, una per ogni device (tramite wireless e cavo).
  */
 
 check printerState = SPENTA;

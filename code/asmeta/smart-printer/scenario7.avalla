@@ -2,7 +2,7 @@ scenario scenario7
 load smartPrinter.asm
 
 /*
- * La stampa a colori non viene consentita con toner a colori finito
+ * La stampa a colori non viene consentita con toner a colori insufficiente.
  */
 
 //Imposto il toner colore ad un valore basso
