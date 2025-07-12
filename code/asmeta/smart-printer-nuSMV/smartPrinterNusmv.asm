@@ -20,6 +20,7 @@ signature:
 	dynamic controlled secondi: Secondi
 	dynamic controlled selectedService: Servizio
 	
+	
 	dynamic monitored onOff: Accensione
 	dynamic monitored spiaGuasto: StatoMacchina
 	dynamic monitored chooseService: Servizio
@@ -185,6 +186,15 @@ definitions:
 	CTLSPEC ag((selectedService = SCANSIONE and printerState = INUSO)  
 		implies au(secondi <= 4, printerState = PRONTA)
 		)
+	//P12: Se la stampante è pronta ed il toner è finito, la prossima operazione non può essere una stampa
+	CTLSPEC ag((printerState = PRONTA and tonerNero = 0) 
+		implies not ex(printerState = INUSO and (selectedService = PRINTBN or selectedService = PRINTCOL ))
+	)
+	//P13: Se la stampante è pronta e nessun dispositivo è stato collegato, 
+	//la prossima operazione non può essere una scansione
+	CTLSPEC ag((printerState = PRONTA and connectedByWireless = false and connectedByCable = false) 
+		implies not ex(printerState = INUSO and selectedService = SCANSIONE)
+	)
 	
 		
 	main rule r_main = 
