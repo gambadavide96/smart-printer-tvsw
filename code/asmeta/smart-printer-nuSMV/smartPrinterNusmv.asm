@@ -154,36 +154,34 @@ definitions:
 	
 	// MODEL CHECKING
 	
-	//P1: Se la stampante è pronta,esiste uno stato futuro in cui nello stato successivo è in Uso
-	CTLSPEC (printerState = PRONTA implies ex(printerState = INUSO))
-	//P2: Esiste un percorso in cui la macchina rimane sempre fuori servizio
-	CTLSPEC (printerState = OUTOFSERVICE implies eg(printerState = OUTOFSERVICE))
-	//P3: Esiste uno stato in cui il Toner nero è terminato mentre il Toner a colori no
+	//P1: è sempre possibile che esista uno stato futuro in cui se 
+	//la stampante è pronta,nello stato successivo potrebbe essere in Uso
+	CTLSPEC ag(ef(printerState = PRONTA implies ex(printerState = INUSO)))
+	//P2: è sempre possibile che si verifichi uno stato futuro in cui se la macchina è fuori servizio
+	//rimane fuori servizio
+	CTLSPEC ag(ef(printerState = OUTOFSERVICE implies eg(printerState = OUTOFSERVICE)))
+	//P3: Esiste uno stato futuro in cui il Toner nero è terminato mentre il Toner a colori no
 	CTLSPEC ef(tonerNero = 0 and tonerColore > 0)
-	//P4: Esiste uno stato in cui sia il Toner nero che quello a colori sono terminati mentre i fogli no
+	//P4: Esiste uno stato futuro in cui sia il Toner nero che quello a colori sono terminati mentre i fogli no
 	CTLSPEC ef(tonerNero = 0 and tonerColore = 0 and fogliCarta > 0)
-	//P5: Non può esistere uno stato in cui il toner a colori è terminato mentre il toner nero no
+	//P5: Non può esistere uno stato futuro in cui il toner a colori è terminato mentre il toner nero no
 	CTLSPEC (not ef(tonerNero > 0 and tonerColore = 0))
-	//P6: Se il Toner nero è terminato e la stampante è in uso, sto effettuando una scansione
-	CTLSPEC ag(tonerNero = 0 and printerState = INUSO) implies (selectedService = SCANSIONE)
-	//P7: Se entrambe le connessioni di device sono false e la stampante è in uso, sto facendo una stampa
-	CTLSPEC ag(connectedByWireless = false and connectedByCable = false and printerState = INUSO) implies 
-		(chooseService = PRINTBN or chooseService = PRINTCOL)
-	//P8: In qualsiasi stato si trovi la macchina, esiste un percorso che la porta nello stato futuro di PRONTA
+	//P6: In qualsiasi stato si trovi la macchina, esiste un percorso che la porta nello stato futuro di PRONTA
 	CTLSPEC ag(ef(printerState = PRONTA))
-	//P9: Nella stampante ci saranno sempre almeno 300 fogli (200 fogli per finire il toner -> 20 stampe)
+	//P7: Nella stampante ci saranno sempre almeno 300 fogli 
+	// (200 fogli per finire il toner -> 20 stampe -> max 200 fogli consumati)
 	CTLSPEC ag(fogliCarta >= 300)
-	//P10: Una volta che il toner è finito, rimane a zero
-	CTLSPEC (tonerNero = 0 implies ag(tonerNero = 0))
-	//P11: Una stampa in Bianco e nero non dura più di 2 secondi
+	//P8: Una volta che il toner è finito, rimane a zero
+	CTLSPEC ag(tonerNero = 0 implies ag(tonerNero = 0))
+	//P9: Una stampa in Bianco e nero non dura più di 2 secondi
 	CTLSPEC ag((selectedService = PRINTBN and printerState = INUSO)  
 		implies au(secondi <= 2, (printerState = PRONTA or printerState = ERRORE))
 	)
-	//P12: Una stampa a colori non dura più di 3 secondi
+	//P10: Una stampa a colori non dura più di 3 secondi
 	CTLSPEC ag((selectedService = PRINTCOL and printerState = INUSO)  
 		implies au(secondi <= 3, (printerState = PRONTA or printerState = ERRORE))
 	)
-	//P13: Una scansione non dura più di 4 secondi
+	//P11: Una scansione non dura più di 4 secondi
 	CTLSPEC ag((selectedService = SCANSIONE and printerState = INUSO)  
 		implies au(secondi <= 4, printerState = PRONTA)
 		)
