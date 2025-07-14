@@ -8,6 +8,8 @@ import org.junit.Test;
 import printer.SmartPrinter.Servizio;
 import printer.SmartPrinter.Stato;
 
+//Test Suite per il testing degli stati “In Uso” ed “Errore”.
+
 public class SmartPrinterTest5InUsoErrore {
 	
 	private SmartPrinter stampante;

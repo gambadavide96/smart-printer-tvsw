@@ -9,7 +9,7 @@ import printer.SmartPrinter.Stato;
 import printer.SmartPrinter.StatoMacchina;
 
 
-//Test Suite che copre fino allo stato di Login (Stampante PRONTA)
+//Test Suite che copre tutto il processo di autenticazione e lo stato di guasto.
 
 public class SmartPrinterTest1Login {
 	

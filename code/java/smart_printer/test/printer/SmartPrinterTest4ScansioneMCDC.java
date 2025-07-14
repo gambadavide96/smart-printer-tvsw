@@ -13,6 +13,8 @@ import org.junit.runners.Parameterized.Parameters;
 
 import printer.SmartPrinter.Stato;
 
+//Test Suite parametrica MCDC per la scansione.
+
 @RunWith(Parameterized.class)
 public class SmartPrinterTest4ScansioneMCDC {
 	

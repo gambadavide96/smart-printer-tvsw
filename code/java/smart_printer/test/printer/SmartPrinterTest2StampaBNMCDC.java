@@ -14,7 +14,7 @@ import org.junit.runners.Parameterized.Parameters;
 import printer.SmartPrinter.Stato;
 
 
-//Test Suite parametrica MCDC per la stampa BN
+//Test Suite parametrica MCDC per la stampa in bianco e nero.
 
 @RunWith(Parameterized.class)
 public class SmartPrinterTest2StampaBNMCDC {

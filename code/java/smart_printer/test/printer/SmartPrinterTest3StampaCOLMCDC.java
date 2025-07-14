@@ -13,7 +13,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 import printer.SmartPrinter.Stato;
 
-//Test Suite parametrica MCDC per la stampa COL
+//Test Suite parametrica MCDC per la stampa a colori.
 
 @RunWith(Parameterized.class)
 public class SmartPrinterTest3StampaCOLMCDC {
