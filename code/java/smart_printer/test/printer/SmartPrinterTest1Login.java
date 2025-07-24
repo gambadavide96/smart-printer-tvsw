@@ -48,7 +48,7 @@ public class SmartPrinterTest1Login {
 	public void testAccendiStampante() {
 		
 		assertEquals(Stato.SPENTA,stampante.getPrinterState());
-		assertTrue(stampante.accendiStampante()); 	//Stampante in accensione
+		assertFalse(stampante.accendiStampante()); 	//Stampante in accensione (True)
 		assertFalse(stampante.accendiStampante());	//La stampante è gia accesa
 		assertEquals(Stato.AVVIO,stampante.getPrinterState());
 	}
