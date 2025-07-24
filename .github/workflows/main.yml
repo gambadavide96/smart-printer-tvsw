@@ -60,11 +60,17 @@ jobs:
           name: compiled-classes
           path: out
 
-      - name: Run JUnit 4 tests
-        run: |
-          java -cp "code/java/smart_printer/lib/*:out" org.junit.runner.JUnitCore \
-            printer.SmartPrinterTest1Login \
-            printer.SmartPrinterTest2StampaBNMCDC \
-            printer.SmartPrinterTest3StampaCOLMCDC \
-            printer.SmartPrinterTest4ScansioneMCDC \
-            printer.SmartPrinterTest5InUsoErrore
+      - name: Run SmartPrinterTest1Login
+        run: java -cp "code/java/smart_printer/lib/*:out" org.junit.runner.JUnitCore printer.SmartPrinterTest1Login
+
+      - name: Run SmartPrinterTest2StampaBNMCDC
+        run: java -cp "code/java/smart_printer/lib/*:out" org.junit.runner.JUnitCore printer.SmartPrinterTest2StampaBNMCDC
+
+      - name: Run SmartPrinterTest3StampaCOLMCDC
+        run: java -cp "code/java/smart_printer/lib/*:out" org.junit.runner.JUnitCore printer.SmartPrinterTest3StampaCOLMCDC
+
+      - name: Run SmartPrinterTest4ScansioneMCDC
+        run: java -cp "code/java/smart_printer/lib/*:out" org.junit.runner.JUnitCore printer.SmartPrinterTest4ScansioneMCDC
+
+      - name: Run SmartPrinterTest5InUsoErrore
+        run: java -cp "code/java/smart_printer/lib/*:out" org.junit.runner.JUnitCore printer.SmartPrinterTest5InUsoErrore
