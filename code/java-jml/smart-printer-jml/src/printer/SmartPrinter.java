@@ -1,5 +1,7 @@
 package printer;
 
+//@ code_bigint_math
+
 public class SmartPrinter {
 	
     public enum Stato { SPENTA, AVVIO, MOSTRABADGE, INSERISCIPIN, PRONTA, INUSO, ERRORE, OUTOFSERVICE }
@@ -24,6 +26,20 @@ public class SmartPrinter {
     
     static final String DENY = "Azione non consentita";
     
+    //@ public invariant tonerNero >= 0;
+    //@ public invariant tonerColore >= 0;
+    //@ public invariant fogliCarta >= 300;
+    
+    //@ ensures printerState == Stato.SPENTA;
+    //@ ensures tonerNero == 100;
+    //@ ensures tonerColore == 100;
+    //@ ensures fogliCarta == 500;
+    //@ ensures spiaGuasto == StatoMacchina.NONGUASTA;
+    //@ ensures utenti.length == 2;
+    //@ ensures numUtenti == 0;
+    //@ ensures collegatoWireless == false;
+    //@ ensures collegatoCavo == false;
+    //@ ensures cartaInceppata == false;
     public SmartPrinter() {
         printerState = Stato.SPENTA;
         tonerNero = 100;
@@ -113,17 +129,15 @@ public class SmartPrinter {
     	return user != null ? user.getCredito() : 0;
     }
     
+    //@ requires numUtenti < utenti.length;
+    //@ ensures this.utenti[\old(numUtenti)] == user;
+    //@ ensures numUtenti == \old(numUtenti) + 1;
+    //@ ensures \result == true;
     protected boolean aggiungiUtente(Utente user) {
-        if(numUtenti < utenti.length) {
-        	utenti[numUtenti] = user;
-        	numUtenti++;
-        	System.out.println("Utente aggiunto: " + user.getNome() + " : " + user.getBadgeId());
-        	return true;
-        }
-        
-        System.out.println("Non è possibile aggiungere altri utenti");
-    	return false;
-        
+        utenti[numUtenti] = user;
+        numUtenti++;
+        System.out.println("Utente aggiunto: " + user.getNome() + " : " + user.getBadgeId());
+        return true;
     }
     
     protected Utente getUtentebyNumBadge(int numBadge) {
@@ -304,6 +318,7 @@ public class SmartPrinter {
  	//@ ensures tonerNero == \old(tonerNero) - 5;
  	//@ ensures fogliCarta == \old(fogliCarta) - 10;
  	//@ ensures utenteCorrente.getCredito() == \old(utenteCorrente.getCredito()) - 50;
+ 	//@ ensures \result == true;
  	protected boolean stampaBN() {
  		printerState = Stato.INUSO;
  		selectedService = Servizio.PRINTBN;
@@ -314,48 +329,37 @@ public class SmartPrinter {
  		return true;
  	}
  	
+ 	//@ requires printerState == Stato.PRONTA;
+ 	//@ requires utenteCorrente.haCreditoSufficiente();
+ 	//@ requires tonerNero >= 5 && tonerColore >= 5 && fogliCarta >= 10;
+ 	//@ ensures printerState == Stato.INUSO;
+ 	//@ ensures selectedService == Servizio.PRINTCOL;
+ 	//@ ensures tonerNero == \old(tonerNero) - 5;
+ 	//@ ensures tonerColore == \old(tonerColore) - 5;
+ 	//@ ensures fogliCarta == \old(fogliCarta) - 10;
+ 	//@ ensures utenteCorrente.getCredito() == \old(utenteCorrente.getCredito()) - 50;
+ 	//@ ensures \result == true;
  	protected boolean stampaCOL() {
- 		if(printerState == Stato.PRONTA) {
- 			if(utenteCorrente.haCreditoSufficiente()) {
- 	 			if(tonerNero >= 5 && tonerColore >=5 && fogliCarta >= 10) {
- 					printerState = Stato.INUSO;
- 					selectedService = Servizio.PRINTCOL;
- 					tonerNero = tonerNero - 5;
- 					tonerColore = tonerColore - 5;
- 					fogliCarta = fogliCarta - 10;
- 					utenteCorrente.scalaCredito(50);
- 					System.out.println("Stampa a Colori in corso");
- 					return true;
- 	 			}
- 				else {
- 					System.out.println("Risorse finite, caricare stampante");
- 					return false;
- 				}
- 	 		}
- 	 		else {
- 	 			System.out.println("Credito insufficiente");
- 	 			return false;
- 	 		}
- 		}
- 		System.out.println(DENY);
-    	return false;
+ 		printerState = Stato.INUSO;
+ 		selectedService = Servizio.PRINTCOL;
+ 		tonerNero = tonerNero - 5;
+ 		tonerColore = tonerColore - 5;
+ 		fogliCarta = fogliCarta - 10;
+ 		utenteCorrente.scalaCredito(50);
+ 		System.out.println("Stampa a Colori in corso");
+ 		return true;
  	}
  	
+ 	//@ requires printerState == Stato.PRONTA;
+ 	//@ requires collegatoWireless || collegatoCavo;
+ 	//@ ensures printerState == Stato.INUSO;
+ 	//@ ensures selectedService == Servizio.SCANSIONE;
+ 	//@ ensures \result == true;
  	protected boolean scansione() {
- 		if(printerState == Stato.PRONTA) {
- 			if (collegatoWireless || collegatoCavo) {
- 				printerState = Stato.INUSO;
- 				selectedService = Servizio.SCANSIONE;
- 				System.out.println("Scansione in corso");
- 				return true;
- 			}
- 	 		else {
- 	 			System.out.println("Collega un dispositivo per effettuare la scansione");
- 	 			return false;
- 	 		}
- 		}
- 		System.out.println(DENY);
-    	return false;
+ 		printerState = Stato.INUSO;
+ 		selectedService = Servizio.SCANSIONE;
+ 		System.out.println("Scansione in corso");
+ 		return true;
  	}
     
     protected boolean sceltaServizio(String sceltaServizio) {
