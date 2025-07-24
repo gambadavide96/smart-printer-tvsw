@@ -1,10 +1,44 @@
-name: CI
+name: Java SmartPrinter CI
 
 on:
   push:
-    branches: [ main ]
+    paths:
+      - 'code/java/smart_printer/**'
   pull_request:
-    branches: [ main ]
+    paths:
+      - 'code/java/smart_printer/**'
+  workflow_dispatch:  # per attivare pipeline a comando
 
 jobs:
-  
+  build-and-test:
+    name: Build & Test (Java 21)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Compile source files
+        run: |
+          mkdir -p out
+          javac -cp "code/java/smart_printer/lib/*" -d out $(find code/java/smart_printer/src -name "*.java")
+
+      - name: Compile test files
+        run: |
+          javac -cp "code/java/smart_printer/lib/*:out" -d out $(find code/java/smart_printer/test -name "*.java")
+
+      - name: Run JUnit 4 tests
+        run: |
+          java -cp "code/java/smart_printer/lib/*:out" org.junit.runner.JUnitCore \
+            printer.SmartPrinterTest1Login \
+            printer.SmartPrinterTest2StampaBNMCDC \
+            printer.SmartPrinterTest3StampaCOLMCDC \
+            printer.SmartPrinterTest4ScansioneMCDC \
+            printer.SmartPrinterTest5InUsoErrore
+
