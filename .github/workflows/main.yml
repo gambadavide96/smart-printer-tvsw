@@ -31,7 +31,7 @@ jobs:
 
       - name: Compile test files
         run: |
-          javac -cp "code/java/smart_printer/lib/*:out" -d out $(find code/java/smart_printer/test -name "*.java")
+          javac -cp "code/java/smart_printer/lib/*" -d out $(find code/java/smart_printer/test -name "*.java")
 
       - name: Save compiled classes
         uses: actions/upload-artifact@v4
