@@ -27,7 +27,7 @@ jobs:
       - name: Compile source files
         run: |
           mkdir -p out
-          javac -cp "code/java/smart_printer/lib/*" -d out $(find code/java/smart_printer/src -name "*.java")
+          javac -d out $(find code/java/smart_printer/src -name "*.java")
 
       - name: Compile test files
         run: |
