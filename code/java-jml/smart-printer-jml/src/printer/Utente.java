@@ -15,7 +15,7 @@ public class Utente {
         this.credito = credito;
     }
 
-    public int getBadgeId() {
+    public /*@ pure @*/ int getBadgeId() {
         return badgeId;
     }
 
@@ -39,7 +39,7 @@ public class Utente {
         return credito;
     }
 
-    public String getNome() {
+    public /*@ pure @*/ String getNome() {
         return nome;
     }
     

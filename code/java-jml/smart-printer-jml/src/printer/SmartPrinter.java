@@ -9,6 +9,7 @@ public class SmartPrinter {
     public enum StatoMacchina { GUASTA, NONGUASTA }
 
     private /*@ spec_public */ Stato printerState;
+    //@ nullable
     private /*@ spec_public */ Servizio selectedService;
     private /*@ spec_public */ StatoMacchina spiaGuasto;
     
@@ -22,13 +23,13 @@ public class SmartPrinter {
 
     private /*@ spec_public */ Utente[] utenti;
     private /*@ spec_public */ int numUtenti;
+    //@ nullable
     private /*@ spec_public */ Utente utenteCorrente;
     
     static final String DENY = "Azione non consentita";
     
-    //@ public invariant tonerNero >= 0;
-    //@ public invariant tonerColore >= 0;
-    //@ public invariant fogliCarta >= 300;
+    //@ public invariant utenti != null;
+    //@ public invariant numUtenti >= 0 && numUtenti <= utenti.length;
     
     //@ ensures printerState == Stato.SPENTA;
     //@ ensures tonerNero == 100;
@@ -122,11 +123,11 @@ public class SmartPrinter {
 	/*********************** UTILITY METHODS ****************************/
 	
 	private static String getNomeUtenteLoggato(Utente user) {
-    	return user != null ? user.getNome() : "Nessuno";
+    	return user == null ? "Nessuno" : user.getNome();
     }
     
     private static int getCreditoUtente(Utente user) {
-    	return user != null ? user.getCredito() : 0;
+    	return user == null ? 0: user.getCredito();
     }
     
     //@ requires numUtenti < utenti.length;
@@ -140,7 +141,12 @@ public class SmartPrinter {
         return true;
     }
     
+    //@ requires (\forall int i; 0 <= i && i < numUtenti; utenti[i] != null);
+    //@ ensures (\exists int i; 0 <= i && i < numUtenti; utenti[i].getBadgeId() == numBadge) ==> \result != null;
+    //@ ensures (\forall int i; 0 <= i && i < numUtenti; utenti[i].getBadgeId() != numBadge) ==> \result == null;
     protected Utente getUtentebyNumBadge(int numBadge) {
+    	//@ loop_invariant 0 <= i && i <= numUtenti;
+        //@ loop_invariant (\forall int j; 0 <= j && j < i; utenti[j].getBadgeId() != numBadge);
     	for(int i = 0; i < numUtenti; i++) {
     		if(utenti[i].getBadgeId() == numBadge)
     			return utenti[i];
@@ -149,10 +155,7 @@ public class SmartPrinter {
     	return null;
     }
     
-    /**
-     * Imposta il tipo di collegamento del dispositivo alla stampante.
-     * @param device una stringa che rappresenta il tipo di collegamento
-    */
+    
 	protected void collegoDevice(String device) {
 			
 		switch (device) {
@@ -175,33 +178,23 @@ public class SmartPrinter {
 			
 	}
     
-	/** 
-	 * Imposta la stampante a guasta,indica un evento che ha guastato la stampante
-	*/
     protected void guastoStampante() {
     	if(printerState == Stato.AVVIO)
     		spiaGuasto = StatoMacchina.GUASTA;
     }
     
-    /** 
-	 * Imposta la stampante a non guasta, indica un evento che ha riparato la stampante
-	*/
     protected void riparazioneStampante() {
     	if(printerState == Stato.OUTOFSERVICE)
     		spiaGuasto = StatoMacchina.NONGUASTA;
     }
     
-    /** 
-	 * La carta si è inceppata durante il processo di una stampa
-	*/
+    
     protected void cartaInceppata() {
     	if(printerState == Stato.INUSO)
     		cartaInceppata = true;
     }
     
-    /** 
-	 * La carta viene sistemata dopo che era andata nello stato di errore.
-	*/
+    
     protected void sistemaCarta() {
     	if(printerState == Stato.ERRORE)
     		cartaInceppata = false;
@@ -211,14 +204,6 @@ public class SmartPrinter {
     /******************** REGOLE STAMPANTE *********************************/
     
     
-    /**
-     * Tenta di accendere la stampante se si trova nello stato @code {SPENTA}.
-     * Se la stampante è spenta, lo stato viene aggiornato a @code {AVVIO}.
-     * In caso contrario, viene emesso un messaggio.
-     * 
-     * @return {@code true} se la transizione di stato è avvenuta con successo,
-     *         	{@code false} altrimenti.
-	*/
     protected boolean accendiStampante() {
     	if(printerState == Stato.SPENTA) {
     		printerState = Stato.AVVIO;
@@ -229,16 +214,7 @@ public class SmartPrinter {
     	return false;
     }
 
-    /**
-     * Porta la stampante dalla fase di accensione alla fase operativa, controllando se si sono verificati guasti
-     * 
-     * Se la stampante è in @code {AVVIO} ma si è verificato un guasto, lo stato viene aggiornato a @code {OUTOFSERVICE}.
-     * Se la stampante è in @code {AVVIO} e non si è verificato un guasto, lo stato viene aggiornato a @code {MOSTRABADGE}.
-     * Se la stampante non è in @code {AVVIO}, viene emesso un messaggio di Deny.
-     * 
-     * @return {@code true} se la transizione di stato è avvenuta con successo,
-     *         	{@code false} altrimenti.
-	*/
+    
     protected boolean avvioStampante() {
     	if(printerState == Stato.AVVIO) {
     		if(spiaGuasto == StatoMacchina.GUASTA) {

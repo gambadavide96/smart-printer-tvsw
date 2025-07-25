@@ -10,6 +10,7 @@ public class Main {
 		
 		Utente davide = new Utente("Davide", 2096, 1, 1000);
 		Utente matteo = new Utente("Matteo", 4723, 2, 1000);
+		Utente marco = new Utente("Marco", 2623, 3, 1000);
 		
 		SmartPrinter stampante = new SmartPrinter();
 		
@@ -18,6 +19,7 @@ public class Main {
 		
 		interazione.aggiungiUtente(davide);
 		interazione.aggiungiUtente(matteo);
+		//interazione.aggiungiUtente(marco); //da errore JML
 		
 		//Uso la stampante
 		interazione.usoStampante();
