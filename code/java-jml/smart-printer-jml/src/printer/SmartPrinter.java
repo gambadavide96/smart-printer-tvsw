@@ -210,7 +210,7 @@ public class SmartPrinter {
     		System.out.println("Accensione in corso");
     		return true;
     	}
-    	System.out.println("La stampante è già accesa");
+    	System.out.println("La stampante ï¿½ giï¿½ accesa");
     	return false;
     }
 
@@ -379,7 +379,7 @@ public class SmartPrinter {
 	    		collegatoCavo = false;
 	    		return true;
     		}
-    		//è in corso una stampa
+    		//ï¿½ in corso una stampa
     		else {
 	    		if(!cartaInceppata) {
 	    			printerState = Stato.PRONTA;
