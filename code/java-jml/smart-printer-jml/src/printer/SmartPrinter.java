@@ -9,7 +9,7 @@ public class SmartPrinter {
     public enum StatoMacchina { GUASTA, NONGUASTA }
 
     private /*@ spec_public */ Stato printerState;
-    //@ nullable
+    //@ nullable;
     private /*@ spec_public */ Servizio selectedService;
     private /*@ spec_public */ StatoMacchina spiaGuasto;
     
@@ -23,7 +23,7 @@ public class SmartPrinter {
 
     private /*@ spec_public */ Utente[] utenti;
     private /*@ spec_public */ int numUtenti;
-    //@ nullable
+    //@ nullable;
     private /*@ spec_public */ Utente utenteCorrente;
     
     static final String DENY = "Azione non consentita";
@@ -121,14 +121,6 @@ public class SmartPrinter {
 	}
 	
 	/*********************** UTILITY METHODS ****************************/
-	
-	private static String getNomeUtenteLoggato(Utente user) {
-    	return user == null ? "Nessuno" : user.getNome();
-    }
-    
-    private static int getCreditoUtente(Utente user) {
-    	return user == null ? 0: user.getCredito();
-    }
     
     //@ requires numUtenti < utenti.length;
     //@ ensures this.utenti[\old(numUtenti)] == user;
@@ -418,8 +410,6 @@ public class SmartPrinter {
         System.out.println("\n--- STATO CORRENTE ---");
         System.out.println("Stato: " + printerState);
         System.out.println("Guasto: " + spiaGuasto);
-        System.out.println("Utente loggato: " + getNomeUtenteLoggato(utenteCorrente));
-        System.out.println("Credito utente: " + getCreditoUtente(utenteCorrente));
         System.out.println("Toner Nero: " + tonerNero);
         System.out.println("Toner Colore: " + tonerColore);
         System.out.println("Carta: " + fogliCarta);
