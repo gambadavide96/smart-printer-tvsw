@@ -242,6 +242,16 @@ public class SmartPrinter {
     	return false;
     }
     
+		/**
+     * Gestisce lo stato di guasto della stampante.
+     * 
+     * Se la stampante è in @code {OUTOFSERVICE} ma la spia guasto è ancora accesa, lo stato rimane @code {OUTOFSERVICE}.
+     * Se la stampante è in @code {OUTOFSERVICE} e la spia guasto è spenta, lo stato viene aggiornato a @code {MOSTRABADGE}.
+     * Se la stampante non è in @code {OUTOFSERVICE}, viene emesso un messaggio di Deny.
+     * 
+     * @return {@code true} se la transizione di stato è avvenuta con successo,
+     *         	{@code false} altrimenti.
+	*/
     protected boolean gestioneGuasto() {
     	if(printerState == Stato.OUTOFSERVICE) {
     		if(spiaGuasto == StatoMacchina.NONGUASTA) {
@@ -387,7 +397,7 @@ public class SmartPrinter {
 				Log.print("Stampante spenta");
 				return true;
 			default:
-				Log.print("Valore inserito non valido, inserirne un altro"); //aggiungo default case
+				Log.print("Valore inserito non valido, inserirne un altro"); 
     		}
     		
     	}
